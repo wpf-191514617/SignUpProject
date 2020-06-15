@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <RelativeLayout
+        android:animateLayoutChanges="true"
+        android:id="@+id/rl_vaptcha_view"
+        android:background="#262634"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_vaptcha_img"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:maxWidth="400dp"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ib_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:padding="10dp"
+            android:src="@drawable/icon_refresh" />
+        <ImageView
+            android:id="@+id/iv_mark"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:padding="10dp"
+            android:src="@drawable/icon_mark" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_ad"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:visibility="gone"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="12dp"
+        android:background="@drawable/shape_ad_bg"
+        android:textColor="#ffffff"
+        android:text="hellp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_alignBottom="@id/rl_vaptcha_view"
+        android:id="@+id/rl_tips"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="#cce2e2e2"
+        >
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="#666666"
+            android:textSize="14dp"/>
+        <ImageView
+            android:id="@+id/iv_tips"
+            android:layout_toLeftOf="@id/tv_tips"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/icon_edit"
+            android:layout_width="24dp"
+            android:padding="1dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_char_layout"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_below="@id/rl_vaptcha_view"
+        android:layout_width="match_parent"
+        android:background="#F4F4F4"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/bn_char_sure"
+            android:textSize="16dp"
+            android:textColor="#4F95FF"
+            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/edit_char"
+            android:layout_marginLeft="16dp"
+            android:gravity="center"
+            android:textColorHint="#666666"
+            android:background="@drawable/shape_char_edit"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            android:maxLength="3"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnm"
+            android:layout_width="160dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <com.vaptcha.utils.CirclePointLoadView
+        android:id="@+id/LoadView"
+        android:layout_centerInParent="true"
+        android:layout_width="80dp"
+        app:leftPointColor="#00BFFF"
+        app:rightPointColor="#00BFFF"
+        app:middlePointColor="#00BFFF"
+        android:visibility="gone"
+        app:translationDistance="8dp"
+        android:layout_height="80dp">
+    </com.vaptcha.utils.CirclePointLoadView>
+</RelativeLayout>

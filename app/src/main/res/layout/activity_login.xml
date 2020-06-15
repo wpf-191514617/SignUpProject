@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+
+
+    <ImageView
+        android:layout_width="@dimen/dimen_75dp"
+        android:layout_height="@dimen/dimen_75dp"
+        android:background="@drawable/app_default"
+        android:layout_marginTop="@dimen/dimen_66dp"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dimen_31dp"
+        android:paddingRight="@dimen/dimen_31dp"
+        android:layout_marginTop="@dimen/dimen_72dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dimen_17dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_17dp"
+                android:layout_height="@dimen/dimen_17dp"
+                android:src="@drawable/ic_account" />
+
+            <EditText
+                android:id="@+id/etAccount"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_weight="1"
+                android:hint="请输入账号"
+                android:maxLength="11"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_14dp"
+                android:textColorHint="#ffb4b4b4"
+                android:inputType="phone"
+                android:textColor="@color/gray33"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/ivClearAccount"
+                android:layout_width="@dimen/dimen_17dp"
+                android:layout_height="@dimen/dimen_17dp"
+                android:visibility="invisible"
+                android:src="@drawable/ic_clear"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/line"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dimen_17dp"
+            android:layout_marginTop="@dimen/dimen_17dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_17dp"
+                android:layout_height="@dimen/dimen_17dp"
+                android:src="@drawable/ic_password" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_weight="1"
+                android:hint="请输入密码"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_14dp"
+                android:textColorHint="#ffb4b4b4"
+                android:inputType="textPassword"
+                android:textColor="@color/gray33"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/ivShowPassword"
+                android:layout_width="@dimen/dimen_17dp"
+                android:layout_height="@dimen/dimen_17dp"
+                android:visibility="invisible"
+                android:src="@drawable/bg_password"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/line"/>
+
+
+        <com.beitone.signup.widget.AppButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/dimen_30dp"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:gravity="center">
+
+
+            <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="立即注册"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                android:padding="@dimen/dimen_10dp"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="@dimen/dimen_11dp"
+                android:background="#DEDEDE"/>
+
+            <TextView
+                android:id="@+id/tvForgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="忘记密码"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                android:padding="@dimen/dimen_10dp"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

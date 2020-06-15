@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GestureLibrary</string>
+    <string name="intput_tips">请在图片区域内绘制手势完成验证</string>
+
+</resources>

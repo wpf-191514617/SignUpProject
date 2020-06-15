@@ -1,0 +1,4 @@
+include ':beitonelibrary'
+include ':httplibrary'
+include ':app'
+rootProject.name = "SignUpProject"

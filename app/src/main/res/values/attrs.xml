@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppButton">
+        <attr name="btnText" format="string" />
+        <attr name="btnEnable" format="boolean" />
+        <attr name="btnStyle" format="enum">
+            <enum name="def" value="0"/>
+            <enum name="blue" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

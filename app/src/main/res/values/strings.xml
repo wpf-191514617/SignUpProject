@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SignUpProject</string>
+    <string name="loading">加载中...</string>
+    <string name="empty">暂无数据</string>
+</resources>
