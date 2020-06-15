@@ -6,31 +6,30 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
 
     <ImageView
         android:layout_width="@dimen/dimen_75dp"
         android:layout_height="@dimen/dimen_75dp"
-        android:background="@drawable/app_default"
-        android:layout_marginTop="@dimen/dimen_66dp"/>
-
+        android:layout_marginTop="@dimen/dimen_66dp"
+        android:background="@drawable/app_default" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_31dp"
-        android:paddingRight="@dimen/dimen_31dp"
         android:layout_marginTop="@dimen/dimen_72dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_31dp"
+        android:paddingRight="@dimen/dimen_31dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginBottom="@dimen/dimen_17dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
@@ -42,35 +41,35 @@
                 android:id="@+id/etAccount"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_weight="1"
-                android:hint="请输入账号"
-                android:maxLength="11"
-                android:gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dimen_14dp"
-                android:textColorHint="#ffb4b4b4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入账号"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:textColor="@color/gray33"
-                android:textSize="14sp"/>
+                android:textColorHint="#ffb4b4b4"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/ivClearAccount"
                 android:layout_width="@dimen/dimen_17dp"
                 android:layout_height="@dimen/dimen_17dp"
-                android:visibility="invisible"
-                android:src="@drawable/ic_clear"/>
+                android:src="@drawable/ic_clear"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
-        <include layout="@layout/line"/>
+        <include layout="@layout/line" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="@dimen/dimen_17dp"
             android:layout_marginTop="@dimen/dimen_17dp"
+            android:layout_marginBottom="@dimen/dimen_17dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
@@ -82,33 +81,34 @@
                 android:id="@+id/etPassword"
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_weight="1"
-                android:hint="请输入密码"
-                android:gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dimen_14dp"
-                android:textColorHint="#ffb4b4b4"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:textColor="@color/gray33"
-                android:textSize="14sp"/>
+                android:textColorHint="#ffb4b4b4"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/ivShowPassword"
                 android:layout_width="@dimen/dimen_17dp"
                 android:layout_height="@dimen/dimen_17dp"
-                android:visibility="invisible"
-                android:src="@drawable/bg_password"/>
+                android:src="@drawable/bg_password"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
-        <include layout="@layout/line"/>
+        <include layout="@layout/line" />
 
 
         <com.beitone.signup.widget.AppButton
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
-            android:layout_marginTop="@dimen/dimen_30dp"/>
+            android:layout_marginTop="@dimen/dimen_30dp"
+            android:text="登录" />
 
 
         <LinearLayout
@@ -122,28 +122,27 @@
                 android:id="@+id/tvRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_10dp"
                 android:text="立即注册"
                 android:textColor="#ff999999"
-                android:textSize="12sp"
-                android:padding="@dimen/dimen_10dp"/>
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="@dimen/dimen_11dp"
-                android:background="#DEDEDE"/>
+                android:background="#DEDEDE" />
 
             <TextView
                 android:id="@+id/tvForgetPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_10dp"
                 android:text="忘记密码"
                 android:textColor="#ff999999"
-                android:textSize="12sp"
-                android:padding="@dimen/dimen_10dp"/>
+                android:textSize="12sp" />
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

@@ -190,22 +190,23 @@ public abstract class BaseAppcomtActivity extends AppCompatActivity {
         /*jumpTo(clazz, bundle);
         this.finish();*/
 
-        if (isJumpTo) {
+        /*if (isJumpTo) {
             return;
         }
-        isJumpTo = true;
+        isJumpTo = true;*/
         Intent intent = new Intent(this, clazz);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        baseHandler.postDelayed(new Runnable() {
+        finish();
+        /*baseHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 isJumpTo = false;
                 finish();
             }
-        }, 800);
+        }, 800);*/
 
     }
 

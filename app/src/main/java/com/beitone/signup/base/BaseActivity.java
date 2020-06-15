@@ -124,7 +124,7 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
     @Override
     public void setContentView(int layoutResId) {
         super.setContentView(layoutResId);
-        mToolbar = ButterKnife.findById(this, R.id.common_toolbar);
+        mToolbar = findViewById(R.id.common_toolbar);
         if (null != mToolbar) {
             setSupportActionBar(mToolbar);
             getSupportActionBar().setHomeButtonEnabled(true);

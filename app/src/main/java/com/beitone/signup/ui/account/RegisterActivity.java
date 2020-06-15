@@ -14,51 +14,46 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity {
-
+public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etAccount)
     EditText etAccount;
     @BindView(R.id.ivClearAccount)
     ImageView ivClearAccount;
+    @BindView(R.id.etAuthCode)
+    EditText etAuthCode;
+    @BindView(R.id.tvSendAuthCode)
+    TextView tvSendAuthCode;
     @BindView(R.id.etPassword)
     EditText etPassword;
     @BindView(R.id.ivShowPassword)
     ImageView ivShowPassword;
-    @BindView(R.id.btnLogin)
-    AppButton btnLogin;
-    @BindView(R.id.tvRegister)
-    TextView tvRegister;
-    @BindView(R.id.tvForgetPassword)
-    TextView tvForgetPassword;
+    @BindView(R.id.btnNext)
+    AppButton btnNext;
+    @BindView(R.id.tvLogin)
+    TextView tvLogin;
 
     @Override
     protected int getContentViewLayoutId() {
-        return R.layout.activity_login;
+        return R.layout.activity_register;
     }
 
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
-        mToolbar.setNavigationIcon(null);
-        setTitle("登录");
+        setTitle("注册");
     }
 
-    @OnClick({R.id.ivClearAccount, R.id.ivShowPassword, R.id.btnLogin, R.id.tvRegister,
-            R.id.tvForgetPassword})
+
+    @OnClick({R.id.ivClearAccount, R.id.tvSendAuthCode, R.id.ivShowPassword, R.id.btnNext})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivClearAccount:
-                etAccount.getText().clear();
+                break;
+            case R.id.tvSendAuthCode:
                 break;
             case R.id.ivShowPassword:
                 break;
-            case R.id.btnLogin:
-                break;
-            case R.id.tvRegister:
-                jumpTo(RegisterActivity.class);
-                break;
-            case R.id.tvForgetPassword:
-                jumpTo(SendAuthCodeActivity.class);
+            case R.id.btnNext:
                 break;
         }
     }

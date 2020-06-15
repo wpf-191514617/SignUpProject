@@ -59,7 +59,7 @@ public abstract class BmSwipebackActivity extends BaseSwipebackActivity implemen
     @Override
     public void setContentView(int layoutResId) {
         super.setContentView(layoutResId);
-        mToolbar = ButterKnife.findById(this, R.id.common_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.common_toolbar);
         if (null != mToolbar) {
             setSupportActionBar(mToolbar);
             getSupportActionBar().setHomeButtonEnabled(true);

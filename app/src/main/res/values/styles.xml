@@ -5,7 +5,7 @@
         <item name="android:windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowContentOverlay">@android:color/transparent</item>-->
@@ -19,6 +19,10 @@
     <style name="popMenu_style" parent="@android:style/Widget.PopupMenu">
         <!-- 背景透明 -->
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/bg_check_box</item>
     </style>
 
 </resources>
