@@ -84,6 +84,7 @@ public class RegisterActivity extends BaseActivity {
             case R.id.ivShowPassword:
                 break;
             case R.id.btnNext:
+                jumpToThenKill(ImproveInformationActivity.class);
                 break;
         }
     }

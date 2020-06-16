@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grayf5"
+    android:orientation="vertical">
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="258dp"
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dimen_10dp">
+
+            <TextView
+                android:id="@+id/tvUserInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人资料＞"
+                android:textColor="#ffffffff"
+                android:textSize="14sp"
+                android:padding="@dimen/dimen_10dp"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dimen_18dp"
+            android:layout_marginTop="@dimen/dimen_36dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/dimen_75dp"
+                android:layout_height="@dimen/dimen_75dp"
+                app:civ_border_color="@color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                android:src="@color/colorAccent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvUserNickName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="艾富强"
+                    android:textColor="#ffffffff"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvUserTeam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:text="沐阳土地项目-钢筋施工队"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_18dp"
+        android:layout_marginRight="@dimen/dimen_18dp"
+        android:background="@drawable/bg_white_radius"
+        android:paddingLeft="@dimen/dimen_16dp"
+        android:paddingRight="@dimen/dimen_16dp"
+        android:orientation="vertical"
+        android:layout_marginTop="-60dp">
+
+        <LinearLayout
+            android:id="@+id/layoutSign"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            
+            
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar"/>
+
+            <TextView
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dimen_12dp"
+                android:text="我的考勤"
+                android:textColor="#ff212121"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next_black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/line"/>
+
+        <LinearLayout
+            android:id="@+id/layoutChangeWorkPoint"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_work_point"/>
+
+            <TextView
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dimen_12dp"
+                android:text="切换工地（退场）"
+                android:textColor="#ff212121"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next_black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/line"/>
+
+        <LinearLayout
+            android:id="@+id/layoutFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_feedback"/>
+
+            <TextView
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dimen_12dp"
+                android:text="意见反馈"
+                android:textColor="#ff212121"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next_black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/line"/>
+
+
+        <LinearLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_setting"/>
+
+            <TextView
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/dimen_12dp"
+                android:text="设置"
+                android:textColor="#ff212121"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next_black"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

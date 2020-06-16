@@ -124,15 +124,20 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
     @Override
     public void setContentView(int layoutResId) {
         super.setContentView(layoutResId);
-        mToolbar = findViewById(R.id.common_toolbar);
-        if (null != mToolbar) {
-            setSupportActionBar(mToolbar);
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
-            mToolbar.setNavigationIcon(R.drawable.ic_back);
-            tvTilte = (TextView) findViewById(R.id.tvTitle);
+        try{
+            mToolbar = findViewById(R.id.common_toolbar);
+            if (null != mToolbar) {
+                setSupportActionBar(mToolbar);
+                getSupportActionBar().setHomeButtonEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setTitle("");
+                mToolbar.setNavigationIcon(R.drawable.ic_back);
+                tvTilte = (TextView) findViewById(R.id.tvTitle);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
 

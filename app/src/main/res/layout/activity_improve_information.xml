@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -9,5 +10,174 @@
     <include layout="@layout/toolbar"/>
 
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_16dp"
+        android:paddingTop="@dimen/dimen_10dp"
+        android:paddingRight="@dimen/dimen_16dp">
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="姓名"
+            app:inputGravity="right"
+            app:inputHnit="请输入姓名"
+            />
+
+        <include layout="@layout/line"/>
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputIDCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="身份证号码"
+            app:inputGravity="right"
+            app:inputHnit="请输入身份证号码"
+            app:inputType="idcard"/>
+        <include layout="@layout/line"/>
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="手机号码"
+            app:inputGravity="right"
+            app:inputHnit="请输入手机号码"
+            app:inputType="phone"/>
+        <include layout="@layout/line"/>
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="施工项目"
+            app:inputGravity="right"
+            app:inputHnit="请选择"
+            app:inputSelect="true"/>
+        <include layout="@layout/line"/>
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputConstructionTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="施工队"
+            app:inputGravity="right"
+            app:inputHnit="请选择"
+            app:inputSelect="true"/>
+        <include layout="@layout/line"/>
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputTypeOfWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputLable="工种"
+            app:inputGravity="right"
+            app:inputHnit="请选择"
+            app:inputSelect="true"/>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10dp"
+        android:background="@color/grayf5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/dimen_17dp"
+        android:paddingLeft="@dimen/dimen_16dp"
+        android:paddingRight="@dimen/dimen_16dp"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证正面"
+                android:textColor="#ff212121"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_94dp"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:background="@drawable/bg_select_img"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivIdCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_carmera" />
+
+            </LinearLayout>
+
+            
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dimen_16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证正面"
+                android:textColor="#ff212121"
+                android:textSize="14sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_94dp"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:background="@drawable/bg_select_img"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivFaceAuth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_carmera" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <com.beitone.signup.widget.AppButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dp"
+        android:layout_marginBottom="@dimen/dimen_35dp"
+        android:layout_marginLeft="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_20dp"
+        android:text="提交"/>
 
 </LinearLayout>

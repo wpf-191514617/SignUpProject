@@ -37,13 +37,6 @@ public class SendAuthCodeActivity extends BaseActivity {
         setTitle("短信验证");
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-
-    }
-
     @OnClick({R.id.ivClearAccount, R.id.tvSendAuthCode, R.id.btnNext})
     public void onViewClicked(View view) {
         switch (view.getId()) {

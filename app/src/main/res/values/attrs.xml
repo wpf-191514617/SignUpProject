@@ -8,4 +8,23 @@
             <enum name="blue" value="1"/>
         </attr>
     </declare-styleable>
+
+
+    <declare-styleable name="InputLayout">
+        <attr name="inputLable" format="string" />
+        <attr name="inputGravity" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="inputSelect" format="boolean" />
+        <attr name="inputHnit" format="string" />
+        <attr name="inputFooter" format="string" />
+        <attr name="inputType" format="enum">
+            <enum name="phone" value="1" />
+            <enum name="idcard" value="2" />
+            <enum name="license" value="3" />
+            <enum name="authcode" value="4" />
+        </attr>
+    </declare-styleable>
+
 </resources>

@@ -1,14 +1,31 @@
 package com.beitone.signup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
-public class MainActivity extends AppCompatActivity {
+import com.beitone.signup.base.BaseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import cn.betatown.mobile.beitonelibrary.widget.MainNavigateTabBar;
+
+public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.flMainContent)
+    FrameLayout flMainContent;
+    @BindView(R.id.mainTab)
+    MainNavigateTabBar mainTab;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_main;
     }
+
+    @Override
+    protected void initViewAndData() {
+        ButterKnife.bind(this);
+    }
+
+
+
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_50dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvInputLable"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.45"
+        android:text="持卡人"
+        android:textColor="@color/gray33"
+        android:textSize="@dimen/sp_14" />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etInput"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:singleLine="true"
+            android:textColor="@color/gray33"
+            android:textColorHint="#c8c8c8"
+            android:textSize="@dimen/sp_14" />
+
+
+        <TextView
+            android:id="@+id/tvInputFooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray33"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:id="@+id/ivNext"
+            android:layout_width="@dimen/dimen_7dp"
+            android:layout_height="@dimen/dimen_11dp"
+            android:layout_marginLeft="@dimen/dimen_7dp"
+            android:src="@drawable/ic_next"/>
+
+    </LinearLayout>
+
+</LinearLayout>

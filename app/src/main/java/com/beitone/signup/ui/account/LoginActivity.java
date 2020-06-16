@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.widget.AppButton;
 
 import butterknife.BindView;
@@ -53,6 +54,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.ivShowPassword:
                 break;
             case R.id.btnLogin:
+                jumpToThenKill(MainActivity.class);
                 break;
             case R.id.tvRegister:
                 jumpTo(RegisterActivity.class);
