@@ -2,4 +2,6 @@
     <string name="app_name">SignUpProject</string>
     <string name="loading">加载中...</string>
     <string name="empty">暂无数据</string>
+    <string name="register_login">已有账号，立即登录</string>
+    <string name="register_agree">我同意 服务协议 和 隐私协议</string>
 </resources>
