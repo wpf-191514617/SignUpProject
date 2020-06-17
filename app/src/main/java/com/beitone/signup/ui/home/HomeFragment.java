@@ -2,21 +2,18 @@ package com.beitone.signup.ui.home;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.beitone.signup.BannerData;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
-import com.beitone.signup.util.GlideRoundTransform;
 import com.beitone.signup.util.TestUtil;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.stx.xhb.xbanner.XBanner;
-
-import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +37,8 @@ public class HomeFragment extends BaseFragment {
     ViewPager homePager;
     @BindView(R.id.containerHome)
     CoordinatorLayout containerHome;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -48,6 +47,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initViewAndData() {
+        setText(tvTitle , "首页");
         initBanner();
         initBannnerData();
         homePager.setOffscreenPageLimit(2);
@@ -69,9 +69,10 @@ public class HomeFragment extends BaseFragment {
                 BannerData bannerData = (BannerData) model;
 
                 //设置图片圆角角度
-                RoundedCorners roundedCorners= new RoundedCorners(10);
+                RoundedCorners roundedCorners = new RoundedCorners(10);
 //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-                RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+                RequestOptions options =
+                        RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
 
                 Glide.with(HomeFragment.this).load(bannerData.image).apply(options).into((ImageView) view);
             }
@@ -86,10 +87,9 @@ public class HomeFragment extends BaseFragment {
     }
 
 
+    class HomePagerAdapter extends FragmentPagerAdapter {
 
-    class HomePagerAdapter extends FragmentPagerAdapter{
-
-        private String[] title = {"安全教育","学习资料"};
+        private String[] title = {"安全教育", "学习资料"};
 
         public HomePagerAdapter(@NonNull FragmentManager fm) {
             super(fm);

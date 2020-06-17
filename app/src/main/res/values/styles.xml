@@ -55,4 +55,17 @@
     </style>
 
 
+    <declare-styleable name="CountDownButton">
+        <attr name="count_time" format="integer" />
+        <attr name="text_color" format="color" />
+        <attr name="start_text_color" format="color" />
+        <attr name="load_text_color" format="color" />
+        <attr name="start_back" format="reference" />
+        <attr name="load_back" format="reference" />
+        <!--开始的文字-->
+        <attr name="start_text" format="string" />
+        <attr name="end_text" format="string" />
+    </declare-styleable>
+
+
 </resources>

@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/containerHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_barlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+    <include layout="@layout/toolbar" />
 
-        <com.stx.xhb.xbanner.XBanner
-            android:id="@+id/homeBanner"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_170dp"
-            app:AutoPlayTime="3000"
-            app:isAutoPlay="true"
-            app:isClipChildrenMode="true"
-            app:isHandLoop="true"
-            app:isShowTips="true"
-            app:pageChangeDuration="800"
-            app:pointsVisibility="false"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_10dp"
-            app:tabGravity="center"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/homePager"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/containerHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_barlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.stx.xhb.xbanner.XBanner
+                android:id="@+id/homeBanner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_170dp"
+                app:AutoPlayTime="3000"
+                app:isAutoPlay="true"
+                app:isClipChildrenMode="true"
+                app:isHandLoop="true"
+                app:isShowTips="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:pageChangeDuration="800"
+                app:pointsVisibility="false" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tabGravity="center" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/homePager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
