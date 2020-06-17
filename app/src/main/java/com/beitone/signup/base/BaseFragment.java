@@ -3,6 +3,9 @@ package com.beitone.signup.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDialog;
@@ -13,6 +16,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import androidx.annotation.Nullable;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.betatown.mobile.beitonelibrary.base.BToneFragment;
 import cn.betatown.mobile.beitonelibrary.base.BaseApplication;
 import cn.betatown.mobile.beitonelibrary.viewcontroller.callback.BaseView;
@@ -21,6 +27,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
 public abstract class BaseFragment extends BToneFragment implements BaseView, CustomAdapt {
 
     private LoadingDialog mLoadingDailog;
+    protected Unbinder unbinder;
 
     protected void showLoadingDialog() {
         if (mLoadingDailog == null) {
@@ -121,4 +128,21 @@ public abstract class BaseFragment extends BToneFragment implements BaseView, Cu
     public Context getContext() {
         return getActivity();
     }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 }

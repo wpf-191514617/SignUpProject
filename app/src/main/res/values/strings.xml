@@ -4,4 +4,14 @@
     <string name="empty">暂无数据</string>
     <string name="register_login">已有账号，立即登录</string>
     <string name="register_agree">我同意 服务协议 和 隐私协议</string>
+    <string-array name="work_array">
+        <item>我的考勤</item>
+        <item>工资上传</item>
+        <item>我的任务</item>
+        <item>我的业绩</item>
+        <item>我的考勤</item>
+        <item>我的财务</item>
+        <item>我的任务</item>
+        <item>更多</item>
+    </string-array>
 </resources>
