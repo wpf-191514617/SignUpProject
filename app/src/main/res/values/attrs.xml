@@ -27,4 +27,8 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="ProgressRateView">
+        <attr name="progressLable" format="string"/>
+    </declare-styleable>
+
 </resources>

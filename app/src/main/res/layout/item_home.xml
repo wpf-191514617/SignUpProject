@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dimen_16dp"
+    android:paddingTop="@dimen/dimen_15dp"
+    android:paddingRight="@dimen/dimen_16dp"
+    android:paddingBottom="@dimen/dimen_8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_76dp"
+        android:background="@drawable/bg_gray_radius"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/dimen_10dp">
+
+        <ImageView
+            android:id="@+id/ivHome"
+            android:layout_width="@dimen/dimen_105dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/dimen_3dp"
+                android:maxLines="2"
+                android:minHeight="@dimen/dimen_33dp"
+                android:text="进入施工现场安全教育内容和要求等内容..."
+                android:textColor="#ff212121"
+                android:textSize="13sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvPublishTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="05月07日发布"
+                    android:textColor="#ff999999"
+                    android:textSize="11sp" />
+
+
+                <TextView
+                    android:id="@+id/tvStudy"
+                    android:layout_width="@dimen/dimen_72dp"
+                    android:layout_height="@dimen/dimen_25dp"
+                    android:background="@drawable/sel_button"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@drawable/sel_tv1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

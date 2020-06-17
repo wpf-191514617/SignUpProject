@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grayf5"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/toolbar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_marginLeft="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_16dp"
+        android:background="@drawable/bg_white_radius"
+        android:paddingLeft="@dimen/dimen_13dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_40dp"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/dimen_18dp"
+            android:paddingBottom="@dimen/dimen_15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人综合分析"
+                android:textColor="#ff212121"
+                android:textSize="17sp"/>
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/dimen_20dp"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="艾富强"
+                   android:textColor="#ff212121"
+                   android:textSize="14sp"
+                   />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="钢筋工"
+                   android:layout_marginLeft="@dimen/dimen_10dp"
+                   android:textColor="#999999"
+                   android:textSize="14sp"/>
+           </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="某某工地某公司施工项目"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:textColor="#ff212121"
+                android:textSize="14sp"
+                android:layout_marginBottom="@dimen/dimen_15dp"/>
+
+
+            <com.beitone.signup.widget.ProgressRateView
+                android:id="@+id/prvPersonTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:progressLable="培训率"/>
+
+            <com.beitone.signup.widget.ProgressRateView
+                android:id="@+id/prvPersonSign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:progressLable="打卡率"/>
+
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next_black"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_15dp"
+        android:layout_marginLeft="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_16dp"
+        android:background="@drawable/bg_white_radius"
+        android:paddingLeft="@dimen/dimen_13dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_40dp"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/dimen_18dp"
+            android:paddingBottom="@dimen/dimen_15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目综合分析"
+                android:textColor="#ff212121"
+                android:textSize="17sp"/>
+
+
+            <com.beitone.signup.widget.ProgressRateView
+                android:id="@+id/prvProjectTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                app:progressLable="培训率"/>
+
+            <com.beitone.signup.widget.ProgressRateView
+                android:id="@+id/prvProjectSign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:progressLable="打卡率"/>
+
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next_black"
+            android:layout_marginRight="@dimen/dimen_20dp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
