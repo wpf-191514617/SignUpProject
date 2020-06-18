@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.beitone.signup.AccountProvider;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.view.CheckingDialog;
@@ -26,6 +27,7 @@ import com.beitone.signup.widget.CountDownButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class RegisterActivity extends BaseActivity {
@@ -130,6 +132,11 @@ public class RegisterActivity extends BaseActivity {
                 etAccount.getText().clear();
                 break;
             case R.id.tvSendAuthCode:
+                String phone = etAccount.getText().toString();
+                if (!StringUtil.isMobileNO(phone)){
+                    showToast("请输入正确的手机号码");
+                    return;
+                }
                 showCheckingDialog();
                 break;
             case R.id.ivShowPassword:
@@ -153,7 +160,7 @@ public class RegisterActivity extends BaseActivity {
             mCheckingDialog.setOnCheckingCallback(new CheckingDialog.OnCheckingCallback() {
                 @Override
                 public void onCheckingPass(String token) {
-
+                    sendSMSCode(token);
                 }
 
                 @Override
@@ -168,6 +175,15 @@ public class RegisterActivity extends BaseActivity {
             });
         }
         mCheckingDialog.show();
+    }
+
+    private void sendSMSCode(String token) {
+        AccountProvider.sendSMSCode(this, etAccount.getText().toString(), token, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+
+            }
+        });
     }
 
 

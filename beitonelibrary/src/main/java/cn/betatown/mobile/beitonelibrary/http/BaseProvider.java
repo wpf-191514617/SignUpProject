@@ -34,6 +34,8 @@ public class BaseProvider {
 
     public static final int LIMIT = 20;
 
+    private static final String BaseUrl = "http://home.tx06.com:91";
+
     protected BaseProvider() {
     }
 
@@ -83,15 +85,15 @@ public class BaseProvider {
                 throw new IllegalArgumentException("访问 url 不能为空");
             }
 
-            requestBuilder.url(url);
+            requestBuilder.url(BaseUrl + url);
             requestBuilder.addHeader("User-Agent" , "android-okhttp");
-            if (!TextUtils.isEmpty(BaseApplication.getSession())){
-                String session =
-                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=www.beitone.com;" +
-                                "Path=/";
-                requestBuilder.addHeader("Cookie", session);
-                requestBuilder.addHeader("Referer", "http://www.beitone.com/");
-            }
+//            if (!TextUtils.isEmpty(BaseApplication.getSession())){
+//                String session =
+//                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=www.beitone.com;" +
+//                                "Path=/";
+//                requestBuilder.addHeader("Cookie", session);
+//                requestBuilder.addHeader("Referer", "http://www.beitone.com/");
+//            }
 
             if (params != null && params.size() > 0) {
                 Set<String> keySet = params.keySet();

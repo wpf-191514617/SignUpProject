@@ -105,7 +105,7 @@
             <com.beitone.signup.widget.CountDownButton
                 android:id="@+id/tvSendAuthCode"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_25dp"
+                android:layout_height="@dimen/dimen_30dp"
                 android:gravity="center"
                 android:paddingLeft="@dimen/dimen_12dp"
                 android:paddingRight="@dimen/dimen_12dp"
