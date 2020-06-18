@@ -8,12 +8,16 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.widget.AppButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 
 public class LoginActivity extends BaseActivity {
 
@@ -54,7 +58,18 @@ public class LoginActivity extends BaseActivity {
             case R.id.ivShowPassword:
                 break;
             case R.id.btnLogin:
-                jumpToThenKill(MainActivity.class);
+                //jumpToThenKill(MainActivity.class);
+                String phone = etAccount.getText().toString();
+                String password = etPassword.getText().toString();
+                if (!StringUtil.isMobileNO(phone)) {
+                    showToast("请输入手机号码");
+                    return;
+                }
+                if (StringUtil.isEmpty(password)) {
+                    showToast("请输入密码");
+                    return;
+                }
+                doLogin(phone , password);
                 break;
             case R.id.tvRegister:
                 jumpTo(RegisterActivity.class);
@@ -63,5 +78,14 @@ public class LoginActivity extends BaseActivity {
                 jumpTo(SendAuthCodeActivity.class);
                 break;
         }
+    }
+
+    private void doLogin(String phone, String password) {
+        AccountProvider.doLogin(this, phone, password, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                jumpToThenKill(MainActivity.class);
+            }
+        });
     }
 }

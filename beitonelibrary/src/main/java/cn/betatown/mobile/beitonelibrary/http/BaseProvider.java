@@ -34,7 +34,9 @@ public class BaseProvider {
 
     public static final int LIMIT = 20;
 
-    private static final String BaseUrl = "http://home.tx06.com:91";
+    //private static final String BaseUrl = "http://home.tx06.com:91";
+
+    private static final String BaseUrl = "http://192.168.7.63:84";
 
     protected BaseProvider() {
     }
@@ -86,7 +88,7 @@ public class BaseProvider {
             }
 
             requestBuilder.url(BaseUrl + url);
-            requestBuilder.addHeader("User-Agent" , "android-okhttp");
+            requestBuilder.addHeader("User-Agent", "android-okhttp");
 //            if (!TextUtils.isEmpty(BaseApplication.getSession())){
 //                String session =
 //                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=www.beitone.com;" +
@@ -148,12 +150,13 @@ public class BaseProvider {
                 if (onHttpCallBack instanceof OnJsonCallBack) {
                     BaseResponse response = onHttpCallBack.getResponseGenericity(result);
 
-                    if (!TextUtils.isEmpty(response.sessionId)){
+                    if (!TextUtils.isEmpty(response.sessionId)) {
                         BaseApplication.setSession(response.sessionId);
                     }
 
                     if (response != null && !TextUtils.isEmpty(response.code)) {
-                        if (response.code.equals("200") || response.code.toLowerCase().equals("ok")) {
+                        if (response.code.equals("200") || response.code.toLowerCase().equals("ok"
+                        )) {
                             Object responseResult = response.data;
                             String res = null;
                             if (responseResult != null) {
@@ -163,8 +166,9 @@ public class BaseProvider {
                             Object obj = onHttpCallBack.parseNetResponse(res);
                             onHttpCallBack.onResult(obj);
                         } else {
-                            if (requestBuilder.getUrl().contains("/accountBank/front/checkcredit.html")){
-                                if (response.code.equals("1")){
+                            if (requestBuilder.getUrl().contains("/accountBank/front/checkcredit" +
+                                    ".html")) {
+                                if (response.code.equals("1")) {
                                     onHttpCallBack.onResult("checkFailed");
                                     return;
                                 }

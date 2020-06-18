@@ -1,6 +1,5 @@
 package com.beitone.signup.ui.account;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,19 +10,19 @@ import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
-import com.beitone.signup.AccountProvider;
+import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.view.CheckingDialog;
 import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.CountDownButton;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,6 +48,8 @@ public class RegisterActivity extends BaseActivity {
     TextView tvLogin;
     @BindView(R.id.tvAgree)
     TextView tvAgree;
+    @BindView(R.id.cbCheckAgree)
+    CheckBox cbCheckAgree;
 
     private CheckingDialog mCheckingDialog;
 
@@ -70,7 +71,7 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (StringUtil.isEmpty(charSequence.toString())){
+                if (StringUtil.isEmpty(charSequence.toString())) {
                     ivClearAccount.setVisibility(View.INVISIBLE);
                 } else {
                     ivClearAccount.setVisibility(View.VISIBLE);
@@ -90,7 +91,7 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (StringUtil.isEmpty(charSequence.toString())){
+                if (StringUtil.isEmpty(charSequence.toString())) {
                     ivShowPassword.setVisibility(View.INVISIBLE);
                 } else {
                     ivShowPassword.setVisibility(View.VISIBLE);
@@ -107,7 +108,8 @@ public class RegisterActivity extends BaseActivity {
     private void initAgreeText() {
         SpannableString spannableString = new SpannableString(getString(R.string.register_login));
         AgreeClickSpan agreeClickSpan = new AgreeClickSpan("login");
-        spannableString.setSpan(agreeClickSpan, 5, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(agreeClickSpan, 5, spannableString.length(),
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tvLogin.setMovementMethod(LinkMovementMethod.getInstance());
         tvLogin.setHighlightColor(getResources().getColor(android.R.color.transparent));
         tvLogin.setText(spannableString);
@@ -118,7 +120,8 @@ public class RegisterActivity extends BaseActivity {
         spannableString.setSpan(agreeClickSpan, 4, 8, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         agreeClickSpan = new AgreeClickSpan("agree2");
-        spannableString.setSpan(agreeClickSpan, 11, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(agreeClickSpan, 11, spannableString.length(),
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tvAgree.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgree.setHighlightColor(getResources().getColor(android.R.color.transparent));
         tvAgree.setText(spannableString);
@@ -133,7 +136,7 @@ public class RegisterActivity extends BaseActivity {
                 break;
             case R.id.tvSendAuthCode:
                 String phone = etAccount.getText().toString();
-                if (!StringUtil.isMobileNO(phone)){
+                if (!StringUtil.isMobileNO(phone)) {
                     showToast("请输入正确的手机号码");
                     return;
                 }
@@ -142,20 +145,52 @@ public class RegisterActivity extends BaseActivity {
             case R.id.ivShowPassword:
                 ivShowPassword.setSelected(!ivShowPassword.isSelected());
                 if (ivShowPassword.isSelected()) {
-                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                } else {
                     etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 etPassword.setSelection(etPassword.getText().length());
                 break;
             case R.id.btnNext:
-                jumpToThenKill(ImproveInformationActivity.class);
+                String phone1 = etAccount.getText().toString();
+                String authCode = etAuthCode.getText().toString();
+                String password = etPassword.getText().toString();
+                if (!StringUtil.isMobileNO(phone1)) {
+                    showToast("请输入正确的手机号码");
+                    return;
+                }
+                if (StringUtil.isEmpty(authCode)) {
+                    showToast("请输入验证码");
+                    return;
+                }
+                if (StringUtil.isEmpty(password)) {
+                    showToast("请输入密码");
+                    return;
+                }
+
+
+                if (!cbCheckAgree.isChecked()) {
+                    showToast("请勾选协议");
+                    return;
+                }
+
+                register(phone1, authCode, password);
+                //jumpToThenKill(ImproveInformationActivity.class);
                 break;
         }
     }
 
+    private void register(String phone1, String authCode, String password) {
+        AccountProvider.doRegister(this, phone1, authCode, password, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                jumpToThenKill(ImproveInformationActivity.class);
+            }
+        });
+    }
+
     private void showCheckingDialog() {
-        if (mCheckingDialog == null){
+        if (mCheckingDialog == null) {
             mCheckingDialog = new CheckingDialog(this);
             mCheckingDialog.setOnCheckingCallback(new CheckingDialog.OnCheckingCallback() {
                 @Override
@@ -178,12 +213,20 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void sendSMSCode(String token) {
-        AccountProvider.sendSMSCode(this, etAccount.getText().toString(), token, new OnJsonCallBack() {
-            @Override
-            public void onResult(Object data) {
+        AccountProvider.sendSMSCode(this, etAccount.getText().toString(), token,
+                new OnJsonCallBack() {
+                    @Override
+                    public void onResult(Object data) {
+                        tvSendAuthCode.start();
+                    }
 
-            }
-        });
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tvSendAuthCode.stopConut();
     }
 
 
