@@ -1,18 +1,85 @@
 package com.beitone.signup.ui.account;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.beitone.face.utils.ImageSaveUtil;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.entity.EngineeringResponse;
+import com.beitone.signup.entity.TeamResponse;
+import com.beitone.signup.entity.WorkTypeResponse;
+import com.beitone.signup.provider.AccountProvider;
+import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.view.SingleSelectDialog;
+import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.InputLayout;
+import com.bumptech.glide.Glide;
+import com.donkingliang.imageselector.utils.ImageSelector;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.permission.Acp;
+import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
+import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class ImproveInformationActivity extends BaseActivity {
 
     @BindView(R.id.inputName)
     InputLayout inputName;
+    @BindView(R.id.inputIDCard)
+    InputLayout inputIDCard;
+    @BindView(R.id.inputPhone)
+    InputLayout inputPhone;
+    @BindView(R.id.inputProject)
+    InputLayout inputProject;
+    @BindView(R.id.inputConstructionTeam)
+    InputLayout inputConstructionTeam;
+    @BindView(R.id.inputTypeOfWork)
+    InputLayout inputTypeOfWork;
+    @BindView(R.id.ivIdCard)
+    ImageView ivIdCard;
+    @BindView(R.id.layoutIDCard)
+    LinearLayout layoutIDCard;
+    @BindView(R.id.ivFaceAuth)
+    ImageView ivFaceAuth;
+    @BindView(R.id.layoutFace)
+    LinearLayout layoutFace;
+    @BindView(R.id.btnSubmit)
+    AppButton btnSubmit;
+
+    private EngineeringResponse mCurrentEngineering;
+    private TeamResponse mCurrentTeamResponse;
+    private WorkTypeResponse mCurrentWorkTypeResponse;
+
+    private SingleSelectDialog mSelectProjectDialog, mSelectTeamDialog, mSelectWorkTypeDialog;
+
+    private static final int REQUEST_CODE_DETECT_FACE = 1000;
+
+    private String facePath;
+    private String idCardPath;
+    private Bitmap mHeadBmp;
+    private static final int REQUEST_SELECT_IMAGE = 1001;
+
 
     @Override
     protected int getContentViewLayoutId() {
@@ -23,6 +90,354 @@ public class ImproveInformationActivity extends BaseActivity {
     protected void initViewAndData() {
         ButterKnife.bind(this);
         setTitle("完善个人资料");
+        inputProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadProject();
+            }
+        });
+        inputConstructionTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCurrentEngineering == null) {
+                    showToast("请先选择施工项目");
+                    return;
+                }
+                loadConstructionTeam();
+            }
+        });
+        inputTypeOfWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadWorkTypeList();
+            }
+        });
+    }
+
+    private void loadWorkTypeList() {
+        AppProvider.getWorkTypeList(this, new OnJsonCallBack<List<WorkTypeResponse>>() {
+            @Override
+            public void onResult(List<WorkTypeResponse> data) {
+                if (AdapterUtil.isListNotEmpty(data)) {
+                    showWorkTypeListDialog(data);
+                } else {
+                    showToast("未查找到工种");
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+
+        });
+    }
+
+
+    private void loadConstructionTeam() {
+        AppProvider.getProjectTeams(this, mCurrentEngineering.getId(),
+                new OnJsonCallBack<List<TeamResponse>>() {
+                    @Override
+                    public void onResult(List<TeamResponse> data) {
+                        if (AdapterUtil.isListNotEmpty(data)) {
+                            showSelectTeamDialog(data);
+                        } else {
+                            showToast("当前项目无施工队");
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        showToast(msg);
+                    }
+
+                });
+    }
+
+    private void loadProject() {
+        AppProvider.loadProject(this, new OnJsonCallBack<List<EngineeringResponse>>() {
+            @Override
+            public void onResult(List<EngineeringResponse> data) {
+                if (AdapterUtil.isListNotEmpty(data)) {
+                    showSelectProjectDialog(data);
+                } else {
+                    showToast("当前无施工项目");
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+        });
+    }
+
+    private void showSelectTeamDialog(List<TeamResponse> responseList) {
+        List<String> data = new ArrayList<>();
+        for (TeamResponse response : responseList) {
+            data.add(response.getName());
+        }
+        if (mSelectTeamDialog == null) {
+            mSelectTeamDialog = new SingleSelectDialog(this,
+                    new SingleSelectDialog.OnSingleSelectListener() {
+                        @Override
+                        public void onSingleSelect(String text, int position) {
+                            mCurrentTeamResponse = responseList.get(position);
+                            inputConstructionTeam.inputContent(text);
+                        }
+                    });
+        }
+        String name = "";
+        if (mCurrentTeamResponse != null) {
+            name = mCurrentTeamResponse.getName();
+        }
+        mSelectTeamDialog.setData(data, name);
+        mSelectTeamDialog.show();
+    }
+
+    private void showSelectProjectDialog(List<EngineeringResponse> responseList) {
+        List<String> data = new ArrayList<>();
+        for (EngineeringResponse response : responseList) {
+            data.add(response.getName());
+        }
+        if (mSelectProjectDialog == null) {
+            mSelectProjectDialog = new SingleSelectDialog(this,
+                    new SingleSelectDialog.OnSingleSelectListener() {
+                        @Override
+                        public void onSingleSelect(String text, int position) {
+                            EngineeringResponse selectEngineering = responseList.get(position);
+                            if (mCurrentEngineering != null) {
+                                if (!selectEngineering.equals(mCurrentEngineering)) {
+                                    mCurrentTeamResponse = null;
+                                    inputConstructionTeam.getEtInput().getText().clear();
+                                }
+                            }
+                            mCurrentEngineering = selectEngineering;
+                            inputProject.inputContent(text);
+                        }
+                    });
+        }
+
+        String name = "";
+        if (mCurrentEngineering != null) {
+            name = mCurrentEngineering.getName();
+        }
+        mSelectProjectDialog.setData(data, name);
+        mSelectProjectDialog.show();
+    }
+
+    private void showWorkTypeListDialog(List<WorkTypeResponse> responseList) {
+        List<String> data = new ArrayList<>();
+        for (WorkTypeResponse response : responseList) {
+            data.add(response.getMname());
+        }
+        if (mSelectWorkTypeDialog == null) {
+            mSelectWorkTypeDialog = new SingleSelectDialog(this,
+                    new SingleSelectDialog.OnSingleSelectListener() {
+                        @Override
+                        public void onSingleSelect(String text, int position) {
+                            mCurrentWorkTypeResponse = responseList.get(position);
+                            inputTypeOfWork.inputContent(text);
+                        }
+                    });
+        }
+
+        String name = "";
+        if (mCurrentWorkTypeResponse != null) {
+            name = mCurrentWorkTypeResponse.getMname();
+        }
+        mSelectWorkTypeDialog.setData(data, name);
+        mSelectWorkTypeDialog.show();
+    }
+
+    @OnClick({R.id.layoutIDCard, R.id.layoutFace, R.id.btnSubmit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layoutIDCard:
+                selectImage();
+                break;
+            case R.id.layoutFace:
+                onVerifyFace();
+                break;
+            case R.id.btnSubmit:
+                if (!inputName.checkInputContent()){
+                    showToast("请输入姓名");
+                    return;
+                }
+                if (!inputIDCard.checkInputContent()){
+                    showToast("请输入正确的身份证号码");
+                    return;
+                }
+                if (!inputPhone.checkInputContent()){
+                    showToast("请输入正确的手机号码");
+                    return;
+                }
+                if (mCurrentEngineering == null){
+                    showToast("请选择施工项目");
+                    return;
+                }
+                if (mCurrentTeamResponse == null){
+                    showToast("请选择施工队");
+                    return;
+                }
+                if (mCurrentWorkTypeResponse == null){
+                    showToast("请选择工种");
+                    return;
+                }
+                if (StringUtil.isEmpty(idCardPath)){
+                    showToast("请选择身份证照片");
+                    return;
+                }
+                if (StringUtil.isEmpty(facePath)){
+                    showToast("请进行人脸识别");
+                    return;
+                }
+
+                compressImage(idCardPath , true);
+
+                String name = inputName.getText();
+                String idCard = inputIDCard.getText();
+                String phone = inputPhone.getText();
+
+                break;
+        }
+    }
+
+    private void uploadIdCard() {
+        AccountProvider.uploadIdCardImage(this, idCardPath, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                Trace.d("data");
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+            }
+        });
+    }
+
+    private void selectImage() {
+        Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).build(),
+                new AcpListener() {
+                    @Override
+                    public void onGranted() {
+                        ImageSelector.preload(ImproveInformationActivity.this);
+                        ImageSelector.builder()
+                                .useCamera(true) // 设置是否使用拍照
+                                .setSingle(true)  //设置是否单选
+                                .canPreview(true) //是否可以预览图片，默认为true
+                                .start(ImproveInformationActivity.this, REQUEST_SELECT_IMAGE); //
+                        // 打开相册
+
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions) {
+                        showToast("权限拒绝");
+                    }
+                });
+    }
+
+    private void onVerifyFace() {
+        Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.CAMERA).build(), new AcpListener() {
+            @Override
+            public void onGranted() {
+                jumpToForResult(FaceDetectActivity.class , REQUEST_CODE_DETECT_FACE);
+            }
+
+            @Override
+            public void onDenied(List<String> permissions) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_DETECT_FACE && resultCode == Activity.RESULT_OK) {
+
+            facePath = ImageSaveUtil.loadCameraBitmapPath(this, "head_tmp.jpg");
+            if (mHeadBmp != null) {
+                mHeadBmp.recycle();
+            }
+            mHeadBmp = ImageSaveUtil.loadBitmapFromPath(this, facePath);
+            if (mHeadBmp != null) {
+                ivFaceAuth.setImageBitmap(mHeadBmp);
+            }
+        } else if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK){
+            if (data != null) {
+                ArrayList<String> images =
+                        data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
+                idCardPath = images.get(0);
+                if (AdapterUtil.isListNotEmpty(images)) {
+                    Glide.with(this).load(Uri.fromFile(new File(idCardPath))).into(ivIdCard);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImageSelector.clearCache(this);
+    }
+
+
+    private void compressImage(String path , boolean isIdCard){
+        Luban.with(this).load(path)
+                .ignoreBy(100)
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        if (isIdCard){
+                            idCardPath = file.getPath();
+                            compressImage(facePath , false);
+                        } else {
+                            facePath = file.getPath();
+                            uploadIdCard();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onDismissLoading();
+                       showToast("上传数据失败");
+                    }
+                }).launch();
     }
 
 }

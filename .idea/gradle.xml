@@ -11,6 +11,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/FaceSDK" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/beitonelibrary" />
             <option value="$PROJECT_DIR$/httplibrary" />

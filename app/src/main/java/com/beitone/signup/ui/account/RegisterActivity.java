@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.aip.FaceSDKManager;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
@@ -103,6 +104,16 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
+        initFace();
+    }
+
+    private void initFace() {
+        // 如果图片中的人脸小于200*200个像素，将不能检测出人脸，可以根据需求在100-400间调节大小
+        FaceSDKManager.getInstance().getFaceTracker(this).set_min_face_size(120);
+        FaceSDKManager.getInstance().getFaceTracker(this).set_isCheckQuality(true);
+        // 该角度为商学，左右，偏头的角度的阀值，大于将无法检测出人脸，为了在1：n的时候分数高，注册尽量使用比较正的人脸，可自行条件角度
+        FaceSDKManager.getInstance().getFaceTracker(this).set_eulur_angle_thr(45, 45, 45);
+        FaceSDKManager.getInstance().getFaceTracker(this).set_isVerifyLive(true);
     }
 
     private void initAgreeText() {
@@ -155,7 +166,7 @@ public class RegisterActivity extends BaseActivity {
                 String phone1 = etAccount.getText().toString();
                 String authCode = etAuthCode.getText().toString();
                 String password = etPassword.getText().toString();
-                if (!StringUtil.isMobileNO(phone1)) {
+                /*if (!StringUtil.isMobileNO(phone1)) {
                     showToast("请输入正确的手机号码");
                     return;
                 }
@@ -172,7 +183,7 @@ public class RegisterActivity extends BaseActivity {
                 if (!cbCheckAgree.isChecked()) {
                     showToast("请勾选协议");
                     return;
-                }
+                }*/
 
                 register(phone1, authCode, password);
                 //jumpToThenKill(ImproveInformationActivity.class);
@@ -181,12 +192,12 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void register(String phone1, String authCode, String password) {
-        AccountProvider.doRegister(this, phone1, authCode, password, new OnJsonCallBack() {
+       /* AccountProvider.doRegister(this, phone1, authCode, password, new OnJsonCallBack() {
             @Override
-            public void onResult(Object data) {
-                jumpToThenKill(ImproveInformationActivity.class);
-            }
-        });
+            public void onResult(Object data) {*/
+        jumpToThenKill(ImproveInformationActivity.class);
+            /*}
+        });*/
     }
 
     private void showCheckingDialog() {

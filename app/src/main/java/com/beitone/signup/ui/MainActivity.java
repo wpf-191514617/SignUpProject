@@ -9,8 +9,11 @@ import com.beitone.signup.ui.home.MineFragment;
 import com.beitone.signup.ui.home.StatisticsFragment;
 import com.beitone.signup.ui.home.WorkFragment;
 
+import java.util.UUID;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 import cn.betatown.mobile.beitonelibrary.widget.MainNavigateTabBar;
 
 public class MainActivity extends BaseActivity {

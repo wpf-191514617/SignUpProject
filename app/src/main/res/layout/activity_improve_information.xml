@@ -117,6 +117,7 @@
                 android:textSize="14sp" />
 
             <LinearLayout
+                android:id="@+id/layoutIDCard"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_94dp"
                 android:layout_marginTop="@dimen/dimen_15dp"
@@ -145,12 +146,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="身份证正面"
+                android:text="人脸信息"
                 android:textColor="#ff212121"
                 android:textSize="14sp" />
 
 
             <LinearLayout
+                android:id="@+id/layoutFace"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_94dp"
                 android:layout_marginTop="@dimen/dimen_15dp"

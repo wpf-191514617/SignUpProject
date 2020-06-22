@@ -40,4 +40,5 @@ dependencies {
     compile 'com.lzy.net:okgo:3.0.4'
     api project(':httplibrary')
     api 'de.hdodenhof:circleimageview:2.2.0'//圆形ImageView
+    api 'top.zibin:Luban:1.1.8'
 }

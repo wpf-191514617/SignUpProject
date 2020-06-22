@@ -1,3 +1,4 @@
+include ':FaceSDK'
 include ':beitonelibrary'
 include ':httplibrary'
 include ':app'

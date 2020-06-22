@@ -12,6 +12,8 @@ import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.widget.AppButton;
 
+import java.util.UUID;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,6 +48,8 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
         mToolbar.setNavigationIcon(null);
         setTitle("登录");
+        String own= UUID.randomUUID().toString();
+        Trace.d("uuid" , own);
     }
 
     @OnClick({R.id.ivClearAccount, R.id.ivShowPassword, R.id.btnLogin, R.id.tvRegister,

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class PreferencesUtils {
 
-    private static final String PREFERENCE_NAME = "beitonePreferences";
+    private static final String PREFERENCE_NAME = "beitoneSignUpProPreferences";
 
     /**存储字符串*/
     public static boolean putString(Context context, String key, String value) {
