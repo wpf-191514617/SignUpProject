@@ -36,7 +36,7 @@ public class BaseProvider {
 
     //private static final String BaseUrl = "http://home.tx06.com:91";
 
-    private static final String BaseUrl = "http://home.tx06.com:91/";
+    public static final String BaseUrl = "http://home.tx06.com:91/";
 
     protected BaseProvider() {
     }

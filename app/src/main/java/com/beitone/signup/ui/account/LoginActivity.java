@@ -11,6 +11,7 @@ import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.SessionResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
+import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
@@ -50,6 +51,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
+        if (UserHelper.getInstance().isLogin()){
+            jumpToThenKill(MainActivity.class);
+            return;
+        }
         mToolbar.setNavigationIcon(null);
         setTitle("登录");
     }
@@ -75,7 +80,7 @@ public class LoginActivity extends BaseActivity {
                     showToast("请输入密码");
                     return;
                 }
-                doLogin(phone , password);
+                doLogin(phone, password);
                 break;
             case R.id.tvRegister:
                 jumpTo(RegisterActivity.class);
@@ -90,7 +95,7 @@ public class LoginActivity extends BaseActivity {
         AccountProvider.doLogin(this, phone, password, new OnJsonCallBack<SessionResponse>() {
             @Override
             public void onResult(SessionResponse data) {
-                if (data != null){
+                if (data != null) {
                     SignUpApplication.setSession(data.getSessionId());
                     loadUserInfo();
                 }
@@ -114,7 +119,22 @@ public class LoginActivity extends BaseActivity {
         UserProvider.loadUserInfo(this, new OnJsonCallBack<UserInfoResponse>() {
             @Override
             public void onResult(UserInfoResponse data) {
-                Trace.d("data");
+                if (data != null) {
+                    UserHelper.getInstance().saveCurrentUserInfo(data);
+                    jumpToThenKill(MainActivity.class);
+                }
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
             }
         });
     }

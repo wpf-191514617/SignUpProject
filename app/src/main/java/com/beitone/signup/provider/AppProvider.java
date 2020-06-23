@@ -33,14 +33,25 @@ public class AppProvider extends BaseProvider {
     }
 
 
-
-
     public static void uploadImage(Context context, List<File> files,
-                                    String kind, String subkind, OnJsonCallBack onJsonCallBack) {
+                                   String kind, String subkind, OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = new HashMap<>();
         map.put("kind", kind);
         map.put("subkind", subkind);
         postFiles(context, files, "/files/doSave.htm", map, onJsonCallBack);
+    }
+
+
+    public static void loadAppIndexData(Context context, OnJsonCallBack onJsonCallBack) {
+        post(context, "/article/getAppIndexData.htm", onJsonCallBack);
+    }
+
+    public static void loadAppIndexArticle(Context context,
+                                           String type, int page, OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type);
+        map.put("page", String.valueOf(page));
+        post(context, "/article/getMoreArticle.htm", map, onJsonCallBack);
     }
 
 }

@@ -26,6 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimen_15dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -46,8 +47,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
                 android:layout_marginTop="@dimen/dimen_3dp"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
                 <TextView
@@ -66,8 +67,8 @@
                     android:layout_height="@dimen/dimen_25dp"
                     android:background="@drawable/sel_button"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="@drawable/sel_tv1"/>
+                    android:textColor="@drawable/sel_tv1"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
