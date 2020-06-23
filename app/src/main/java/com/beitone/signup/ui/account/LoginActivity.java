@@ -7,8 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beitone.signup.R;
+import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.entity.response.SessionResponse;
+import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.provider.AccountProvider;
+import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.widget.AppButton;
 
@@ -48,8 +52,6 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
         mToolbar.setNavigationIcon(null);
         setTitle("登录");
-        String own= UUID.randomUUID().toString();
-        Trace.d("uuid" , own);
     }
 
     @OnClick({R.id.ivClearAccount, R.id.ivShowPassword, R.id.btnLogin, R.id.tvRegister,
@@ -85,10 +87,34 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void doLogin(String phone, String password) {
-        AccountProvider.doLogin(this, phone, password, new OnJsonCallBack() {
+        AccountProvider.doLogin(this, phone, password, new OnJsonCallBack<SessionResponse>() {
             @Override
-            public void onResult(Object data) {
-                jumpToThenKill(MainActivity.class);
+            public void onResult(SessionResponse data) {
+                if (data != null){
+                    SignUpApplication.setSession(data.getSessionId());
+                    loadUserInfo();
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+        });
+    }
+
+    private void loadUserInfo() {
+        UserProvider.loadUserInfo(this, new OnJsonCallBack<UserInfoResponse>() {
+            @Override
+            public void onResult(UserInfoResponse data) {
+                Trace.d("data");
             }
         });
     }

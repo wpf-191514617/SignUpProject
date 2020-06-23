@@ -1,4 +1,4 @@
-package com.beitone.signup.entity;
+package com.beitone.signup.entity.response;
 
 public class WorkTypeResponse {
 

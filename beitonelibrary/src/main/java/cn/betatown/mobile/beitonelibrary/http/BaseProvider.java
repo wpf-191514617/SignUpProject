@@ -89,13 +89,13 @@ public class BaseProvider {
 
             requestBuilder.url(BaseUrl + url);
             requestBuilder.addHeader("User-Agent", "android-okhttp");
-//            if (!TextUtils.isEmpty(BaseApplication.getSession())){
-//                String session =
-//                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=www.beitone.com;" +
-//                                "Path=/";
-//                requestBuilder.addHeader("Cookie", session);
-//                requestBuilder.addHeader("Referer", "http://www.beitone.com/");
-//            }
+            if (!TextUtils.isEmpty(BaseApplication.getSession())){
+                String session =
+                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=home.tx06.com;" +
+                                "Path=/";
+                requestBuilder.addHeader("Cookie", session);
+                requestBuilder.addHeader("Referer", "http://home.tx06.com:91/");
+            }
 
             if (params != null && params.size() > 0) {
                 Set<String> keySet = params.keySet();

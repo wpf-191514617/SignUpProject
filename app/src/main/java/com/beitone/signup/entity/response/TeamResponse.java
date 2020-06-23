@@ -1,18 +1,6 @@
-package com.beitone.signup.entity;
+package com.beitone.signup.entity.response;
 
-import android.os.Build;
-
-import java.util.Objects;
-
-import androidx.annotation.RequiresApi;
-
-public class EngineeringResponse {
-
-
-    /**
-     * id : id2094666594
-     * name : 门源县浩门水库工程
-     */
+public class TeamResponse {
 
     private String id;
     private String name;
@@ -36,7 +24,7 @@ public class EngineeringResponse {
 
     @Override
     public boolean equals(Object o) {
-        EngineeringResponse that = (EngineeringResponse) o;
+        TeamResponse that = (TeamResponse) o;
         return getId().equals(that.getId());
     }
 

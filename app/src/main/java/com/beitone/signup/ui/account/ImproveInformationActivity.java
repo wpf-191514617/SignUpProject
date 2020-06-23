@@ -10,12 +10,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.beitone.face.APIService;
+import com.beitone.face.exception.FaceError;
 import com.beitone.face.utils.ImageSaveUtil;
+import com.beitone.face.utils.OnResultListener;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
-import com.beitone.signup.entity.EngineeringResponse;
-import com.beitone.signup.entity.TeamResponse;
-import com.beitone.signup.entity.WorkTypeResponse;
+import com.beitone.signup.entity.request.ImproveInforRequest;
+import com.beitone.signup.entity.response.EngineeringResponse;
+import com.beitone.signup.entity.response.TeamResponse;
+import com.beitone.signup.entity.response.UploadFileResponse;
+import com.beitone.signup.entity.response.WorkTypeResponse;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.view.SingleSelectDialog;
@@ -75,9 +80,11 @@ public class ImproveInformationActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_DETECT_FACE = 1000;
 
-    private String facePath;
+    private String facePath, facePathId;
     private String idCardPath;
     private Bitmap mHeadBmp;
+    private String mUserId;
+    private String phone;
     private static final int REQUEST_SELECT_IMAGE = 1001;
 
 
@@ -87,9 +94,18 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
     @Override
+    protected void getBundleExtras(Bundle extras) {
+        super.getBundleExtras(extras);
+        mUserId = extras.getString("userId");
+        phone = extras.getString("phone");
+    }
+
+    @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
         setTitle("完善个人资料");
+        inputPhone.inputContent(phone);
+        inputPhone.setEditble(false);
         inputProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -281,40 +297,41 @@ public class ImproveInformationActivity extends BaseActivity {
                 onVerifyFace();
                 break;
             case R.id.btnSubmit:
-                if (!inputName.checkInputContent()){
+                if (!inputName.checkInputContent()) {
                     showToast("请输入姓名");
                     return;
                 }
-                if (!inputIDCard.checkInputContent()){
+                if (!inputIDCard.checkInputContent()) {
                     showToast("请输入正确的身份证号码");
                     return;
                 }
-                if (!inputPhone.checkInputContent()){
+                if (!inputPhone.checkInputContent()) {
                     showToast("请输入正确的手机号码");
                     return;
                 }
-                if (mCurrentEngineering == null){
+                if (mCurrentEngineering == null) {
                     showToast("请选择施工项目");
                     return;
                 }
-                if (mCurrentTeamResponse == null){
+                if (mCurrentTeamResponse == null) {
                     showToast("请选择施工队");
                     return;
                 }
-                if (mCurrentWorkTypeResponse == null){
+                if (mCurrentWorkTypeResponse == null) {
                     showToast("请选择工种");
                     return;
                 }
-                if (StringUtil.isEmpty(idCardPath)){
+                if (StringUtil.isEmpty(idCardPath)) {
                     showToast("请选择身份证照片");
                     return;
                 }
-                if (StringUtil.isEmpty(facePath)){
+                if (StringUtil.isEmpty(facePath)) {
                     showToast("请进行人脸识别");
                     return;
                 }
 
-                compressImage(idCardPath , true);
+                showLoadingDialog();
+                compressImage(idCardPath, true);
 
                 String name = inputName.getText();
                 String idCard = inputIDCard.getText();
@@ -324,23 +341,112 @@ public class ImproveInformationActivity extends BaseActivity {
         }
     }
 
-    private void uploadIdCard() {
-        AccountProvider.uploadIdCardImage(this, idCardPath, new OnJsonCallBack() {
+    private void commitUserDec() {
+        ImproveInforRequest request = new ImproveInforRequest();
+        request.name = inputName.getText();
+        request.phone = inputPhone.getText();
+        request.card_num = inputIDCard.getText();
+        request.b_project_id = mCurrentEngineering.getId();
+        request.b_project_team_id = mCurrentTeamResponse.getId();
+        request.type_of_work = mCurrentWorkTypeResponse.getMname();
+        request.card_photo_fileid = idCardPath;
+        request.face_photo_fileid = facePathId;
+        AccountProvider.doImproveInfo(this, request, new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {
-                Trace.d("data");
-            }
-
-            @Override
-            public void onError(String msg) {
-                super.onError(msg);
+                // TODO   提交数据    上传百度
+                registerUserToBaidu();
             }
 
             @Override
             public void onFailed(String msg) {
                 super.onFailed(msg);
+                onDismissLoading();
+                showToast(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                onDismissLoading();
+                showToast(msg);
             }
         });
+    }
+
+    private void registerUserToBaidu() {
+        APIService.getInstance().reg(new OnResultListener() {
+            @Override
+            public void onResult(Object result) {
+                Trace.d("data---" + result);
+                onDismissLoading();
+                showToast("操作成功");
+                finish();
+            }
+
+            @Override
+            public void onError(FaceError error) {
+                onDismissLoading();
+                showToast(error.getErrorMessage());
+            }
+        }, new File(facePath), mUserId, inputPhone.getText());
+    }
+
+    private void uploadFacePhoto() {
+        AccountProvider.uploadFacePhoto(this, facePath, new OnJsonCallBack<UploadFileResponse>() {
+            @Override
+            public void onResult(UploadFileResponse data) {
+                if (data != null && !StringUtil.isEmpty(data.getId())) {
+                    facePathId = data.getId();
+                    commitUserDec();
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                onDismissLoading();
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                onDismissLoading();
+                showToast(msg);
+            }
+        });
+    }
+
+
+    private void uploadIdCard() {
+        AccountProvider.uploadIdCardImage(this, idCardPath,
+                new OnJsonCallBack<UploadFileResponse>() {
+                    @Override
+                    public void onResult(UploadFileResponse data) {
+                        if (data != null && !StringUtil.isEmpty(data.getId())) {
+                            idCardPath = data.getId();
+                            uploadFacePhoto();
+                        } else {
+                            onDismissLoading();
+                            showToast("上传图像失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        onDismissLoading();
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        onDismissLoading();
+                        showToast(msg);
+                    }
+                });
     }
 
     private void selectImage() {
@@ -370,7 +476,7 @@ public class ImproveInformationActivity extends BaseActivity {
         Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.CAMERA).build(), new AcpListener() {
             @Override
             public void onGranted() {
-                jumpToForResult(FaceDetectActivity.class , REQUEST_CODE_DETECT_FACE);
+                jumpToForResult(FaceDetectActivity.class, REQUEST_CODE_DETECT_FACE);
             }
 
             @Override
@@ -393,13 +499,13 @@ public class ImproveInformationActivity extends BaseActivity {
             if (mHeadBmp != null) {
                 ivFaceAuth.setImageBitmap(mHeadBmp);
             }
-        } else if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK){
+        } else if (requestCode == REQUEST_SELECT_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
-                ArrayList<String> images =
-                        data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
-                idCardPath = images.get(0);
+                ArrayList<String> images = data.getStringArrayListExtra(
+                        ImageSelector.SELECT_RESULT);
                 if (AdapterUtil.isListNotEmpty(images)) {
-                    Glide.with(this).load(Uri.fromFile(new File(idCardPath))).into(ivIdCard);
+                    idCardPath = images.get(0);
+                    Glide.with(this).load(Uri.fromFile(new File(idCardPath))).centerCrop().into(ivIdCard);
                 }
             }
         }
@@ -412,7 +518,7 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
 
-    private void compressImage(String path , boolean isIdCard){
+    private void compressImage(String path, boolean isIdCard) {
         Luban.with(this).load(path)
                 .ignoreBy(100)
                 .setCompressListener(new OnCompressListener() {
@@ -423,9 +529,9 @@ public class ImproveInformationActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(File file) {
-                        if (isIdCard){
+                        if (isIdCard) {
                             idCardPath = file.getPath();
-                            compressImage(facePath , false);
+                            compressImage(facePath, false);
                         } else {
                             facePath = file.getPath();
                             uploadIdCard();
@@ -435,7 +541,7 @@ public class ImproveInformationActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         onDismissLoading();
-                       showToast("上传数据失败");
+                        showToast("上传数据失败");
                     }
                 }).launch();
     }

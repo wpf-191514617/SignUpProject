@@ -1,6 +1,12 @@
-package com.beitone.signup.entity;
+package com.beitone.signup.entity.response;
 
-public class TeamResponse {
+public class EngineeringResponse {
+
+
+    /**
+     * id : id2094666594
+     * name : 门源县浩门水库工程
+     */
 
     private String id;
     private String name;
@@ -24,7 +30,7 @@ public class TeamResponse {
 
     @Override
     public boolean equals(Object o) {
-        TeamResponse that = (TeamResponse) o;
+        EngineeringResponse that = (EngineeringResponse) o;
         return getId().equals(that.getId());
     }
 

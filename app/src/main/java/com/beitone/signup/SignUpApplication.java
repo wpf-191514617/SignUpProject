@@ -13,8 +13,12 @@ import com.beitone.face.Config;
 import com.beitone.face.exception.FaceError;
 import com.beitone.face.model.AccessToken;
 import com.beitone.face.utils.OnResultListener;
+import com.bt.http.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import cn.betatown.mobile.beitonelibrary.base.BaseApplication;
+import okhttp3.OkHttpClient;
 
 public class SignUpApplication extends BaseApplication {
 
@@ -34,6 +38,16 @@ public class SignUpApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initLib();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                //.hostnameVerifier((s, sslSession) -> true)
+                //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+                .connectTimeout(60000L, TimeUnit.MILLISECONDS)
+                .readTimeout(60000L, TimeUnit.MILLISECONDS)
+                .writeTimeout(60000L, TimeUnit.MILLISECONDS)
+                .build();
+        OkHttpUtils.initClient(okHttpClient);
+
         APIService.getInstance().init(this);
         APIService.getInstance().setGroupId(Config.groupID);
         // 用ak，sk获取token, 调用在线api，如：注册、识别等。为了ak、sk安全，建议放您的服务器，

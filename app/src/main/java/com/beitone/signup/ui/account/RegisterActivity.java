@@ -1,5 +1,6 @@
 package com.beitone.signup.ui.account;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -16,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.aip.FaceSDKManager;
+import com.beitone.signup.SignUpApplication;
+import com.beitone.signup.entity.response.SessionResponse;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
@@ -29,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 
 public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etAccount)
@@ -64,6 +68,7 @@ public class RegisterActivity extends BaseActivity {
         ButterKnife.bind(this);
         setTitle("注册");
         initAgreeText();
+        cbCheckAgree.setChecked(true);
         etAccount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -166,7 +171,7 @@ public class RegisterActivity extends BaseActivity {
                 String phone1 = etAccount.getText().toString();
                 String authCode = etAuthCode.getText().toString();
                 String password = etPassword.getText().toString();
-                /*if (!StringUtil.isMobileNO(phone1)) {
+                if (!StringUtil.isMobileNO(phone1)) {
                     showToast("请输入正确的手机号码");
                     return;
                 }
@@ -183,7 +188,7 @@ public class RegisterActivity extends BaseActivity {
                 if (!cbCheckAgree.isChecked()) {
                     showToast("请勾选协议");
                     return;
-                }*/
+                }
 
                 register(phone1, authCode, password);
                 //jumpToThenKill(ImproveInformationActivity.class);
@@ -192,12 +197,20 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void register(String phone1, String authCode, String password) {
-       /* AccountProvider.doRegister(this, phone1, authCode, password, new OnJsonCallBack() {
-            @Override
-            public void onResult(Object data) {*/
-        jumpToThenKill(ImproveInformationActivity.class);
-            /*}
-        });*/
+        AccountProvider.doRegister(this, phone1, authCode, password,
+                new OnJsonCallBack<SessionResponse>() {
+                    @Override
+                    public void onResult(SessionResponse data) {
+                        Trace.d("data---" + data);
+                        if (data != null) {
+                            SignUpApplication.setSession(data.getSessionId());
+                            Bundle bundle = new Bundle();
+                            bundle.putString("phone", phone1);
+                            bundle.putString("userId", data.getId());
+                            jumpToThenKill(ImproveInformationActivity.class, bundle);
+                        }
+                    }
+                });
     }
 
     private void showCheckingDialog() {
