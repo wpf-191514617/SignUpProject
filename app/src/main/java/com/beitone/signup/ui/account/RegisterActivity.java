@@ -237,7 +237,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void sendSMSCode(String token) {
-        AccountProvider.sendSMSCode(this, etAccount.getText().toString(), token,
+        AccountProvider.sendRegisterSMSCode(this, etAccount.getText().toString(), token,
                 new OnJsonCallBack() {
                     @Override
                     public void onResult(Object data) {

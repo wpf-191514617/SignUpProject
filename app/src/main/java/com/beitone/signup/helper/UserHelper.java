@@ -46,10 +46,14 @@ public class UserHelper {
 
 
     public boolean isLogin() {
-        if (getCurrentInfo() != null && StringUtil.isEmpty(SignUpApplication.getSession())) {
+        if (getCurrentInfo() != null && !StringUtil.isEmpty(SignUpApplication.getSession())) {
             return true;
         }
         return false;
     }
+
+
+
+
 
 }

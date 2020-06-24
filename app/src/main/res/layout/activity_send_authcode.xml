@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -91,14 +92,17 @@
                 android:layout_height="@dimen/dimen_13dp"
                 android:background="#DEDEDE"/>
 
-            <TextView
+            <com.beitone.signup.widget.CountDownButton
                 android:id="@+id/tvSendAuthCode"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_9dp"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimen_12dp"
+                android:paddingRight="@dimen/dimen_12dp"
                 android:text="获取验证码"
-                android:textColor="#ff6161f7"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/sp_12"
+                app:load_text_color="@color/gray99"
+                app:start_text_color="@color/colorAccent" />
 
 
         </LinearLayout>

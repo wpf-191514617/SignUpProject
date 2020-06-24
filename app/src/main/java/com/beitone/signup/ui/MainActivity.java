@@ -4,6 +4,8 @@ import android.widget.FrameLayout;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.entity.response.UserInfoResponse;
+import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.ui.home.HomeFragment;
 import com.beitone.signup.ui.home.MineFragment;
 import com.beitone.signup.ui.home.StatisticsFragment;
@@ -36,9 +38,15 @@ public class MainActivity extends BaseActivity {
         mainTab.addTab(HomeFragment.class,
                 new MainNavigateTabBar.TabParam(R.drawable.tab_home_nor,
                         R.drawable.tab_home_sel, "首页"));
-        mainTab.addTab(WorkFragment.class,
-                new MainNavigateTabBar.TabParam(R.drawable.tab_work_nor,
-                        R.drawable.tab_work_sel, "工作"));
+        UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
+        switch (infoResponse.getType()){
+            case "3":
+            case "4":
+                mainTab.addTab(WorkFragment.class,
+                        new MainNavigateTabBar.TabParam(R.drawable.tab_work_nor,
+                                R.drawable.tab_work_sel, "工作"));
+                break;
+        }
         mainTab.addTab(StatisticsFragment.class,
                 new MainNavigateTabBar.TabParam(R.drawable.tab_statistics_nor,
                         R.drawable.tab_statistics_sel, "统计"));

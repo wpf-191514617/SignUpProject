@@ -5,6 +5,7 @@ public class UserInfoResponse {
 
     /**
      * phone : 15529000515
+     * today_sign_num : 0
      * head_photo : null
      * b_project_name : 引江济淮9-2标
      * face_photo : /upload/2020-06-23/fbacf084-ac2e-4551-99d7-0cf2b49c7f2f.jpeg
@@ -24,6 +25,7 @@ public class UserInfoResponse {
      */
 
     private String phone;
+    private int today_sign_num;
     private String head_photo;
     private String b_project_name;
     private String face_photo;
@@ -47,6 +49,14 @@ public class UserInfoResponse {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getToday_sign_num() {
+        return today_sign_num;
+    }
+
+    public void setToday_sign_num(int today_sign_num) {
+        this.today_sign_num = today_sign_num;
     }
 
     public String getHead_photo() {

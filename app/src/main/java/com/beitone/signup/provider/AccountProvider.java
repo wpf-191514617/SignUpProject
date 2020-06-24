@@ -16,7 +16,18 @@ import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
 
 public class AccountProvider extends BaseProvider {
 
-    public static void sendSMSCode(Context context, String phone, String token,
+    public static void sendFindPasswordSMSCode(Context context, String phone, String token,
+                                           OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("token", token);
+        map.put("type", "findpwd");
+        post(context, "/worker/doSendPhoneCodeFindPwd.htm", map, onJsonCallBack);
+    }
+
+
+
+    public static void sendRegisterSMSCode(Context context, String phone, String token,
                                    OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = new HashMap<>();
         map.put("phone", phone);
@@ -66,5 +77,23 @@ public class AccountProvider extends BaseProvider {
         post(context, "/worker/doLoginOn.htm", map, onJsonCallBack);
     }
 
+
+
+    public static void doFindPwd1(Context context, String phone, String phone_code,
+                               OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("phone_code", phone_code);
+        post(context, "/worker/doFindPwd1.htm", map, onJsonCallBack);
+    }
+
+
+    public static void doFindPwd2(Context context, String phone, String password,
+                                  OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("password", password);
+        post(context, "/worker/doFindPwd2.htm", map, onJsonCallBack);
+    }
 
 }
