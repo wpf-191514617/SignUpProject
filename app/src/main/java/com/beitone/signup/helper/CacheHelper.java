@@ -8,9 +8,6 @@ public class CacheHelper {
 
     private static CacheHelper mHelper;
 
-    private final String KEY_TOKEN = "USER.TOKEN";
-    private final String KEY_UID = "USER.ID";
-
     private boolean isBackGround = true;
 
     private boolean isLogout = false;

@@ -32,6 +32,11 @@ android {
             keyPassword '000000'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
