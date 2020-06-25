@@ -38,6 +38,8 @@ public class SignUpApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initLib();
+        String sign = "cf:91:e0:79:7e:91:d0:8c:db:8b:31:b7:a4:fe:84:35";
+        sign = sign.toUpperCase();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.hostnameVerifier((s, sslSession) -> true)
