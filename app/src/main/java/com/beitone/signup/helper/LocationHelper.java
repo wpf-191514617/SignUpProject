@@ -14,6 +14,8 @@ public class LocationHelper {
 
     private double mLatitude ,mLongitude;
 
+    private String address;
+
     private LocationHelper(){
         //首先创建LocationClient实例
         mLocationClient=new LocationClient(SignUpApplication.getContext());
@@ -59,6 +61,10 @@ public class LocationHelper {
         mLocationClient.start();
     }
 
+    public String getAddress(){
+        return address;
+    }
+
     public void stopLocation(){
         if (mLocationClient != null && mLocationClient.isStarted()){
             mLocationClient.stop();
@@ -73,6 +79,7 @@ public class LocationHelper {
             if (bdLocation != null){
                 mLatitude = bdLocation.getLatitude();
                 mLongitude = bdLocation.getLongitude();
+                address = bdLocation.getAddrStr();
             }
         }
     }

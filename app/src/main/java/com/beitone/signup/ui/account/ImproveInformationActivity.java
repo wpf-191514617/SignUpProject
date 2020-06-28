@@ -21,8 +21,12 @@ import com.beitone.signup.entity.response.EngineeringResponse;
 import com.beitone.signup.entity.response.TeamResponse;
 import com.beitone.signup.entity.response.UploadFileResponse;
 import com.beitone.signup.entity.response.WorkTypeResponse;
+import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.view.SingleSelectDialog;
 import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.InputLayout;
@@ -87,6 +91,7 @@ public class ImproveInformationActivity extends BaseActivity {
     private String phone;
     private static final int REQUEST_SELECT_IMAGE = 1001;
 
+    private boolean isImprove;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -98,6 +103,7 @@ public class ImproveInformationActivity extends BaseActivity {
         super.getBundleExtras(extras);
         mUserId = extras.getString("userId");
         phone = extras.getString("phone");
+        isImprove = extras.getBoolean("isImprove" , false);
     }
 
     @Override
@@ -379,6 +385,10 @@ public class ImproveInformationActivity extends BaseActivity {
             @Override
             public void onResult(Object result) {
                 Trace.d("data---" + result);
+                if (isImprove){
+                    UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
+                    return;
+                }
                 onDismissLoading();
                 showToast("操作成功");
                 finish();
@@ -390,6 +400,30 @@ public class ImproveInformationActivity extends BaseActivity {
                 showToast(error.getErrorMessage());
             }
         }, new File(facePath), mUserId, inputPhone.getText());
+    }
+
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        switch (eventData.CODE){
+            case EventCode
+                    .CODE_USERINFO_SUCCESS:
+                onDismissLoading();
+                showToast("操作成功");
+                jumpToThenKill(MainActivity.class);
+                break;
+            case EventCode.CODE_USERINFO_FAILED:
+                onDismissLoading();
+                showToast((String) eventData.data);
+                break;
+        }
     }
 
     private void uploadFacePhoto() {
@@ -461,8 +495,6 @@ public class ImproveInformationActivity extends BaseActivity {
                                 .setSingle(true)  //设置是否单选
                                 .canPreview(true) //是否可以预览图片，默认为true
                                 .start(ImproveInformationActivity.this, REQUEST_SELECT_IMAGE); //
-                        // 打开相册
-
                     }
 
                     @Override

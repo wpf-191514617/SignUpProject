@@ -11,11 +11,8 @@ import com.beitone.signup.ui.home.MineFragment;
 import com.beitone.signup.ui.home.StatisticsFragment;
 import com.beitone.signup.ui.home.WorkFragment;
 
-import java.util.UUID;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.betatown.mobile.beitonelibrary.util.Trace;
 import cn.betatown.mobile.beitonelibrary.widget.MainNavigateTabBar;
 
 public class MainActivity extends BaseActivity {
@@ -39,7 +36,7 @@ public class MainActivity extends BaseActivity {
                 new MainNavigateTabBar.TabParam(R.drawable.tab_home_nor,
                         R.drawable.tab_home_sel, "首页"));
         UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
-        switch (infoResponse.getType()){
+        switch (infoResponse.getType()) {
             case "3":
             case "4":
                 mainTab.addTab(WorkFragment.class,
@@ -47,9 +44,11 @@ public class MainActivity extends BaseActivity {
                                 R.drawable.tab_work_sel, "工作"));
                 break;
         }
-        mainTab.addTab(StatisticsFragment.class,
-                new MainNavigateTabBar.TabParam(R.drawable.tab_statistics_nor,
-                        R.drawable.tab_statistics_sel, "统计"));
+        if (!infoResponse.getType().equals("4")) {
+            mainTab.addTab(StatisticsFragment.class,
+                    new MainNavigateTabBar.TabParam(R.drawable.tab_statistics_nor,
+                            R.drawable.tab_statistics_sel, "统计"));
+        }
         mainTab.addTab(MineFragment.class,
                 new MainNavigateTabBar.TabParam(R.drawable.tab_mine_nor,
                         R.drawable.tab_mine_sel, "我的"));

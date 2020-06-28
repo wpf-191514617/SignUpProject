@@ -1,37 +1,30 @@
 package com.beitone.signup.ui.account;
 
-import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.beitone.signup.R;
 import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.SessionResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
-import com.beitone.signup.helper.LocationHelper;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.widget.AppButton;
-import com.donkingliang.imageselector.utils.ImageSelector;
-
-import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
-import cn.betatown.mobile.beitonelibrary.permission.Acp;
-import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
-import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
-import cn.betatown.mobile.beitonelibrary.util.Trace;
 
 public class LoginActivity extends BaseActivity {
 
@@ -49,6 +42,8 @@ public class LoginActivity extends BaseActivity {
     TextView tvRegister;
     @BindView(R.id.tvForgetPassword)
     TextView tvForgetPassword;
+
+    private final int REQUEST_IMPROVE = 89;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -130,6 +125,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResult(UserInfoResponse data) {
                 if (data != null) {
+                    if (!data.getRegist_step().equals("2")){
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("isImprove" , true);
+                        bundle.putString("phone", data.getPhone());
+                        bundle.putString("userId", data.getId());
+                        jumpToThenKill(ImproveInformationActivity.class ,bundle);
+                        return;
+                    }
                     UserHelper.getInstance().saveCurrentUserInfo(data);
                     jumpToThenKill(MainActivity.class);
                 }

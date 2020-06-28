@@ -1,7 +1,10 @@
 package com.beitone.signup.ui.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -14,7 +17,13 @@ import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.model.WorkApp;
+import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.ui.account.FaceDetectActivity;
+import com.beitone.signup.ui.account.FaceSignActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -29,8 +39,10 @@ import butterknife.OnClick;
 import cn.betatown.mobile.beitonelibrary.adapter.listener.OnRecyclerItemClickListener;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseRecyclerAdapter;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelper;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.DateStyle;
 import cn.betatown.mobile.beitonelibrary.util.DateUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 
 public class WorkFragment extends BaseFragment {
 
@@ -51,13 +63,11 @@ public class WorkFragment extends BaseFragment {
     @BindView(R.id.layoutSignUp)
     LinearLayout layoutSignUp;
 
-    private int[] mTaskDrawable = {R.drawable.ic_work_1, R.drawable.ic_work_2,
-            R.drawable.ic_work_3, R.drawable.ic_work_4,
-            R.drawable.ic_work_1, R.drawable.ic_work_6, R.drawable.ic_work_3, R.drawable.ic_work_4};
-
     private WorkListAdapter mWorkListAdapter;
 
     private UserInfoResponse mUserInfoResponse;
+
+    private final int REQUEST_SIGN = 99;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -131,7 +141,44 @@ public class WorkFragment extends BaseFragment {
         if (mUserInfoResponse.getToday_sign_num() > 0){
             return;
         }
-        
+        checkLocation();
+    }
+
+    private void checkLocation() {
+        AppProvider.checkIsInSignRegion(getActivity(), new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                jumpToForResult(FaceSignActivity.class ,REQUEST_SIGN);
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+        });
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        switch (eventData.CODE){
+            case EventCode
+                    .CODE_USERINFO_SUCCESS:
+                refreshData();
+                break;
+        }
     }
 
     class WorkListAdapter extends BaseRecyclerAdapter<WorkApp> {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grayf5"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_16dp"
+        android:paddingRight="@dimen/dimen_16dp">
+
+
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputSelect="true"
+            app:inputLable="手机认证"
+            app:inputGravity="right"
+            />
+        <include layout="@layout/line"/>
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputSelect="true"
+            app:inputLable="登录密码"
+            app:inputGravity="right"
+            />
+        <include layout="@layout/line"/>
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputAboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputSelect="true"
+            app:inputLable="关于我们"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:background="@color/white"
+        android:text="安全退出"
+        android:textColor="#fffd4541"
+        android:textSize="14sp"/>
+
+</LinearLayout>

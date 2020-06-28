@@ -82,10 +82,25 @@
         <activity
             android:name=".ui.account.FaceDetectActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.account.FaceSignActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.setting.SettingActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.setting.UpdatePasswordActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.setting.AboutUsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.setting.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+
 
         <activity
             android:name="com.donkingliang.imageselector.ImageSelectorActivity"

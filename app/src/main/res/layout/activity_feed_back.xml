@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_16dp"
+        android:paddingRight="@dimen/dimen_16dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="反馈内容"
+            android:textColor="#ff212121"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/dimen_22dp"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/bg_gray_radius"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:paddingTop="@dimen/dimen_15dp"
+            android:paddingLeft="@dimen/dimen_13dp"
+            android:paddingRight="@dimen/dimen_13dp"
+            android:paddingBottom="@dimen/dimen_10dp"
+            android:textColor="@color/gray33"
+            android:textColorHint="@color/gray99"
+            android:hint="请输入您的建议或意见..."
+            android:gravity="top|left"
+            android:lineSpacingExtra="@dimen/dimen_3dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+    <com.beitone.signup.widget.AppButton
+        android:id="@+id/btnCommitFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50dp"
+        app:btnText="提交"
+        android:layout_marginBottom="@dimen/dimen_30dp"
+        android:layout_marginLeft="@dimen/dimen_18dp"
+        android:layout_marginRight="@dimen/dimen_18dp"/>
+
+</LinearLayout>

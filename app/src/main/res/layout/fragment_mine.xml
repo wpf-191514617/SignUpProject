@@ -92,6 +92,7 @@
         android:orientation="vertical"
         android:layout_marginTop="-60dp">
 
+
         <LinearLayout
             android:id="@+id/layoutSign"
             android:layout_width="match_parent"
@@ -121,7 +122,9 @@
 
         </LinearLayout>
 
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/lineSign"
+            layout="@layout/line"/>
 
         <LinearLayout
             android:id="@+id/layoutChangeWorkPoint"
@@ -152,7 +155,9 @@
 
         </LinearLayout>
 
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/lineChangeWorkPoint"
+            layout="@layout/line"/>
 
         <LinearLayout
             android:id="@+id/layoutFeedback"

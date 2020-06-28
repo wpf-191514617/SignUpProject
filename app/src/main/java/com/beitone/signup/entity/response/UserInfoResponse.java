@@ -32,6 +32,7 @@ public class UserInfoResponse {
     private String regist_step;
     private String job;
     private String card_num;
+    private String id;
     private String type;
     private String b_project_team_name;
     private String card_photo;
@@ -42,6 +43,14 @@ public class UserInfoResponse {
     private String type_name;
     private String type_of_work_name;
     private String study_rate;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPhone() {
         return phone;

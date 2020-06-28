@@ -11,6 +11,7 @@
 
 
     <LinearLayout
+        android:id="@+id/layoutPersonStatistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_20dp"
@@ -19,6 +20,7 @@
         android:background="@drawable/bg_white_radius"
         android:paddingLeft="@dimen/dimen_13dp"
         android:gravity="center_vertical"
+        android:visibility="invisible"
         android:orientation="horizontal">
 
 
@@ -100,12 +102,14 @@
 
 
     <LinearLayout
+        android:id="@+id/layoutProjectStatistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_15dp"
         android:layout_marginLeft="@dimen/dimen_16dp"
         android:layout_marginRight="@dimen/dimen_16dp"
         android:background="@drawable/bg_white_radius"
+        android:visibility="invisible"
         android:paddingLeft="@dimen/dimen_13dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">

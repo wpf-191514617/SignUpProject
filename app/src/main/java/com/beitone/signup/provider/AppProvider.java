@@ -2,6 +2,8 @@ package com.beitone.signup.provider;
 
 import android.content.Context;
 
+import com.beitone.signup.helper.LocationHelper;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +54,23 @@ public class AppProvider extends BaseProvider {
         map.put("type", type);
         map.put("page", String.valueOf(page));
         post(context, "/article/getMoreArticle.htm", map, onJsonCallBack);
+    }
+
+
+    public static void checkIsInSignRegion(Context context , OnJsonCallBack onJsonCallBack){
+        Map<String, String> map = new HashMap<>();
+        map.put("lng", String.valueOf(LocationHelper.getInstance().getLongitude()));
+        map.put("lat", String.valueOf(LocationHelper.getInstance().getLatitude()));
+        post(context, "/sign/checkIsInSignRegion.htm", map, onJsonCallBack);
+    }
+
+    public static void loadStatisticsAppIndexData(Context context , OnJsonCallBack onJsonCallBack){
+        post(context, "/project/getTjIndexData.htm", onJsonCallBack);
+    }
+
+
+    public static void loadAboutUs(Context context , OnJsonCallBack onJsonCallBack){
+        post(context, "/version/getAboutUs.htm", onJsonCallBack);
     }
 
 }

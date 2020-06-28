@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
@@ -76,6 +77,9 @@ public class FaceDetectActivity extends BaseActivity {
     // 开始人脸检测
     private boolean mBeginDetect = false;
 
+    private boolean isSignUp = false;
+
+
     @Override
     protected int getContentViewLayoutId() {
         return R.layout.activity_login_detected;
@@ -91,6 +95,11 @@ public class FaceDetectActivity extends BaseActivity {
         mHandler.sendEmptyMessageDelayed(MSG_BEGIN_DETECT, 500);
     }
 
+    @Override
+    protected void getBundleExtras(Bundle extras) {
+        super.getBundleExtras(extras);
+        isSignUp = extras.getBoolean("isSignUp",false);
+    }
 
     private void initScreen() {
         WindowManager manager = getWindowManager();
@@ -260,8 +269,7 @@ public class FaceDetectActivity extends BaseActivity {
                     mGoodDetect = false;
                     if (!mSavedBmp && mBeginDetect) {
                         if (saveFaceBmp(trackedModel)) {
-                            setResult(RESULT_OK);
-                            finish();
+                            onFaceAuthSuccess(trackedModel);
                         }
                     }
                 }
@@ -338,6 +346,18 @@ public class FaceDetectActivity extends BaseActivity {
         init();
     }
 
+    protected void onFaceAuthSuccess(FaceFilter.TrackedModel trackedModel) {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    /**
+     *  签到
+     * @param mConf
+     */
+    private void signApp(float mConf) {
+
+    }
 
 
     private void initWaveview(Rect rect) {

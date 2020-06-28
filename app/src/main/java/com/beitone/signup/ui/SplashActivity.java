@@ -8,6 +8,8 @@ import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.LocationHelper;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.account.LoginActivity;
 
@@ -68,26 +70,27 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void refreshUserInfo() {
-        UserProvider.loadUserInfo(this, new OnJsonCallBack<UserInfoResponse>() {
-            @Override
-            public void onResult(UserInfoResponse data) {
-                if (data != null) {
-                    UserHelper.getInstance().saveCurrentUserInfo(data);
-                    jumpToThenKill(MainActivity.class);
-                }
-            }
+        UserHelper.getInstance().refreshUserInfo(this);
+    }
 
-            @Override
-            public void onFailed(String msg) {
-                super.onFailed(msg);
-                showToast(msg);
-            }
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
 
-            @Override
-            public void onError(String msg) {
-                super.onError(msg);
-                showToast(msg);
-            }
-        });
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        switch (eventData.CODE){
+            case EventCode
+                    .CODE_USERINFO_SUCCESS:
+                jumpToThenKill(MainActivity.class);
+                break;
+            case EventCode.CODE_USERINFO_FAILED:
+                showToast((String) eventData.data);
+                UserHelper.getInstance().saveCurrentUserInfo(null);
+                jumpToThenKill(LoginActivity.class);
+                break;
+        }
     }
 }
