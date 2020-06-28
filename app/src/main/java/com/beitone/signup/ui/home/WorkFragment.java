@@ -92,7 +92,6 @@ public class WorkFragment extends BaseFragment {
             }
         });
         refreshData();
-
     }
 
 
@@ -113,7 +112,7 @@ public class WorkFragment extends BaseFragment {
         List<WorkApp> appList = new ArrayList<>();
         appList.add(new WorkApp("4" , R.drawable.ic_work_1 , "我的考勤"));
         if (mUserInfoResponse.getType().equals("3")){
-            appList.add(new WorkApp("3" , R.drawable.ic_work_2 , "工资上传"));
+        appList.add(new WorkApp("3" , R.drawable.ic_work_2 , "工资上传"));
         }
         mWorkListAdapter.setData(appList);
     }

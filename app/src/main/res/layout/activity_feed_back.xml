@@ -9,10 +9,17 @@
 
     <include layout="@layout/toolbar"/>
 
-    <LinearLayout
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:scrollbars="none">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dimen_16dp"
         android:paddingRight="@dimen/dimen_16dp">
@@ -29,6 +36,7 @@
 
 
         <EditText
+            android:id="@+id/etFeedBackContent"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@drawable/bg_gray_radius"
@@ -45,9 +53,30 @@
             />
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加图片"
+            android:textColor="#ff212121"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/dimen_25dp"
+            android:layout_marginBottom="@dimen/dimen_18dp"/>
+
+        <cn.betatown.mobile.beitonelibrary.widget.SelectImageLayout
+            android:id="@+id/selImageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:colCount="3"
+            app:maxSelectCount="9"
+            app:spacing="@dimen/dimen_13dp" />
+
 
     </LinearLayout>
 
+
+    </androidx.core.widget.NestedScrollView>
 
 
     <com.beitone.signup.widget.AppButton
@@ -56,6 +85,7 @@
         android:layout_height="@dimen/dimen_50dp"
         app:btnText="提交"
         android:layout_marginBottom="@dimen/dimen_30dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:layout_marginLeft="@dimen/dimen_18dp"
         android:layout_marginRight="@dimen/dimen_18dp"/>
 

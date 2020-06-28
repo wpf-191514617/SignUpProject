@@ -11,6 +11,14 @@
 
 
     <LinearLayout
+        android:id="@+id/layoutStatisticsContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+    <LinearLayout
         android:id="@+id/layoutPersonStatistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,8 +27,8 @@
         android:layout_marginRight="@dimen/dimen_16dp"
         android:background="@drawable/bg_white_radius"
         android:paddingLeft="@dimen/dimen_13dp"
-        android:gravity="center_vertical"
         android:visibility="invisible"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
 
@@ -47,6 +55,7 @@
                android:orientation="horizontal">
 
                <TextView
+                   android:id="@+id/tvUserName"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="艾富强"
@@ -55,6 +64,7 @@
                    />
 
                <TextView
+                   android:id="@+id/tvUserWorkType"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="钢筋工"
@@ -65,6 +75,7 @@
 
 
             <TextView
+                android:id="@+id/tvProjectName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="某某工地某公司施工项目"
@@ -154,6 +165,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_next_black"
             android:layout_marginRight="@dimen/dimen_20dp"/>
+
+
+    </LinearLayout>
 
 
     </LinearLayout>

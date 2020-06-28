@@ -39,6 +39,7 @@ public class UserHelper {
 
     public void logOut() {
         SignUpApplication.setSession("");
+        CacheHelper.getInstance().clear();
     }
 
 

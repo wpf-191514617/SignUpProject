@@ -6,6 +6,12 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
+import com.beitone.signup.entity.response.UserInfoResponse;
+import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
+import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.ui.setting.FeedbackActivity;
 import com.beitone.signup.ui.setting.SettingActivity;
 
@@ -28,7 +34,7 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.layoutSetting)
     LinearLayout layoutSetting;
 
-    private View lineSign , lineChangeWorkPoint;
+    private View lineSign, lineChangeWorkPoint;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -39,6 +45,23 @@ public class MineFragment extends BaseFragment {
     protected void initViewAndData() {
         lineSign = getView().findViewById(R.id.lineSign);
         lineChangeWorkPoint = getView().findViewById(R.id.lineChangeWorkPoint);
+        refreshUserData();
+    }
+
+    private void refreshUserData() {
+        UserInfoResponse userInfoResponse = UserHelper.getInstance().getCurrentInfo();
+        setText(tvUserNickName, userInfoResponse.getName());
+        setText(tvUserTeam,
+                userInfoResponse.getB_project_name() + " - " + userInfoResponse.getB_project_team_name());
+        switch (userInfoResponse.getType()){
+            case "1":
+            case "2":
+                layoutSign.setVisibility(View.GONE);
+                layoutChangeWorkPoint.setVisibility(View.GONE);
+                lineSign.setVisibility(View.GONE);
+                lineChangeWorkPoint.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @OnClick({R.id.layoutSign, R.id.layoutChangeWorkPoint, R.id.layoutFeedback, R.id.layoutSetting})
@@ -55,5 +78,26 @@ public class MineFragment extends BaseFragment {
                 jumpTo(SettingActivity.class);
                 break;
         }
+    }
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        switch (eventData.CODE) {
+            case EventCode
+                    .CODE_USERINFO_SUCCESS:
+                refreshUserData();
+                break;
+            case EventCode.CODE_USERINFO_FAILED:
+                showToast((String) eventData.data);
+                UserHelper.getInstance().saveCurrentUserInfo(null);
+                jumpToThenKill(LoginActivity.class);
+                break;
+        }
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
     }
 }

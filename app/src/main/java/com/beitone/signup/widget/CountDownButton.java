@@ -121,7 +121,8 @@ public class CountDownButton extends AppCompatTextView implements Handler.Callba
                     setClickable(true);
                     totalTime = firstTime;
                     setText(endText);
-                    setBackgroundResource(startBack);
+                    if (startBack != -1)
+                        setBackgroundResource(startBack);
                     mHandler.sendEmptyMessage(2);
                 } else {
                     setText(totalTime + "s后重新发送");
@@ -137,7 +138,8 @@ public class CountDownButton extends AppCompatTextView implements Handler.Callba
                 firstTime = totalTime;
                 setText(startText);
                 setTextColor(startColor);
-                setBackgroundResource(startBack);
+                if (startBack != -1)
+                    setBackgroundResource(startBack);
                 break;
         }
         return false;

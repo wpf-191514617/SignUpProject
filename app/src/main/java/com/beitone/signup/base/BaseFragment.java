@@ -96,7 +96,8 @@ public abstract class BaseFragment extends BToneFragment implements BaseView, Cu
 
     @Override
     public void showNormal() {
-        switchView(BaseApplication.getContext().getString(R.string.empty), R.drawable.bg_empty, v -> onClickReload());
+        switchView(BaseApplication.getContext().getString(R.string.empty), R.drawable.bg_empty,
+                v -> onClickReload());
     }
 
     @Override
@@ -119,7 +120,8 @@ public abstract class BaseFragment extends BToneFragment implements BaseView, Cu
         if (TextUtils.isEmpty(value)) {
             value = "";
         }
-        tv.setText(value);
+        if (tv != null)
+            tv.setText(value);
     }
 
 

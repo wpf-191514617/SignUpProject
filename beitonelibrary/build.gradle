@@ -41,4 +41,6 @@ dependencies {
     api project(':httplibrary')
     api 'de.hdodenhof:circleimageview:2.2.0'//圆形ImageView
     api 'top.zibin:Luban:1.1.8'
+    /** UI 适配*/
+    api 'me.jessyan:autosize:1.1.2'
 }

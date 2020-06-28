@@ -2,5 +2,6 @@
 <resources>
     <color name="tab_text_normal">#666666</color>
     <color name="color_00000050">#70000000</color>
+    <color name="grayf5">#F5F5F5</color>
 
 </resources>

@@ -18,6 +18,7 @@ import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.request.ImproveInforRequest;
 import com.beitone.signup.entity.response.EngineeringResponse;
+import com.beitone.signup.entity.response.FaceAuthResponse;
 import com.beitone.signup.entity.response.TeamResponse;
 import com.beitone.signup.entity.response.UploadFileResponse;
 import com.beitone.signup.entity.response.WorkTypeResponse;
@@ -103,7 +104,7 @@ public class ImproveInformationActivity extends BaseActivity {
         super.getBundleExtras(extras);
         mUserId = extras.getString("userId");
         phone = extras.getString("phone");
-        isImprove = extras.getBoolean("isImprove" , false);
+        isImprove = extras.getBoolean("isImprove", false);
     }
 
     @Override
@@ -354,7 +355,8 @@ public class ImproveInformationActivity extends BaseActivity {
         request.card_num = inputIDCard.getText();
         request.b_project_id = mCurrentEngineering.getId();
         request.b_project_team_id = mCurrentTeamResponse.getId();
-        request.type_of_work = mCurrentWorkTypeResponse.getMname();
+        //request.type_of_work = mCurrentWorkTypeResponse.get
+        request.type_of_work = mCurrentWorkTypeResponse.getValue();
         request.card_photo_fileid = idCardPath;
         request.face_photo_fileid = facePathId;
         AccountProvider.doImproveInfo(this, request, new OnJsonCallBack() {
@@ -381,11 +383,15 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
     private void registerUserToBaidu() {
-        APIService.getInstance().reg(new OnResultListener() {
+        APIService.getInstance().reg(new OnResultListener<FaceAuthResponse>() {
             @Override
-            public void onResult(Object result) {
-                Trace.d("data---" + result);
-                if (isImprove){
+            public void onResult(FaceAuthResponse result) {
+                if (result.getError_code() != 0) {
+                    onDismissLoading();
+                    showToast(result.getError_msg());
+                    return;
+                }
+                if (isImprove) {
                     UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
                     return;
                 }
@@ -412,7 +418,7 @@ public class ImproveInformationActivity extends BaseActivity {
     @Override
     protected void onEventComming(EventData eventData) {
         super.onEventComming(eventData);
-        switch (eventData.CODE){
+        switch (eventData.CODE) {
             case EventCode
                     .CODE_USERINFO_SUCCESS:
                 onDismissLoading();
@@ -537,7 +543,7 @@ public class ImproveInformationActivity extends BaseActivity {
                         ImageSelector.SELECT_RESULT);
                 if (AdapterUtil.isListNotEmpty(images)) {
                     idCardPath = images.get(0);
-                    Glide.with(this).load(Uri.fromFile(new File(idCardPath))).centerCrop().into(ivIdCard);
+                    Glide.with(this).load(idCardPath).centerCrop().into(ivIdCard);
                 }
             }
         }

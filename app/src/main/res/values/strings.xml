@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SignUpProject</string>
+    <string name="app_name">工益信</string>
     <string name="loading">加载中...</string>
     <string name="empty">暂无数据</string>
     <string name="register_login">已有账号，立即登录</string>

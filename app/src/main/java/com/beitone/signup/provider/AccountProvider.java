@@ -13,11 +13,12 @@ import java.util.Map;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class AccountProvider extends BaseProvider {
 
     public static void sendFindPasswordSMSCode(Context context, String phone, String token,
-                                           OnJsonCallBack onJsonCallBack) {
+                                               OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = new HashMap<>();
         map.put("phone", phone);
         map.put("token", token);
@@ -26,9 +27,8 @@ public class AccountProvider extends BaseProvider {
     }
 
 
-
     public static void sendRegisterSMSCode(Context context, String phone, String token,
-                                   OnJsonCallBack onJsonCallBack) {
+                                           OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = new HashMap<>();
         map.put("phone", phone);
         map.put("token", token);
@@ -47,6 +47,14 @@ public class AccountProvider extends BaseProvider {
     }
 
 
+    public static void uploadFeedBackImage(Context context, File file,
+                                           OnJsonCallBack onJsonCallBack) {
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        AppProvider.uploadImage(context, files, "b_feedback", "附件图片", onJsonCallBack);
+    }
+
+
     public static void uploadIdCardImage(Context context, String file,
                                          OnJsonCallBack onJsonCallBack) {
         List<File> files = new ArrayList<>();
@@ -55,7 +63,7 @@ public class AccountProvider extends BaseProvider {
     }
 
     public static void uploadFacePhoto(Context context, String file,
-                                         OnJsonCallBack onJsonCallBack) {
+                                       OnJsonCallBack onJsonCallBack) {
         List<File> files = new ArrayList<>();
         files.add(new File(file));
         AppProvider.uploadImage(context, files, "b_worker", "face_photo", onJsonCallBack);
@@ -63,7 +71,7 @@ public class AccountProvider extends BaseProvider {
 
 
     public static void doImproveInfo(Context context, ImproveInforRequest request,
-                                     OnJsonCallBack onJsonCallBack){
+                                     OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = GsonUtil.GsonToMaps(GsonUtil.GsonString(request));
         post(context, "/worker/doRegist2.htm", map, onJsonCallBack);
     }
@@ -78,9 +86,8 @@ public class AccountProvider extends BaseProvider {
     }
 
 
-
     public static void doFindPwd1(Context context, String phone, String phone_code,
-                               OnJsonCallBack onJsonCallBack) {
+                                  OnJsonCallBack onJsonCallBack) {
         Map<String, String> map = new HashMap<>();
         map.put("phone", phone);
         map.put("phone_code", phone_code);
@@ -95,5 +102,39 @@ public class AccountProvider extends BaseProvider {
         map.put("password", password);
         post(context, "/worker/doFindPwd2.htm", map, onJsonCallBack);
     }
+
+
+    public static void onFeedBack(Context context, String content, String file_ids,
+                                  OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("content", content);
+        if (!StringUtil.isEmpty(file_ids)) {
+            map.put("file_ids", file_ids);
+        }
+        post(context, "/feedback/doSave.htm", map, onJsonCallBack);
+    }
+
+
+    public static void doSendPhoneCodeResetPwd(Context context, OnJsonCallBack onJsonCallBack) {
+        post(context, "/worker/doSendPhoneCodeResetPwd.htm", onJsonCallBack);
+    }
+
+
+    public static void checkResetPwdCode(Context context, String code,
+                                         OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        post(context, "/worker/checkResetPwdCode.htm", map, onJsonCallBack);
+    }
+
+
+    public static void doResetPwd(Context context, String password, String confirmPwd,
+                                  OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("password", password);
+        map.put("confirmPwd", confirmPwd);
+        post(context, "/worker/doResetPwd.htm", map, onJsonCallBack);
+    }
+
 
 }

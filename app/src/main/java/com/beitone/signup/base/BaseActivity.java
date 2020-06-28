@@ -124,7 +124,7 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
     @Override
     public void setContentView(int layoutResId) {
         super.setContentView(layoutResId);
-        try{
+        try {
             mToolbar = findViewById(R.id.common_toolbar);
             if (null != mToolbar) {
                 setSupportActionBar(mToolbar);
@@ -134,7 +134,7 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
                 mToolbar.setNavigationIcon(R.drawable.ic_back);
                 tvTilte = (TextView) findViewById(R.id.tvTitle);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -229,21 +229,22 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
         if (TextUtils.isEmpty(value)) {
             value = "";
         }
-        tv.setText(value);
+        if (tv != null)
+            tv.setText(value);
     }
 
     public void setText(TextView tv, CharSequence text) {
         if (text == null) {
             text = "";
         }
-        tv.setText(text);
+        if (tv != null)
+            tv.setText(text);
     }
 
 
     protected abstract int getContentViewLayoutId();
 
     protected abstract void initViewAndData();
-
 
 
     @Override

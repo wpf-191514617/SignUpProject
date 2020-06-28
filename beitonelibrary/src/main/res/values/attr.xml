@@ -24,4 +24,13 @@
         <attr name="navigateTabTextSize" format="dimension|reference"/>
     </declare-styleable>
 
+
+
+    <declare-styleable name="SelectImageLayout">
+        <attr name="spacing" format="dimension"/>
+        <attr name="colCount" format="integer"/>
+        <attr name="maxSelectCount" format="integer"/>
+    </declare-styleable>
+
+
 </resources>

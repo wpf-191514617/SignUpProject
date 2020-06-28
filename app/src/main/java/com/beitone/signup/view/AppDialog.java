@@ -18,6 +18,7 @@ import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class AppDialog extends Dialog {
 
+
     public AppDialog(@NonNull Context context, String message, String btnText) {
         this(context , message , btnText , DialogType.SUCCESS);
     }
@@ -50,9 +51,18 @@ public class AppDialog extends Dialog {
             case SUCCESS:
                 ivDialog.setImageResource(R.drawable.ic_success);
                 break;
+            case THANKS:
+                ivDialog.setImageResource(R.drawable.ic_thanks);
+                break;
             case ERROR:
                 break;
         }
+        appButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
 
 
@@ -65,7 +75,7 @@ public class AppDialog extends Dialog {
 
 
     public enum DialogType {
-        SUCCESS, ERROR, WAIT
+        SUCCESS, ERROR, WAIT,THANKS
     }
 
 }

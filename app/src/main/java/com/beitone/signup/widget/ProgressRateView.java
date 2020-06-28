@@ -2,6 +2,7 @@ package com.beitone.signup.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,11 @@ public class ProgressRateView extends LinearLayout {
 
     public void setRate(int rate){
         progressRate.setProgress(rate);
+        if (rate < 100){
+            tvProgressRate.setTextColor(Color.parseColor("#FE701A"));
+        } else {
+            tvProgressRate.setTextColor(Color.parseColor("#222222"));
+        }
         tvProgressRate.setText(rate+"%");
     }
 }

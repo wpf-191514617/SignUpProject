@@ -1,17 +1,18 @@
 package com.beitone.signup.ui.setting;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.widget.AppButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class UpdatePasswordActivity extends BaseActivity {
@@ -63,6 +64,25 @@ public class UpdatePasswordActivity extends BaseActivity {
     }
 
     private void commit(String password) {
+        AccountProvider.doResetPwd(this, password, password, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                showToast("操作成功");
+                finish();
+            }
 
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+
+        });
     }
 }

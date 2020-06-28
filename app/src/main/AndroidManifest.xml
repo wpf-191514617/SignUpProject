@@ -101,6 +101,9 @@
         <activity android:name=".ui.setting.FeedbackActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.setting.CheckUserActivity"
+            android:screenOrientation="portrait"/>
+
 
         <activity
             android:name="com.donkingliang.imageselector.ImageSelectorActivity"
