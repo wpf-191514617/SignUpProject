@@ -50,10 +50,10 @@ public class AboutUsActivity extends BaseActivity {
             @Override
             public void onResult(AboutUsResponse data) {
                 if (data != null) {
-                    inputWechat.inputContent(data.getWeixin());
-                    inputWeb.inputContent(data.getWeb());
-                    inputService.inputContent(data.getPhone());
-                    inputEmail.inputContent(data.getEmail());
+                    inputWechat.inputHnit(data.getWeixin());
+                    inputWeb.inputHnit(data.getWeb());
+                    inputService.inputHnit(data.getPhone());
+                    inputEmail.inputHnit(data.getEmail());
                     if (data.getVersion() != null) {
                         if (data.getVersion().getVersionCode() == AppUtil.getVersionCode(AboutUsActivity.this)) {
                             updateHintView.setVisibility(View.INVISIBLE);

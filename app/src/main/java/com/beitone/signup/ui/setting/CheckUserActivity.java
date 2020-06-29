@@ -44,7 +44,8 @@ public class CheckUserActivity extends BaseActivity {
         etPhone.setEnabled(false);
         etPhone.setFocusable(false);
         UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
-        setText(etPhone , infoResponse.getPhone());
+       // setText(etPhone , StringUtil.mobileEncrypt(infoResponse.getPhone()));
+       // etPhone.setHint(StringUtil.mobileEncrypt(infoResponse.getPhone()));
     }
 
     @OnClick({R.id.tvSendAuthCode, R.id.btnNext})

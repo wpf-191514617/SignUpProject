@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.betatown.mobile.beitonelibrary.util.BaseAppManager;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class SettingActivity extends BaseActivity {
     @BindView(R.id.inputPhone)
@@ -50,6 +51,8 @@ public class SettingActivity extends BaseActivity {
                 jumpTo(CheckUserActivity.class);
             }
         });
+        String phone = UserHelper.getInstance().getCurrentInfo().getPhone();
+        inputPhone.inputHnit(StringUtil.mobileEncrypt(phone));
     }
 
     @OnClick(R.id.tvLogout)

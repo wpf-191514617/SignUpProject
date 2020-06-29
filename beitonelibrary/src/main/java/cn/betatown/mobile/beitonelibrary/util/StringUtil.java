@@ -94,6 +94,22 @@ public class StringUtil {
         return pattern.matcher(url).matches();
     }
 
+    // 手机号码前三后四脱敏
+    public static String mobileEncrypt(String mobile) {
+        if (isEmpty(mobile) || (mobile.length() != 11)) {
+            return mobile;
+        }
+        return mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+    }
+
+    //身份证前三后四脱敏
+    public static String idEncrypt(String id) {
+        if (isEmpty(id) || (id.length() < 8)) {
+            return id;
+        }
+        return id.replaceAll("(?<=\\w{3})\\w(?=\\w{4})", "*");
+    }
+
     public static boolean checkPassword(String password) {
         if (isEmpty(password)) {
             return false;
