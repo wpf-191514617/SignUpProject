@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -12,7 +12,6 @@
         <item name="android:windowBackground">@color/sr_window_background</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>
         <item name="popupMenuStyle">@style/popMenu_style</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 

@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import static com.beitone.face.utils.Base64RequestBody.readFile;
@@ -65,7 +66,7 @@ public class FaceDetectActivity extends BaseActivity {
     private long mLastTipsTime = 0;
     private int mCurFaceId = -1;
 
-    private FaceDetectManager faceDetectManager;
+    protected FaceDetectManager faceDetectManager;
     private DetectRegionProcessor cropProcessor = new DetectRegionProcessor();
     private WaveHelper mWaveHelper;
     private WaveView mWaveview;
@@ -113,6 +114,14 @@ public class FaceDetectActivity extends BaseActivity {
 
         mInitView = findViewById(R.id.camera_layout);
         previewView = (PreviewView) findViewById(R.id.preview_view);
+
+        findViewById(R.id.lineTitle).setVisibility(View.GONE);
+        Toolbar toolbar = findViewById(R.id.common_toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#181529"));
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.setTextColor(Color.WHITE);
+        setText(tvTitle , "人脸识别");
+        toolbar.setNavigationIcon(R.drawable.ic_back_white);
 
         rectView = (FaceRoundView) findViewById(R.id.rect_view);
         final CameraImageSource cameraImageSource = new CameraImageSource(this);

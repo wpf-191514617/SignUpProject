@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingLeft="@dimen/dimen_16dp"
@@ -16,17 +17,17 @@
         android:orientation="horizontal"
         android:paddingRight="@dimen/dimen_10dp">
 
-        <ImageView
+        <com.android.library.YLCircleImageView
             android:id="@+id/ivHome"
             android:layout_width="@dimen/dimen_105dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_height="@dimen/dimen_76dp"
+            app:radiusYL="@dimen/dimen_8dp"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginLeft="@dimen/dimen_12dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -39,6 +40,7 @@
                 android:lineSpacingExtra="@dimen/dimen_3dp"
                 android:maxLines="2"
                 android:minHeight="@dimen/dimen_33dp"
+                android:lines="2"
                 android:text="进入施工现场安全教育内容和要求等内容..."
                 android:textColor="#ff212121"
                 android:textSize="13sp" />
@@ -58,6 +60,7 @@
                     android:layout_weight="1"
                     android:text="05月07日发布"
                     android:textColor="#ff999999"
+                    android:layout_marginBottom="-4dp"
                     android:textSize="11sp" />
 
 

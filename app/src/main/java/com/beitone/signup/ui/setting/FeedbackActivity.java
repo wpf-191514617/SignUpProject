@@ -81,7 +81,6 @@ public class FeedbackActivity extends BaseActivity {
                         .setSingle(false)  //设置是否单选
                         .setMaxSelectCount(selImageLayout.getMaxSelectCount()) // 图片的最大选择数量，小于等于0
                         // 时，不限数量。
-                        .canPreview(true) //是否可以预览图片，默认为true
                         .start(FeedbackActivity.this, REQUEST_CODE); // 打开相册
             }
 

@@ -2,6 +2,7 @@ package com.beitone.signup.ui.home;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,13 +16,16 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
+import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
 import com.beitone.signup.model.WorkApp;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.FaceDetectActivity;
 import com.beitone.signup.ui.account.FaceSignActivity;
 
@@ -32,6 +36,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -43,6 +48,8 @@ import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.DateStyle;
 import cn.betatown.mobile.beitonelibrary.util.DateUtil;
 import cn.betatown.mobile.beitonelibrary.util.Trace;
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
+import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class WorkFragment extends BaseFragment {
 
@@ -69,6 +76,33 @@ public class WorkFragment extends BaseFragment {
 
     private final int REQUEST_SIGN = 99;
 
+    private MainActivity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
+
+
+    //判断是否展示—与ViewPager连用，进行左右切换
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if(activity!=null){
+                StateAppBar.translucentStatusBar(activity, true);
+            }
+        }//展示
+    }
+
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.fragment_work;
@@ -88,7 +122,18 @@ public class WorkFragment extends BaseFragment {
         mWorkListAdapter.setOnRVItemClickListener(new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(ViewGroup parent, View itemView, int position) {
-
+                WorkApp workApp = mWorkListAdapter.getItem(position);
+                Bundle bundle = new Bundle();
+                switch (workApp.type){
+                    case "4":
+                        bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getCalendar());
+                        bundle.putBoolean("isSign" , true);
+                        break;
+                    case "3":
+                        bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getSalaryList());
+                        break;
+                }
+                jumpTo(WebActivity.class, bundle);
             }
         });
         refreshData();

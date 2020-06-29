@@ -30,7 +30,7 @@
         android:id="@+id/tvProgressRate"
         android:layout_width="@dimen/dimen_40dp"
         android:layout_height="wrap_content"
-        android:text="100%"
+        android:text="0%"
         android:textColor="#ff212121"
         android:textSize="11sp"/>
 

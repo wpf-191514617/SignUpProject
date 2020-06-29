@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#181529"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/toolbar"/>
+
+
+<RelativeLayout
     android:id="@+id/root_view"
     android:layout_width="match_parent"
+    android:background="#181529"
     android:layout_height="match_parent">
+
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,12 +39,13 @@
         android:id="@+id/camera_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff" />
+        android:background="#181529"/>
 
     <com.beitone.face.widget.FaceRoundView
         android:id="@+id/rect_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#181529"/>
 
     <TextView
         android:id="@+id/name_text_view"
@@ -44,7 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:src="@mipmap/detect_close" />
+        android:src="@mipmap/detect_close"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/success_image"
@@ -59,3 +77,4 @@
             android:layout_height="160dp"/>
 
 </RelativeLayout>
+</LinearLayout>

@@ -1,5 +1,7 @@
 package com.beitone.signup.ui.home;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -8,15 +10,19 @@ import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
 import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.LoginActivity;
+import com.beitone.signup.ui.account.UserInfoActivity;
 import com.beitone.signup.ui.setting.FeedbackActivity;
 import com.beitone.signup.ui.setting.SettingActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class MineFragment extends BaseFragment {
     @BindView(R.id.tvUserInformation)
@@ -35,6 +41,32 @@ public class MineFragment extends BaseFragment {
     LinearLayout layoutSetting;
 
     private View lineSign, lineChangeWorkPoint;
+
+    private MainActivity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
+
+
+    //判断是否展示—与ViewPager连用，进行左右切换
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if(activity!=null){
+                StateAppBar.translucentStatusBar(activity, true);
+            }
+        }//展示
+    }
 
     @Override
     protected int getContentViewLayoutID() {
@@ -64,12 +96,24 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.layoutSign, R.id.layoutChangeWorkPoint, R.id.layoutFeedback, R.id.layoutSetting})
+    @OnClick({R.id.tvUserInformation,R.id.layoutSign, R.id.layoutChangeWorkPoint,
+            R.id.layoutFeedback,
+            R.id.layoutSetting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tvUserInformation:
+                jumpTo(UserInfoActivity.class);
+                break;
             case R.id.layoutSign:
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getCalendar());
+                bundle.putBoolean("isSign" , true);
+                jumpTo(WebActivity.class, bundle);
                 break;
             case R.id.layoutChangeWorkPoint:
+                Bundle bundle1 = new Bundle();
+                bundle1.putParcelable(WebActivity.KEY_WEB, WebHelper.getProject());
+                jumpTo(WebActivity.class, bundle1);
                 break;
             case R.id.layoutFeedback:
                 jumpTo(FeedbackActivity.class);

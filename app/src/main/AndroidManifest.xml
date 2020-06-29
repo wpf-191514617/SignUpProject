@@ -31,9 +31,8 @@
     <application
         android:name=".SignUpApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/appicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
@@ -79,6 +78,9 @@
             android:name=".ui.account.ImproveInformationActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.account.UserInfoActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.account.FaceDetectActivity"
             android:screenOrientation="portrait" />
@@ -102,6 +104,9 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.setting.CheckUserActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.WebActivity"
             android:screenOrientation="portrait"/>
 
 

@@ -166,11 +166,11 @@ public class InputLayout extends LinearLayout {
         }
     }
 
-    private class EmojiExcludeFilter implements InputFilter
-    {
+    private class EmojiExcludeFilter implements InputFilter {
 
         @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest,
+                                   int dstart, int dend) {
 
             for (int index = start; index < end; index++) {
                 int type = Character.getType(source.charAt(index));
@@ -199,7 +199,6 @@ public class InputLayout extends LinearLayout {
     }
 
 
-
     public void setInputLable(String inputLable) {
         setText(tvInputLable, inputLable);
     }
@@ -211,6 +210,12 @@ public class InputLayout extends LinearLayout {
     public void setEditble(boolean isEdit) {
         getEtInput().setEnabled(isEdit);
         getEtInput().setFocusable(isEdit);
+    }
+
+    public void setShow(String content) {
+        inputContent(content);
+        setEditble(false);
+        ivNext.setVisibility(View.GONE);
     }
 
     private void setText(TextView textView, String value) {

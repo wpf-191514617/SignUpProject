@@ -210,6 +210,19 @@ public class RegisterActivity extends BaseActivity {
                             jumpToThenKill(ImproveInformationActivity.class, bundle);
                         }
                     }
+
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        showToast(msg);
+                    }
                 });
     }
 
@@ -242,6 +255,18 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void onResult(Object data) {
                         tvSendAuthCode.start();
+                    }
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        showToast(msg);
                     }
 
                 });

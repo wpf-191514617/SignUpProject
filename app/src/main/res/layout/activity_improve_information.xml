@@ -28,7 +28,9 @@
             app:inputHnit="请输入姓名"
             />
 
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/lineName"
+            layout="@layout/line"/>
 
         <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputIDCard"
@@ -38,7 +40,10 @@
             app:inputGravity="right"
             app:inputHnit="请输入身份证号码"
             app:inputType="idcard"/>
-        <include layout="@layout/line"/>
+
+        <include
+            android:id="@+id/lineIdcard"
+            layout="@layout/line"/>
 
         <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputPhone"
@@ -48,7 +53,9 @@
             app:inputGravity="right"
             app:inputHnit="请输入手机号码"
             app:inputType="phone"/>
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/linePhone"
+            layout="@layout/line"/>
 
         <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputProject"
@@ -58,7 +65,9 @@
             app:inputGravity="right"
             app:inputHnit="请选择"
             app:inputSelect="true"/>
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/lineProject"
+            layout="@layout/line"/>
 
         <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputConstructionTeam"
@@ -68,7 +77,9 @@
             app:inputGravity="right"
             app:inputHnit="请选择"
             app:inputSelect="true"/>
-        <include layout="@layout/line"/>
+        <include
+            android:id="@+id/lineTeam"
+            layout="@layout/line"/>
 
         <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputTypeOfWork"
@@ -79,21 +90,18 @@
             app:inputHnit="请选择"
             app:inputSelect="true"/>
 
-
-
-
-
-
-
     </LinearLayout>
 
 
+
     <View
+        android:id="@+id/spacingView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10dp"
         android:background="@color/grayf5"/>
 
     <LinearLayout
+        android:id="@+id/layoutBottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

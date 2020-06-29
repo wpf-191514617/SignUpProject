@@ -1,5 +1,6 @@
 package com.beitone.signup.ui.home;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.AppIndexDataResponse;
 import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.util.TestUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -22,6 +24,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,6 +32,8 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
+import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class HomeFragment extends BaseFragment {
 
@@ -46,6 +51,20 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
+    private MainActivity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.fragment_home;
@@ -60,6 +79,24 @@ public class HomeFragment extends BaseFragment {
         homePager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
         tabHome.setupWithViewPager(homePager);
     }
+
+
+
+
+    //判断是否展示—与ViewPager连用，进行左右切换
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if(activity!=null){
+                StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white));
+                //状态栏亮色模式，设置状态栏黑色文字、图标
+                //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
+                StatusBarUtils.StatusBarLightMode(activity);
+            }
+        }//展示
+    }
+
 
     private void loadAppIndexData() {
         AppProvider.loadAppIndexData(getActivity(), new OnJsonCallBack<AppIndexDataResponse>() {
@@ -98,7 +135,7 @@ public class HomeFragment extends BaseFragment {
 //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
                 RequestOptions options =
                         RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-                Glide.with(HomeFragment.this).load(bannerData.getXBannerUrl()).centerCrop().apply(options).into((ImageView) view);
+                Glide.with(HomeFragment.this).load(bannerData.getXBannerUrl()).apply(options).into((ImageView) view);
             }
         });
     }

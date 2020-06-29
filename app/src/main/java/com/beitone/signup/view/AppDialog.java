@@ -54,6 +54,9 @@ public class AppDialog extends Dialog {
             case THANKS:
                 ivDialog.setImageResource(R.drawable.ic_thanks);
                 break;
+            case SIGN_SUCCESS:
+                ivDialog.setImageResource(R.drawable.sign_success);
+                break;
             case ERROR:
                 break;
         }
@@ -75,7 +78,7 @@ public class AppDialog extends Dialog {
 
 
     public enum DialogType {
-        SUCCESS, ERROR, WAIT,THANKS
+        SUCCESS, ERROR, WAIT,THANKS,SIGN_SUCCESS
     }
 
 }

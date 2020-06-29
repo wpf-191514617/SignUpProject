@@ -1,11 +1,17 @@
 package com.beitone.signup.ui.home;
 
+import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseRecyclerFragment;
 import com.beitone.signup.entity.response.ArticleResponse;
+import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.util.GlideRoundTransform;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -78,17 +84,50 @@ public class HomeListFragment extends BaseRecyclerFragment {
         @Override
         protected void fillData(BaseViewHolderHelper helper, int position, ArticleResponse model) {
 
-            helper.setText(R.id.tvTitle , model.getTitle())
-                    .setText(R.id.tvPublishTime , model.getCreatetime());
+            String publishTime = model.getCreatetime();
+            String[] array = publishTime.split(" ");
+            if (array != null && array.length > 0) {
+                publishTime = array[0];
+            }
+            helper.setText(R.id.tvTitle, model.getTitle())
+                    .setText(R.id.tvPublishTime, publishTime);
 
-            ImageView ivHome = helper.getImageView(R.id.ivHome);
+            TextView tvStudy = helper.getTextView(R.id.tvStudy);
+
+            YLCircleImageView ivHome = helper.getView(R.id.ivHome);
             //设置图片圆角角度
-            RoundedCorners roundedCorners = new RoundedCorners(8);
+           /* RoundedCorners roundedCorners =
+                    new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.dimen_8dp));
             //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-            RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300,
-                    300);
-            Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).apply(options).into(ivHome);
-
+            RequestOptions options =
+                    RequestOptions.bitmapTransform(roundedCorners).override(getResources()
+                    .getDimensionPixelSize(R.dimen.dimen_105dp),
+                            getResources().getDimensionPixelSize(R.dimen.dimen_76dp));*/
+            Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+            switch (model.getIs_study()) {
+                case "0":
+                    tvStudy.setVisibility(View.INVISIBLE);
+                    break;
+                case "1":
+                    tvStudy.setVisibility(View.VISIBLE);
+                    tvStudy.setSelected(false);
+                    tvStudy.setText("已学习");
+                    break;
+                case "2":
+                    tvStudy.setVisibility(View.VISIBLE);
+                    tvStudy.setSelected(true);
+                    tvStudy.setText("立即学习");
+                    break;
+            }
+            helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(WebActivity.KEY_WEB,
+                            WebHelper.getArticleDetails(model.getId()));
+                    jumpTo(WebActivity.class, bundle);
+                }
+            });
         }
     }
 

@@ -55,27 +55,27 @@ import top.zibin.luban.OnCompressListener;
 public class ImproveInformationActivity extends BaseActivity {
 
     @BindView(R.id.inputName)
-    InputLayout inputName;
+    protected InputLayout inputName;
     @BindView(R.id.inputIDCard)
-    InputLayout inputIDCard;
+    protected InputLayout inputIDCard;
     @BindView(R.id.inputPhone)
-    InputLayout inputPhone;
+    protected InputLayout inputPhone;
     @BindView(R.id.inputProject)
-    InputLayout inputProject;
+    protected InputLayout inputProject;
     @BindView(R.id.inputConstructionTeam)
-    InputLayout inputConstructionTeam;
+    protected InputLayout inputConstructionTeam;
     @BindView(R.id.inputTypeOfWork)
-    InputLayout inputTypeOfWork;
+    protected InputLayout inputTypeOfWork;
     @BindView(R.id.ivIdCard)
-    ImageView ivIdCard;
+    protected ImageView ivIdCard;
     @BindView(R.id.layoutIDCard)
-    LinearLayout layoutIDCard;
+    protected LinearLayout layoutIDCard;
     @BindView(R.id.ivFaceAuth)
-    ImageView ivFaceAuth;
+    protected ImageView ivFaceAuth;
     @BindView(R.id.layoutFace)
-    LinearLayout layoutFace;
+    protected LinearLayout layoutFace;
     @BindView(R.id.btnSubmit)
-    AppButton btnSubmit;
+    protected AppButton btnSubmit;
 
     private EngineeringResponse mCurrentEngineering;
     private TeamResponse mCurrentTeamResponse;
@@ -111,8 +111,6 @@ public class ImproveInformationActivity extends BaseActivity {
     protected void initViewAndData() {
         ButterKnife.bind(this);
         setTitle("完善个人资料");
-        inputPhone.inputContent(phone);
-        inputPhone.setEditble(false);
         inputProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,6 +133,12 @@ public class ImproveInformationActivity extends BaseActivity {
                 loadWorkTypeList();
             }
         });
+        initUserInfoData();
+    }
+
+    protected void initUserInfoData() {
+        inputPhone.inputContent(phone);
+        inputPhone.setEditble(false);
     }
 
     private void loadWorkTypeList() {
@@ -489,17 +493,16 @@ public class ImproveInformationActivity extends BaseActivity {
                 });
     }
 
-    private void selectImage() {
+    protected void selectImage() {
         Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
                 , Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).build(),
                 new AcpListener() {
                     @Override
                     public void onGranted() {
-                        ImageSelector.preload(ImproveInformationActivity.this);
                         ImageSelector.builder()
                                 .useCamera(true) // 设置是否使用拍照
-                                .setSingle(true)  //设置是否单选
-                                .canPreview(true) //是否可以预览图片，默认为true
+                                .setSingle(false)  //设置是否单选
+                                .setMaxSelectCount(1)
                                 .start(ImproveInformationActivity.this, REQUEST_SELECT_IMAGE); //
                     }
 
@@ -510,7 +513,7 @@ public class ImproveInformationActivity extends BaseActivity {
                 });
     }
 
-    private void onVerifyFace() {
+    protected void onVerifyFace() {
         Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.CAMERA).build(), new AcpListener() {
             @Override
             public void onGranted() {
@@ -548,13 +551,6 @@ public class ImproveInformationActivity extends BaseActivity {
             }
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ImageSelector.clearCache(this);
-    }
-
 
     private void compressImage(String path, boolean isIdCard) {
         Luban.with(this).load(path)
