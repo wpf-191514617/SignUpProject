@@ -33,13 +33,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
-        /*StateAppBar.setStatusBarColor(StatusBarFragmentActivity.this,
-                ContextCompat.getColor(StatusBarFragmentActivity.this,
-                        R.color.white));*/
-
-        StateAppBar.translucentStatusBar(this,true);
-        //状态栏亮色模式，设置状态栏黑色文字、图标
-        StatusBarUtils.StatusBarLightMode(this);
 
         mainTab.addTab(HomeFragment.class,
                 new MainNavigateTabBar.TabParam(R.drawable.tab_home_nor,
@@ -61,6 +54,13 @@ public class MainActivity extends BaseActivity {
         mainTab.addTab(MineFragment.class,
                 new MainNavigateTabBar.TabParam(R.drawable.tab_mine_nor,
                         R.drawable.tab_mine_sel, "我的"));
+
+        mainTab.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
+
+            }
+        });
 
         /*mainTab.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override

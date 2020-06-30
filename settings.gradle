@@ -1,3 +1,4 @@
+include ':statusbardemo'
 include ':FaceSDK'
 include ':beitonelibrary'
 include ':httplibrary'
