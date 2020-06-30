@@ -5,6 +5,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/colorAccent"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_195dp"

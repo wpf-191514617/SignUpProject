@@ -9,6 +9,11 @@
 
     <include layout="@layout/toolbar"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_8dp"
+        android:background="@color/grayf5"/>
+
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -50,7 +55,7 @@
             android:hint="请输入您的建议或意见..."
             android:gravity="top|left"
             android:lineSpacingExtra="@dimen/dimen_3dp"
-            />
+            android:textSize="@dimen/sp_14"/>
 
 
         <TextView

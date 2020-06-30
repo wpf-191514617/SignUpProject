@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="statusbar_view_height">0dp</dimen>
+
     <dimen name="heart_anim_bezier_x_rand">40.0dp</dimen>
     <dimen name="heart_anim_init_x">50.0dp</dimen>
     <dimen name="heart_anim_init_y">25.0dp</dimen>

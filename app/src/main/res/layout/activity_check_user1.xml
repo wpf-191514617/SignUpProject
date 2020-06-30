@@ -121,7 +121,7 @@
         <include layout="@layout/line"/>
 
 
-        
+
         <com.beitone.signup.widget.AppButton
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
@@ -129,8 +129,8 @@
             android:layout_marginTop="@dimen/dimen_32dp"
             app:btnText="下一步"
             />
-        
-        
+
+
 
     </LinearLayout>
 

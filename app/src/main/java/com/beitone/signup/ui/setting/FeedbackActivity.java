@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.beitone.signup.R;
+import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.UploadFileResponse;
 import com.beitone.signup.provider.AccountProvider;
@@ -56,16 +57,23 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
+        ImageSelector.preload(this);
         setTitle("意见反馈");
         selImageLayout.setMargin(getResources().getDimensionPixelSize(R.dimen.dimen_16dp),
                 getResources().getDimensionPixelSize(R.dimen.dimen_16dp));
-        selImageLayout.initData(this);
+        selImageLayout.initData(SignUpApplication.getContext());
         selImageLayout.setOnSelectImageListener(new SelectImageLayout.OnSelectImageListener() {
             @Override
             public void onSelectImage() {
                 checkpermission();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImageSelector.clearCache(this);
     }
 
     private void checkpermission() {
@@ -90,7 +98,6 @@ public class FeedbackActivity extends BaseActivity {
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

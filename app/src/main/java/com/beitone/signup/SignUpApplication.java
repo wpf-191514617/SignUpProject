@@ -1,5 +1,7 @@
 package com.beitone.signup;
 
+import android.app.Activity;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -13,8 +15,13 @@ import com.beitone.face.Config;
 import com.beitone.face.exception.FaceError;
 import com.beitone.face.model.AccessToken;
 import com.beitone.face.utils.OnResultListener;
+import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.ui.account.LoginActivity;
 import com.bt.http.OkHttpUtils;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cn.betatown.mobile.beitonelibrary.base.BaseApplication;
@@ -23,6 +30,8 @@ import okhttp3.OkHttpClient;
 public class SignUpApplication extends BaseApplication {
 
     private Handler handler = new Handler(Looper.getMainLooper());
+
+    private final List<Activity> mActivities = Collections.synchronizedList(new LinkedList<Activity>());
 
     public static final float VALUE_BRIGHTNESS = 40.0F;
     public static final float VALUE_BLURNESS = 0.7F;
@@ -40,7 +49,7 @@ public class SignUpApplication extends BaseApplication {
         initLib();
         String sign = "cf:91:e0:79:7e:91:d0:8c:db:8b:31:b7:a4:fe:84:35";
         sign = sign.toUpperCase();
-
+        registerLifecycleCallbacks();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.hostnameVerifier((s, sslSession) -> true)
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
@@ -112,6 +121,65 @@ public class SignUpApplication extends BaseApplication {
         tracker.set_isCheckQuality(true);
         // 是否进行活体校验
         tracker.set_isVerifyLive(false);
+    }
+
+    private void registerLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                /*if (activity != null && activity instanceof LoginActivity) {
+                    return;
+                }
+                synchronized (mActivities) {
+                    if (!mActivities.contains(activity)) {
+                        mActivities.add(activity);
+                    }
+                }*/
+                if (activity instanceof MainActivity) {
+
+                    //发起通知...
+
+                    unregisterActivityLifecycleCallbacks(this);
+                }
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                if (activity != null && activity instanceof MainActivity){
+
+                }
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                /*synchronized (mActivities) {
+                    if (mActivities.contains(activity)) {
+                        mActivities.remove(activity);
+                    }
+                }*/
+            }
+        });
     }
 
 }

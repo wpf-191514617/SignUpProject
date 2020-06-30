@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
-    implementation 'com.github.donkingliang:ImageSelector:1.6.9'
+    implementation 'com.github.donkingliang:ImageSelector:2.2.0'
 
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.github.gittjy:LoadingDialog:1.0.2'
     implementation 'cn.yc:YCStatusBarLib:1.4.0'
     implementation 'com.github.ai2101039:YLCircleImageView:v1.0.7'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

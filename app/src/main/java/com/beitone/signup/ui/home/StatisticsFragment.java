@@ -1,6 +1,7 @@
 package com.beitone.signup.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import com.beitone.signup.entity.response.StatisticsResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
@@ -25,7 +27,7 @@ import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
-public class StatisticsFragment extends BaseFragment {
+public class StatisticsFragment extends BaseHomeFragment {
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -47,6 +49,12 @@ public class StatisticsFragment extends BaseFragment {
     TextView tvUserWorkType;
     @BindView(R.id.tvProjectName)
     TextView tvProjectName;
+    @BindView(R.id.fake_status_bar)
+    View fakeStatusBar;
+    @BindView(R.id.lineTitle)
+    View lineTitle;
+    @BindView(R.id.layoutStatisticsContent)
+    LinearLayout layoutStatisticsContent;
 
     private StatisticsResponse mStatisticsResponse;
 
@@ -71,7 +79,8 @@ public class StatisticsFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
             if(activity!=null){
-                StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white));
+                StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color
+                .white));
                 //状态栏亮色模式，设置状态栏黑色文字、图标
                 //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
                 StatusBarUtils.StatusBarLightMode(activity);
@@ -79,6 +88,23 @@ public class StatisticsFragment extends BaseFragment {
         }//展示
     }
 
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+
+    }
+
+    @Override
+    public  void initStatusBar() {
+        tvTitle.setBackgroundColor(Color.parseColor("#ffffff"));
+        fakeStatusBar.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
 
     @Override
     protected int getContentViewLayoutID() {
@@ -110,12 +136,11 @@ public class StatisticsFragment extends BaseFragment {
                             }
 
 
-
                             layoutPersonStatistics.setVisibility(View.VISIBLE);
                             if (data.getSum_rate() != null) {
                                 setRate(prvPersonTraining, data.getSum_rate().getStudy_rate());
                                 setRate(prvPersonSign, data.getSum_rate().getSign_rate());
-                            }else {
+                            } else {
                                 setRate(prvPersonTraining, "0");
                                 setRate(prvPersonSign, "0");
                             }
@@ -143,7 +168,7 @@ public class StatisticsFragment extends BaseFragment {
         setText(tvUserWorkType, infoResponse.getType_of_work_name());
         setText(tvProjectName, infoResponse.getB_project_name());
 
-        switch (infoResponse.getType()){
+        switch (infoResponse.getType()) {
             case "1":
             case "2":
                 layoutPersonStatistics.setVisibility(View.GONE);

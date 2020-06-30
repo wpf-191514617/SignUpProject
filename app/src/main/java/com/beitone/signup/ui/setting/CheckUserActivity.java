@@ -20,7 +20,6 @@ import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class CheckUserActivity extends BaseActivity {
-
     @BindView(R.id.etPhone)
     EditText etPhone;
     @BindView(R.id.ivShowPassword)
@@ -44,8 +43,8 @@ public class CheckUserActivity extends BaseActivity {
         etPhone.setEnabled(false);
         etPhone.setFocusable(false);
         UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
-       // setText(etPhone , StringUtil.mobileEncrypt(infoResponse.getPhone()));
-       // etPhone.setHint(StringUtil.mobileEncrypt(infoResponse.getPhone()));
+        setText(etPhone , StringUtil.mobileEncrypt(infoResponse.getPhone()));
+        etPhone.setHint(StringUtil.mobileEncrypt(infoResponse.getPhone()));
     }
 
     @OnClick({R.id.tvSendAuthCode, R.id.btnNext})

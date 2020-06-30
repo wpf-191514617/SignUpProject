@@ -2,6 +2,7 @@ package cn.betatown.mobile.beitonelibrary.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -222,7 +228,21 @@ public class SelectImageLayout extends LinearLayout {
                     viewHolder.ivPhoto.setVisibility(View.VISIBLE);
                     viewHolder.layoutAddPhoto.setVisibility(View.INVISIBLE);
                     viewHolder.ivRemoveImage.setVisibility(View.VISIBLE);
-                    Glide.with(mContext).load(imageEntity.imagePath).into(viewHolder.ivPhoto);
+                    Glide.with(mContext).load(imageEntity.imagePath)
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model,
+                                                               Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            })
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(viewHolder.ivPhoto);
                 }
             }
 

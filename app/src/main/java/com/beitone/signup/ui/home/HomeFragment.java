@@ -1,17 +1,16 @@
 package com.beitone.signup.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.beitone.signup.BannerData;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.AppIndexDataResponse;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
-import com.beitone.signup.util.TestUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,7 +34,7 @@ import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseHomeFragment {
 
 
     @BindView(R.id.homeBanner)
@@ -50,6 +49,10 @@ public class HomeFragment extends BaseFragment {
     CoordinatorLayout containerHome;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
+    @BindView(R.id.fake_status_bar)
+    View fakeStatusBar;
+    @BindView(R.id.lineTitle)
+    View lineTitle;
 
     private MainActivity activity;
 
@@ -73,6 +76,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initViewAndData() {
         setText(tvTitle, "首页");
+        fakeStatusBar.setVisibility(View.GONE);
         initBanner();
         loadAppIndexData();
         homePager.setOffscreenPageLimit(2);
@@ -80,16 +84,24 @@ public class HomeFragment extends BaseFragment {
         tabHome.setupWithViewPager(homePager);
     }
 
-
+    @Override
+    public void initStatusBar() {
+        tvTitle.setBackgroundColor(Color.parseColor("#ffffff"));
+        fakeStatusBar.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
 
 
     //判断是否展示—与ViewPager连用，进行左右切换
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            if(activity!=null){
-                StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color.white));
+        if (isVisibleToUser) {
+            if (activity != null) {
+                if (fakeStatusBar != null) {
+                    fakeStatusBar.setVisibility(View.VISIBLE);
+                }
+                StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color
+                        .white));
                 //状态栏亮色模式，设置状态栏黑色文字、图标
                 //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
                 StatusBarUtils.StatusBarLightMode(activity);

@@ -1,13 +1,13 @@
 package com.beitone.signup.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.beitone.signup.R;
-import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseHomeFragment {
     @BindView(R.id.tvUserInformation)
     TextView tvUserInformation;
     @BindView(R.id.tvUserNickName)
@@ -39,6 +39,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout layoutFeedback;
     @BindView(R.id.layoutSetting)
     LinearLayout layoutSetting;
+    @BindView(R.id.fake_status_bar)
+    View fakeStatusBar;
 
     private View lineSign, lineChangeWorkPoint;
 
@@ -74,6 +76,11 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
+    public void initStatusBar() {
+        fakeStatusBar.setBackgroundColor(Color.parseColor("#00000000"));
+    }
+
+    @Override
     protected void initViewAndData() {
         lineSign = getView().findViewById(R.id.lineSign);
         lineChangeWorkPoint = getView().findViewById(R.id.lineChangeWorkPoint);
@@ -85,7 +92,7 @@ public class MineFragment extends BaseFragment {
         setText(tvUserNickName, userInfoResponse.getName());
         setText(tvUserTeam,
                 userInfoResponse.getB_project_name() + " - " + userInfoResponse.getB_project_team_name());
-        switch (userInfoResponse.getType()){
+        switch (userInfoResponse.getType()) {
             case "1":
             case "2":
                 layoutSign.setVisibility(View.GONE);
@@ -96,7 +103,7 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tvUserInformation,R.id.layoutSign, R.id.layoutChangeWorkPoint,
+    @OnClick({R.id.tvUserInformation, R.id.layoutSign, R.id.layoutChangeWorkPoint,
             R.id.layoutFeedback,
             R.id.layoutSetting})
     public void onViewClicked(View view) {
@@ -107,7 +114,7 @@ public class MineFragment extends BaseFragment {
             case R.id.layoutSign:
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getCalendar());
-                bundle.putBoolean("isSign" , true);
+                bundle.putBoolean("isSign", true);
                 jumpTo(WebActivity.class, bundle);
                 break;
             case R.id.layoutChangeWorkPoint:
@@ -144,4 +151,6 @@ public class MineFragment extends BaseFragment {
     protected boolean isRegisterEventBus() {
         return true;
     }
+
+
 }

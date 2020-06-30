@@ -1,9 +1,7 @@
 package com.beitone.signup.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseFragment;
-import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
@@ -26,17 +23,13 @@ import com.beitone.signup.model.WorkApp;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
-import com.beitone.signup.ui.account.FaceDetectActivity;
 import com.beitone.signup.ui.account.FaceSignActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -47,11 +40,9 @@ import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelp
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.DateStyle;
 import cn.betatown.mobile.beitonelibrary.util.DateUtil;
-import cn.betatown.mobile.beitonelibrary.util.Trace;
-import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
-public class WorkFragment extends BaseFragment {
+public class WorkFragment extends BaseHomeFragment {
 
     @BindView(R.id.layoutSelectProject)
     LinearLayout layoutSelectProject;
@@ -69,6 +60,8 @@ public class WorkFragment extends BaseFragment {
     TextView tvSignUp;
     @BindView(R.id.layoutSignUp)
     LinearLayout layoutSignUp;
+    @BindView(R.id.fake_status_bar)
+    View fakeStatusBar;
 
     private WorkListAdapter mWorkListAdapter;
 
@@ -88,6 +81,11 @@ public class WorkFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         activity = null;
+    }
+
+    @Override
+    public void initStatusBar() {
+        fakeStatusBar.setBackgroundColor(Color.parseColor("#00000000"));
     }
 
 
@@ -116,7 +114,7 @@ public class WorkFragment extends BaseFragment {
 
         mHandler.sendEmptyMessage(1);
 
-        rvWork.setLayoutManager(new GridLayoutManager(getActivity() , 4));
+        rvWork.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mWorkListAdapter = new WorkListAdapter(rvWork);
         rvWork.setAdapter(mWorkListAdapter);
         mWorkListAdapter.setOnRVItemClickListener(new OnRecyclerItemClickListener() {
@@ -124,10 +122,10 @@ public class WorkFragment extends BaseFragment {
             public void onItemClick(ViewGroup parent, View itemView, int position) {
                 WorkApp workApp = mWorkListAdapter.getItem(position);
                 Bundle bundle = new Bundle();
-                switch (workApp.type){
+                switch (workApp.type) {
                     case "4":
                         bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getCalendar());
-                        bundle.putBoolean("isSign" , true);
+                        bundle.putBoolean("isSign", true);
                         break;
                     case "3":
                         bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getSalaryList());
@@ -155,9 +153,9 @@ public class WorkFragment extends BaseFragment {
         }
 
         List<WorkApp> appList = new ArrayList<>();
-        appList.add(new WorkApp("4" , R.drawable.ic_work_1 , "我的考勤"));
-        if (mUserInfoResponse.getType().equals("3")){
-        appList.add(new WorkApp("3" , R.drawable.ic_work_2 , "工资上传"));
+        appList.add(new WorkApp("4", R.drawable.ic_work_1, "我的考勤"));
+        if (mUserInfoResponse.getType().equals("3")) {
+            appList.add(new WorkApp("3", R.drawable.ic_work_2, "工资上传"));
         }
         mWorkListAdapter.setData(appList);
     }
@@ -182,7 +180,7 @@ public class WorkFragment extends BaseFragment {
 
     @OnClick(R.id.layoutSignUp)
     public void onViewClicked() {
-        if (mUserInfoResponse.getToday_sign_num() > 0){
+        if (mUserInfoResponse.getToday_sign_num() > 0) {
             return;
         }
         checkLocation();
@@ -192,7 +190,7 @@ public class WorkFragment extends BaseFragment {
         AppProvider.checkIsInSignRegion(getActivity(), new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {
-                jumpToForResult(FaceSignActivity.class ,REQUEST_SIGN);
+                jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
             }
 
             @Override
@@ -217,10 +215,13 @@ public class WorkFragment extends BaseFragment {
     @Override
     protected void onEventComming(EventData eventData) {
         super.onEventComming(eventData);
-        switch (eventData.CODE){
+        switch (eventData.CODE) {
             case EventCode
                     .CODE_USERINFO_SUCCESS:
                 refreshData();
+                break;
+            case EventCode.CODE_CHANGE_STATUS1:
+                initStatusBar();
                 break;
         }
     }
