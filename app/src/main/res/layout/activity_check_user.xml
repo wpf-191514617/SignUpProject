@@ -9,6 +9,11 @@
     <include layout="@layout/toolbar"/>
 
 
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_8dp"
+        android:background="@color/grayf5"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/dimen_5dp"
             android:orientation="horizontal">
 
             <EditText
@@ -45,7 +50,7 @@
                 android:editable="false"
                 android:textColor="@color/gray33"
                 android:textColorHint="#ffb4b4b4"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/ivShowPassword"
@@ -75,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/dimen_8dp"
             android:orientation="horizontal">
 
             <EditText
@@ -89,7 +94,7 @@
                 android:inputType="number"
                 android:textColor="@color/gray33"
                 android:textColorHint="#ffb4b4b4"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="0.5dp"

@@ -226,6 +226,10 @@ public class InputLayout extends LinearLayout {
         textView.setText(value);
     }
 
+    public void inputHnit(String hnit){
+        getEtInput().setHint(hnit);
+    }
+
     public void inputContent(String content) {
         setText(getEtInput(), content);
     }
