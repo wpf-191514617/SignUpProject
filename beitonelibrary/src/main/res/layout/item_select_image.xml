@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
 
@@ -9,17 +10,17 @@
         android:id="@+id/layoutPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grayf5">
+        android:background="@drawable/bg_gray_img_radius">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
 
-            <ImageView
+            <com.android.library.YLCircleImageView
                 android:id="@+id/ivPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                app:radiusYL="10dp"/>
 
 
             <LinearLayout
@@ -32,18 +33,18 @@
 
                 <ImageView
                     android:id="@+id/ivAddFlag"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_add_img" />
+                    android:src="@drawable/img_add" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="添加图片"
                     android:textColor="#ff858585"
                     android:layout_marginTop="8dp"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"/>-->
 
             </LinearLayout>
             <ImageView

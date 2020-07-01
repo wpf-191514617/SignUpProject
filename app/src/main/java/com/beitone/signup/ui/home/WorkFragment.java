@@ -171,7 +171,7 @@ public class WorkFragment extends BaseHomeFragment {
                     Date date = DateUtil.addSecond(new Date(), 1);
                     setText(tvCurrentTime, DateUtil.DateToString(date,
                             DateStyle.HH_MM));
-                    mHandler.sendEmptyMessageDelayed(1, 1000);
+                    mHandler.sendEmptyMessageDelayed(1, 980);
                     break;
             }
         }

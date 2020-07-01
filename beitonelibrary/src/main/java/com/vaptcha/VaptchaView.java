@@ -37,10 +37,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.squareup.picasso.Picasso;
 import com.vaptcha.utils.CirclePointLoadView;
 import com.vaptcha.utils.CountDownTimer;
 import com.vaptcha.utils.NetworkUtils;
@@ -50,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -1417,9 +1418,14 @@ public class VaptchaView extends RelativeLayout {
         try {
             if (iv_vaptcha_img != null) {
                 if (isOutAge) {
-                    Glide.with(mContext).load(img).into(iv_vaptcha_img);
+                    Picasso.get().load(img).into(iv_vaptcha_img);
+                    //Glide.with(mContext).load(img).into(iv_vaptcha_img);
                 } else {
-                    Glide.with(mContext).load("https://" + cdn_servers.get(0).toString() + "/" + img).into(iv_vaptcha_img);
+
+                    Picasso.get().load("https://" + cdn_servers.get(0).toString() + "/" + img).into(iv_vaptcha_img);
+
+                   // Glide.with(mContext).load("https://" + cdn_servers.get(0).toString() + "/"
+                    // + img).into(iv_vaptcha_img);
                 }
             }
 

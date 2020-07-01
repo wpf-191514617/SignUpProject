@@ -2,7 +2,6 @@ package com.beitone.signup.ui.home;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.library.YLCircleImageView;
@@ -12,12 +11,8 @@ import com.beitone.signup.entity.response.ArticleResponse;
 import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.WebActivity;
-import com.beitone.signup.util.GlideRoundTransform;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +98,10 @@ public class HomeListFragment extends BaseRecyclerFragment {
                     RequestOptions.bitmapTransform(roundedCorners).override(getResources()
                     .getDimensionPixelSize(R.dimen.dimen_105dp),
                             getResources().getDimensionPixelSize(R.dimen.dimen_76dp));*/
-            Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+           // Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+
+            Picasso.get().load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+
             switch (model.getIs_study()) {
                 case "0":
                     tvStudy.setVisibility(View.INVISIBLE);

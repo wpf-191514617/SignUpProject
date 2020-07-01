@@ -12,20 +12,21 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cn.betatown.mobile.beitonelibrary.R;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
 import cn.betatown.mobile.beitonelibrary.widget.model.SelectImageEntity;
 import me.jessyan.autosize.utils.ScreenUtils;
 
@@ -228,20 +229,8 @@ public class SelectImageLayout extends LinearLayout {
                     viewHolder.ivPhoto.setVisibility(View.VISIBLE);
                     viewHolder.layoutAddPhoto.setVisibility(View.INVISIBLE);
                     viewHolder.ivRemoveImage.setVisibility(View.VISIBLE);
-                    Glide.with(mContext).load(imageEntity.imagePath)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model,
-                                                               Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    return false;
-                                }
-                            })
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    Picasso.get()
+                            .load("file://"+imageEntity.imagePath)
                             .into(viewHolder.ivPhoto);
                 }
             }
@@ -272,5 +261,6 @@ public class SelectImageLayout extends LinearLayout {
     public interface OnSelectImageListener{
         void onSelectImage();
     }
+
 
 }

@@ -5,7 +5,9 @@ import android.view.View;
 import com.beitone.signup.R;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
 
@@ -32,8 +34,10 @@ public class UserInfoActivity extends ImproveInformationActivity {
         inputProject.setShow(infoResponse.getB_project_name());
         inputConstructionTeam.setShow(infoResponse.getB_project_team_name());
         inputTypeOfWork.setShow(infoResponse.getType_of_work_name());
-        Glide.with(this).load(BaseProvider.BaseUrl + infoResponse.getFace_photo()).into(ivFaceAuth);
-        Glide.with(this).load(BaseProvider.BaseUrl + infoResponse.getCard_photo()).into(ivIdCard);
+        Picasso.get().load(BaseProvider.BaseUrl + infoResponse.getFace_photo()).into(ivFaceAuth);
+        Picasso.get().load(BaseProvider.BaseUrl + infoResponse.getCard_photo()).into(ivIdCard);
+//        Glide.with(this).load(BaseProvider.BaseUrl + infoResponse.getFace_photo()).into(ivFaceAuth);
+//        Glide.with(this).load(BaseProvider.BaseUrl + infoResponse.getCard_photo()).into(ivIdCard);
         switch (infoResponse.getType()) {
             case "1":
                 inputIDCard.setVisibility(View.GONE);
@@ -45,6 +49,7 @@ public class UserInfoActivity extends ImproveInformationActivity {
                 inputTypeOfWork.setInputLable("职务");
                 findViewById(R.id.layoutBottom).setVisibility(View.GONE);
                 findViewById(R.id.spacingView).setVisibility(View.GONE);
+                inputTypeOfWork.setShow(infoResponse.getJob_name());
                 break;
             case "2":
                 inputConstructionTeam.setVisibility(View.GONE);
@@ -52,6 +57,7 @@ public class UserInfoActivity extends ImproveInformationActivity {
                 inputTypeOfWork.setInputLable("职务");
                 findViewById(R.id.layoutBottom).setVisibility(View.GONE);
                 findViewById(R.id.spacingView).setVisibility(View.GONE);
+                inputTypeOfWork.setShow(infoResponse.getJob_name());
                 break;
         }
     }

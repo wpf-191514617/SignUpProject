@@ -1,6 +1,7 @@
 package com.beitone.signup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.multidex.MultiDex;
 import cn.betatown.mobile.beitonelibrary.base.BaseApplication;
 import okhttp3.OkHttpClient;
 
@@ -82,6 +84,12 @@ public class SignUpApplication extends BaseApplication {
 
             }
         }, this, Config.apiKey, Config.secretKey);
+    }
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
     }
 
 

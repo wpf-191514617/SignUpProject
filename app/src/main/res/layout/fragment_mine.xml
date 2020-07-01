@@ -6,22 +6,17 @@
     android:background="@color/grayf5"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/fake_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/statusbar_view_height"
-        android:background="@color/colorAccent"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:background="@color/colorAccent"
+        android:layout_height="283dp"
+        android:background="@drawable/user_bg_head"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_30dp"
             android:gravity="right"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/dimen_10dp">
@@ -43,17 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dimen_18dp"
-            android:layout_marginTop="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_35dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civUserHead"
                 android:layout_width="@dimen/dimen_75dp"
                 android:layout_height="@dimen/dimen_75dp"
                 app:civ_border_color="@color/white"
                 app:civ_border_overlay="true"
                 app:civ_border_width="2dp"
-                android:src="@color/colorAccent"/>
+                android:src="@drawable/user_default"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

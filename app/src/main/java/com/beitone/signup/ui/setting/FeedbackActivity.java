@@ -3,6 +3,7 @@ package com.beitone.signup.ui.setting;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -14,6 +15,7 @@ import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.view.AppDialog;
 import com.beitone.signup.widget.AppButton;
 import com.donkingliang.imageselector.utils.ImageSelector;
+import com.donkingliang.imageselector.utils.UriUtils;
 
 import java.io.File;
 import java.util.ArrayList;

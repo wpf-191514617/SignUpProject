@@ -31,8 +31,8 @@ import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.view.SingleSelectDialog;
 import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.InputLayout;
-import com.bumptech.glide.Glide;
 import com.donkingliang.imageselector.utils.ImageSelector;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -546,7 +546,8 @@ public class ImproveInformationActivity extends BaseActivity {
                         ImageSelector.SELECT_RESULT);
                 if (AdapterUtil.isListNotEmpty(images)) {
                     idCardPath = images.get(0);
-                    Glide.with(this).load(idCardPath).centerCrop().into(ivIdCard);
+                    Picasso.get().load(new File(idCardPath)).into(ivIdCard);
+                   // Glide.with(this).load(idCardPath).centerCrop().into(ivIdCard);
                 }
             }
         }

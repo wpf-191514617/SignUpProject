@@ -2,6 +2,7 @@ package com.beitone.signup.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -213,6 +214,7 @@ public class InputLayout extends LinearLayout {
     }
 
     public void setShow(String content) {
+        getEtInput().setTextColor(Color.parseColor("#999999"));
         inputContent(content);
         setEditble(false);
         ivNext.setVisibility(View.GONE);

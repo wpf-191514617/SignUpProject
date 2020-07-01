@@ -1,6 +1,8 @@
 package com.beitone.signup.ui;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,12 +26,22 @@ import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.UserProvider;
+import com.donkingliang.imageselector.utils.ImageSelector;
 import com.just.agentweb.AgentWebConfig;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.permission.Acp;
+import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
+import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class WebActivity extends BaseWebActivity {
@@ -45,6 +57,7 @@ public class WebActivity extends BaseWebActivity {
     private int shareImg;
 
     private View barView, lineTitle;
+    private int REQUEST_SELECT_GETIMG = 17;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +88,7 @@ public class WebActivity extends BaseWebActivity {
                 StateAppBar.setStatusBarColor(this, ContextCompat.getColor(this,
                         R.color.colorAccent1));
             } else {
+                StateAppBar.setStatusBarLightMode(this, Color.WHITE);
                 mToolbar.setNavigationIcon(R.drawable.ic_back);
             }
 
@@ -148,6 +162,13 @@ public class WebActivity extends BaseWebActivity {
     @Override
     protected void onEventComming(EventData eventData) {
         super.onEventComming(eventData);
+        switch (eventData.CODE){
+            case EventCode.CODE_GET_IMGSRC:
+                selectImage();
+                break;
+        }
+
+
         /*if (eventData.CODE == EventCode.CODE_WEB) {
             WebResponse webResponse = (WebResponse) eventData.DATA;
             if (TextUtils.isEmpty(webResponse.msg) && webResponse.flag.equals("1")) {
@@ -169,6 +190,40 @@ public class WebActivity extends BaseWebActivity {
             startActivity(intent);
             finish();
         }*/
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SELECT_GETIMG && resultCode == Activity.RESULT_OK){
+            if (data != null) {
+                ArrayList<String> images = data.getStringArrayListExtra(
+                        ImageSelector.SELECT_RESULT);
+                if (AdapterUtil.isListNotEmpty(images)) {
+
+                }
+            }
+        }
+    }
+
+    private void selectImage() {
+        Acp.getInstance(this).request(new AcpOptions.Builder().setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).build(),
+                new AcpListener() {
+                    @Override
+                    public void onGranted() {
+                        ImageSelector.builder()
+                                .useCamera(true) // 设置是否使用拍照
+                                .setSingle(true)  //设置是否单选
+                                .start(WebActivity.this, REQUEST_SELECT_GETIMG); //
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions) {
+                        showToast("权限拒绝");
+                    }
+                });
     }
 
     @Override

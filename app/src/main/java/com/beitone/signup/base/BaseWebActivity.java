@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.beitone.signup.R;
 import com.beitone.signup.SignUpApplication;
@@ -395,7 +397,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //setTitle(view, view.getTitle());
+                        setTitle(view, view.getTitle());
 
                     }
                 }, 3000);
@@ -403,5 +405,15 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
             }
         };
     }
+
+    protected void showToast(int resourceId) {
+        showToast(getString(resourceId));
+    }
+
+    protected void showToast(String text) {
+        if (!TextUtils.isEmpty(text))
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

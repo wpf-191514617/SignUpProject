@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 
 import cn.betatown.mobile.beitonelibrary.R;
 
@@ -60,7 +59,7 @@ public class VaryViewHelperController {
         }
         ImageView imageView = (ImageView) layout.findViewById(R.id.message_icon);
         if (drawableId != 0){
-            Glide.with(layout.getContext()).asGif().load(drawableId).into(imageView);
+           // Glide.with(layout.getContext()).asGif().load(drawableId).into(imageView);
         }
 
         if (null != onClickListener) {

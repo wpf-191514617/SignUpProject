@@ -22,6 +22,27 @@ public class AndroidInterface {
         this.activity = activity;
     }
 
+    @JavascriptInterface
+    public void getImgSrc(){
+        EventData eventData = new EventData<>(EventCode.CODE_GET_IMGSRC);
+        EventBus.getDefault().post(eventData);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // 分享
     @JavascriptInterface
     public void shareWeb(final String title, final String url, final String imgUrl,

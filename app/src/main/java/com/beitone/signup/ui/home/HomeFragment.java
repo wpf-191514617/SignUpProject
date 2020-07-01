@@ -2,22 +2,23 @@ package com.beitone.signup.ui.home;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
 import com.beitone.signup.R;
-import com.beitone.signup.base.BaseFragment;
+import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.AppIndexDataResponse;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.beitone.signup.ui.WebActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 import com.stx.xhb.xbanner.XBanner;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
@@ -132,8 +135,17 @@ public class HomeFragment extends BaseHomeFragment {
         homeBanner.setOnItemClickListener(new XBanner.OnItemClickListener() {
             @Override
             public void onItemClick(XBanner banner, Object model, View view, int position) {
-
-
+                AppIndexDataResponse.BannerBean bannerData =
+                        (AppIndexDataResponse.BannerBean) model;
+                if (!StringUtil.isEmpty(bannerData.getJumpurl())){
+                    WebEntity webEntity = new WebEntity();
+                    webEntity.head = new HashMap<>();
+                    webEntity.url = bannerData.getJumpurl();
+                    webEntity.title = bannerData.getTitle();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(WebActivity.KEY_WEB , webEntity);
+                    jumpTo(WebActivity.class , bundle);
+                }
             }
         });
 
@@ -143,11 +155,7 @@ public class HomeFragment extends BaseHomeFragment {
                 AppIndexDataResponse.BannerBean bannerData =
                         (AppIndexDataResponse.BannerBean) model;
                 //设置图片圆角角度
-                RoundedCorners roundedCorners = new RoundedCorners(10);
-//通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-                RequestOptions options =
-                        RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-                Glide.with(HomeFragment.this).load(bannerData.getXBannerUrl()).apply(options).into((ImageView) view);
+                Picasso.get().load(BaseProvider.BaseUrl + bannerData.getUrl()).into((YLCircleImageView)view);
             }
         });
     }

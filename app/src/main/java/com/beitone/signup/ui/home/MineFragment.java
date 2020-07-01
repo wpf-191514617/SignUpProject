@@ -1,6 +1,9 @@
 package com.beitone.signup.ui.home;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -8,23 +11,44 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.beitone.signup.R;
+import com.beitone.signup.entity.response.UploadFileResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
+import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
+import com.beitone.signup.ui.account.ImproveInformationActivity;
 import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.ui.account.UserInfoActivity;
 import com.beitone.signup.ui.setting.FeedbackActivity;
 import com.beitone.signup.ui.setting.SettingActivity;
+import com.donkingliang.imageselector.utils.ImageSelector;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.permission.Acp;
+import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
+import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
+import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
+import de.hdodenhof.circleimageview.CircleImageView;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class MineFragment extends BaseHomeFragment {
+    private static final int REQUEST_SELECT_HEAD = 6;
     @BindView(R.id.tvUserInformation)
     TextView tvUserInformation;
     @BindView(R.id.tvUserNickName)
@@ -39,8 +63,10 @@ public class MineFragment extends BaseHomeFragment {
     LinearLayout layoutFeedback;
     @BindView(R.id.layoutSetting)
     LinearLayout layoutSetting;
-    @BindView(R.id.fake_status_bar)
-    View fakeStatusBar;
+    /* @BindView(R.id.fake_status_bar)
+     View fakeStatusBar;*/
+    @BindView(R.id.civUserHead)
+    CircleImageView civUserHead;
 
     private View lineSign, lineChangeWorkPoint;
 
@@ -63,8 +89,8 @@ public class MineFragment extends BaseHomeFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            if(activity!=null){
+        if (isVisibleToUser) {
+            if (activity != null) {
                 StateAppBar.translucentStatusBar(activity, true);
             }
         }//展示
@@ -77,7 +103,7 @@ public class MineFragment extends BaseHomeFragment {
 
     @Override
     public void initStatusBar() {
-        fakeStatusBar.setBackgroundColor(Color.parseColor("#00000000"));
+        // fakeStatusBar.setBackgroundColor(Color.parseColor("#00000000"));
     }
 
     @Override
@@ -90,8 +116,9 @@ public class MineFragment extends BaseHomeFragment {
     private void refreshUserData() {
         UserInfoResponse userInfoResponse = UserHelper.getInstance().getCurrentInfo();
         setText(tvUserNickName, userInfoResponse.getName());
-        setText(tvUserTeam,
-                userInfoResponse.getB_project_name() + " - " + userInfoResponse.getB_project_team_name());
+
+        Picasso.get().load(BaseProvider.BaseUrl + userInfoResponse.getHead_photo()).into(civUserHead);
+        String line = "";
         switch (userInfoResponse.getType()) {
             case "1":
             case "2":
@@ -100,14 +127,24 @@ public class MineFragment extends BaseHomeFragment {
                 lineSign.setVisibility(View.GONE);
                 lineChangeWorkPoint.setVisibility(View.GONE);
                 break;
+            default:
+                line = " - ";
+                break;
         }
+
+        setText(tvUserTeam,
+                userInfoResponse.getB_project_name() + line + userInfoResponse.getB_project_team_name());
+
     }
 
-    @OnClick({R.id.tvUserInformation, R.id.layoutSign, R.id.layoutChangeWorkPoint,
-            R.id.layoutFeedback,
-            R.id.layoutSetting})
+    @OnClick({R.id.civUserHead, R.id.tvUserInformation, R.id.layoutSign, R.id.layoutChangeWorkPoint,
+            R.id.layoutFeedback, R.id.layoutSetting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.civUserHead:
+                // onSelectImageHead();
+                activity.selectHead();
+                break;
             case R.id.tvUserInformation:
                 jumpTo(UserInfoActivity.class);
                 break;
@@ -131,6 +168,80 @@ public class MineFragment extends BaseHomeFragment {
         }
     }
 
+    private void commpressImage(String path) {
+        showLoadingDialog();
+        Luban.with(getActivity()).load(path)
+                .ignoreBy(100)
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(File file) {
+                        uploadUserHead(file);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onDismissLoading();
+                        showToast("上传数据失败");
+                    }
+                }).launch();
+    }
+
+    private void uploadUserHead(File file) {
+        AccountProvider.uploadUserHead(getActivity(), file,
+                new OnJsonCallBack<UploadFileResponse>() {
+                    @Override
+                    public void onResult(UploadFileResponse data) {
+                        if (data != null && !StringUtil.isEmpty(data.getId())) {
+                            updateUserHead(data.getId(), file);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        onDismissLoading();
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        onDismissLoading();
+                        showToast(msg);
+                    }
+                });
+    }
+
+    private void updateUserHead(String id, File file) {
+        AccountProvider.updateUserHead(getActivity(), id, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                onDismissLoading();
+                Picasso.get().load("file://" + file.getPath()).into(civUserHead);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                onDismissLoading();
+                showToast(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                onDismissLoading();
+                showToast(msg);
+            }
+
+        });
+    }
+
     @Override
     protected void onEventComming(EventData eventData) {
         super.onEventComming(eventData);
@@ -143,6 +254,10 @@ public class MineFragment extends BaseHomeFragment {
                 showToast((String) eventData.data);
                 UserHelper.getInstance().saveCurrentUserInfo(null);
                 jumpToThenKill(LoginActivity.class);
+                break;
+            case EventCode.CODE_CHANGE_USERHEAD:
+                String image = (String) eventData.data;
+                commpressImage(image);
                 break;
         }
     }

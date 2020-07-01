@@ -46,12 +46,27 @@ public class AccountProvider extends BaseProvider {
         post(context, "/worker/doRegist1.htm", map, onJsonCallBack);
     }
 
+    public static void updateUserHead(Context context, String fileId,
+                                  OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("fileid", fileId);
+        post(context, "/worker/doUpdateHeadPhoto.htm", map, onJsonCallBack);
+    }
+
+
 
     public static void uploadFeedBackImage(Context context, File file,
                                            OnJsonCallBack onJsonCallBack) {
         List<File> files = new ArrayList<>();
         files.add(file);
         AppProvider.uploadImage(context, files, "b_feedback", "附件图片", onJsonCallBack);
+    }
+
+    public static void uploadUserHead(Context context, File file,
+                                         OnJsonCallBack onJsonCallBack) {
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        AppProvider.uploadImage(context, files, "b_worker", "head_photo", onJsonCallBack);
     }
 
 
