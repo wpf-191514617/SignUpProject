@@ -7,7 +7,10 @@ import android.widget.TextView;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.helper.WebHelper;
+import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.view.HnitDialog;
 import com.beitone.signup.widget.InputLayout;
@@ -27,6 +30,10 @@ public class SettingActivity extends BaseActivity {
     InputLayout inputAboutUs;
     @BindView(R.id.tvLogout)
     TextView tvLogout;
+    @BindView(R.id.inputUserProtocol)
+    InputLayout inputUserProtocol;
+    @BindView(R.id.inputPrivacyPolicy)
+    InputLayout inputPrivacyPolicy;
 
     private HnitDialog mHnitDialog;
 
@@ -42,7 +49,7 @@ public class SettingActivity extends BaseActivity {
         inputAboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jumpTo(AboutUsActivity.class );
+                jumpTo(AboutUsActivity.class);
             }
         });
         inputPassword.setOnClickListener(new View.OnClickListener() {
@@ -53,11 +60,32 @@ public class SettingActivity extends BaseActivity {
         });
         String phone = UserHelper.getInstance().getCurrentInfo().getPhone();
         inputPhone.inputHnit(StringUtil.mobileEncrypt(phone));
+
+        inputUserProtocol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebEntity webEntity = WebHelper.getUserProtocol();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(WebActivity.KEY_WEB , webEntity);
+                jumpTo(WebActivity.class , bundle);
+            }
+        });
+
+        inputPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebEntity webEntity = WebHelper.getPrivacyPolicy();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(WebActivity.KEY_WEB , webEntity);
+                jumpTo(WebActivity.class , bundle);
+            }
+        });
+
     }
 
     @OnClick(R.id.tvLogout)
     public void onViewClicked() {
-        if (mHnitDialog == null){
+        if (mHnitDialog == null) {
             mHnitDialog = new HnitDialog.Builder(this)
                     .setTitle("是否退出当前账户？")
                     .setNative("取消", new View.OnClickListener() {
@@ -71,8 +99,9 @@ public class SettingActivity extends BaseActivity {
                         public void onClick(View view) {
                             mHnitDialog.dismiss();
                             UserHelper.getInstance().logOut();
-                            Intent intent = new Intent(SettingActivity.this , LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);		//将DengLuActivity至于栈顶
+                            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            //将DengLuActivity至于栈顶
                             startActivity(intent);
                             BaseAppManager.getInstance().clear();
                         }
@@ -81,4 +110,5 @@ public class SettingActivity extends BaseActivity {
         }
         mHnitDialog.show();
     }
+
 }

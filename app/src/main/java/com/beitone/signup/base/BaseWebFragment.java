@@ -77,7 +77,7 @@ public abstract class BaseWebFragment extends Fragment {
     protected Map<String, String> getHeader() {
         Map<String, String> head = new HashMap<>();
         head.put("Referer" , BaseProvider.BaseUrl);
-        head.put("Set-Cookie" , "JSESSIONID=" + SignUpApplication.getSession()+ ";Domain=www.beitone.com;" +
+        head.put("Set-Cookie" , "JSESSIONID=" + SignUpApplication.getSession()+ ";Domain=home.tx06.com;" +
                 "Path=/");
         return head;
     }
@@ -237,8 +237,7 @@ public abstract class BaseWebFragment extends Fragment {
                 CookieManager mCookieManager = CookieManager.getInstance();
                 if (mCookieManager != null) {
                     mCookieManager.setAcceptCookie(true);
-                    AgentWebConfig.syncCookie(url, "JSESSIONID=" + SignUpApplication.getSession()+";Domain=www" +
-                            ".beitone.com;Path=/");
+                    AgentWebConfig.syncCookie(url, "JSESSIONID=" + SignUpApplication.getSession()+";Domain=home.tx06.com;Path=/");
                 }
             }
         };
@@ -252,7 +251,7 @@ public abstract class BaseWebFragment extends Fragment {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
 //        cookieManager.removeSessionCookie();//移除
-        cookieManager.setCookie(url, "JSESSIONID=" + SignUpApplication.getSession()+ ";Domain=www.beitone.com;Path=/");
+        cookieManager.setCookie(url, "JSESSIONID=" + SignUpApplication.getSession()+ ";Domain=home.tx06.com;Path=/");
         CookieSyncManager.getInstance().sync();
     }
 

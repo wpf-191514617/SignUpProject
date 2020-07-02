@@ -3,23 +3,40 @@ package com.beitone.signup.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.entity.WebEntity;
+import com.beitone.signup.entity.response.AboutUsResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
+import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.home.HomeFragment;
 import com.beitone.signup.ui.home.MineFragment;
 import com.beitone.signup.ui.home.StatisticsFragment;
 import com.beitone.signup.ui.home.WorkFragment;
+import com.beitone.signup.ui.setting.AboutUsActivity;
+import com.beitone.signup.view.AppDialog;
+import com.beitone.signup.view.HnitDialog;
+import com.beitone.signup.view.UpdateVersionDialog;
 import com.donkingliang.imageselector.utils.ImageSelector;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -27,91 +44,129 @@ import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.permission.Acp;
 import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
 import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
+import cn.betatown.mobile.beitonelibrary.util.AppUtil;
+import cn.betatown.mobile.beitonelibrary.util.PreferencesUtils;
 import cn.betatown.mobile.beitonelibrary.widget.MainNavigateTabBar;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class MainActivity extends HomeActivity {
     private int REQUEST_SELECT_HEAD = 18;
-
-    /*@BindView(R.id.flMainContent)
-    FrameLayout flMainContent;
-    @BindView(R.id.mainTab)
-    MainNavigateTabBar mainTab;
-
-    @Override
-    protected int getContentViewLayoutId() {
-        return R.layout.activity_main;
-    }
+    private HnitDialog mHomeHnitDialog;
 
     @Override
     protected void initViewAndData() {
-        ButterKnife.bind(this);
-
-
-        mainTab.addTab(HomeFragment.class,
-                new MainNavigateTabBar.TabParam(R.drawable.tab_home_nor,
-                        R.drawable.tab_home_sel, "首页"));
-        UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
-        switch (infoResponse.getType()) {
-            case "3":
-            case "4":
-                mainTab.addTab(WorkFragment.class,
-                        new MainNavigateTabBar.TabParam(R.drawable.tab_work_nor,
-                                R.drawable.tab_work_sel, "工作"));
-                break;
+        super.initViewAndData();
+        boolean isShow = PreferencesUtils.getBoolean(this, "isFirstShowHnitAgree", false);
+        if (!isShow) {
+            showHnitDialog();
+        } else {
+            checkIsUpdate();
         }
-        if (!infoResponse.getType().equals("4")) {
-            mainTab.addTab(StatisticsFragment.class,
-                    new MainNavigateTabBar.TabParam(R.drawable.tab_statistics_nor,
-                            R.drawable.tab_statistics_sel, "统计"));
-        }
-        mainTab.addTab(MineFragment.class,
-                new MainNavigateTabBar.TabParam(R.drawable.tab_mine_nor,
-                        R.drawable.tab_mine_sel, "我的"));
+    }
 
-        mainTab.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+    private void showHnitDialog() {
+        mHomeHnitDialog = new HnitDialog.Builder(this)
+                .setTitle(getMsg())
+                .setNative("不同意", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mHomeHnitDialog.dismiss();
+                        System.exit(0);
+                    }
+                })
+                .setPositive("同意并使用", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mHomeHnitDialog.dismiss();
+                        PreferencesUtils.putBoolean(MainActivity.this, "isFirstShowHnitAgree", true);
+                        checkIsUpdate();
+                    }
+                })
+                .build();
+
+        mHomeHnitDialog.setCancelable(false);
+        mHomeHnitDialog.setCanceledOnTouchOutside(false);
+        mHomeHnitDialog.show();
+    }
+
+    private SpannableString getMsg() {
+        SpannableString string =
+                new SpannableString(getApplicationContext().getResources().getString(R.string.home_hnit));
+        string.setSpan(new ClickableSpan() {
+
             @Override
-            public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
-                switch (holder.tabIndex){
-                    case 1:
-                        switch (infoResponse.getType()) {
-                            case "3":
-                            case "4":
-                                *//*StateAppBar.translucentStatusBar(MainActivity.this,
-                                        true);*//*
-                                EventBus.getDefault().post(EventCode.CODE_CHANGE_STATUS1);
-                                break;
-                            default:
-                                EventBus.getDefault().post(EventCode.CODE_CHANGE_STATUS0);
-                                *//*StateAppBar.setStatusBarColor(MainActivity.this,
-                                        ContextCompat.getColor(MainActivity.this,
-                                                R.color.white));
-                                //状态栏亮色模式，设置状态栏黑色文字、图标
-                                StatusBarUtils.StatusBarLightMode(MainActivity.this);*//*
-                                break;
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
+                ds.setAntiAlias(true);
+                ds.setUnderlineText(false);
+            }
+
+            @Override
+            public void onClick(View view) {
+                WebEntity webEntity = WebHelper.getUserProtocol();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(WebActivity.KEY_WEB, webEntity);
+                jumpTo(WebActivity.class, bundle);
+            }
+            // 49，65
+        }, 40, 46, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        string.setSpan(new ClickableSpan() {
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getApplicationContext().getResources().getColor(R.color.colorAccent));
+                ds.setAntiAlias(true);
+                ds.setUnderlineText(false);
+            }
+
+            @Override
+            public void onClick(View view) {
+                WebEntity webEntity = WebHelper.getPrivacyPolicy();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(WebActivity.KEY_WEB, webEntity);
+                jumpTo(WebActivity.class, bundle);
+            }
+            // 49，65
+        }, 47, 53, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return string;
+    }
+
+
+
+
+    private void checkIsUpdate() {
+        AppProvider.loadAboutUs(this, new OnJsonCallBack<AboutUsResponse>() {
+            @Override
+            public void onResult(AboutUsResponse data) {
+                if (data != null) {
+                    if (data.getVersion() != null) {
+                        if (data.getVersion().getVersionCode() != AppUtil.getVersionCode(MainActivity.this)) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showUpdateDialog(data.getVersion());
+                                }
+                            }, 1500);
                         }
-                        break;
-                    case 3:
-                        StateAppBar.translucentStatusBar(MainActivity.this,
-                                true);
-                        break;
-                    default:
-                        StateAppBar.setStatusBarColor(MainActivity.this,
-                                ContextCompat.getColor(MainActivity.this,
-                                        R.color.white));
-                        //状态栏亮色模式，设置状态栏黑色文字、图标
-                        StatusBarUtils.StatusBarLightMode(MainActivity.this);
-                        break;
+                    }
                 }
             }
         });
+    }
 
-
-    }*/
+    private void showUpdateDialog(AboutUsResponse.VersionBean version) {
+        UpdateVersionDialog mUpdateVersionDialog = new UpdateVersionDialog(this);
+        mUpdateVersionDialog.setAppUpdateResponse(version);
+        mUpdateVersionDialog.show();
+    }
 
 
     public void selectHead(){

@@ -18,10 +18,13 @@ import android.widget.TextView;
 
 import com.baidu.aip.FaceSDKManager;
 import com.beitone.signup.SignUpApplication;
+import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.SessionResponse;
+import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
+import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.view.CheckingDialog;
 import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.CountDownButton;
@@ -296,10 +299,23 @@ public class RegisterActivity extends BaseActivity {
 
         @Override
         public void onClick(@NonNull View view) {
-            if (action.equals("login")) {
-                finish();
-            } else {
-
+            switch (action)
+            {
+                case "agree1":
+                    WebEntity webEntity = WebHelper.getUserProtocol();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(WebActivity.KEY_WEB, webEntity);
+                    jumpTo(WebActivity.class, bundle);
+                    break;
+                case "agree2":
+                    WebEntity webEntity1 = WebHelper.getPrivacyPolicy();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putParcelable(WebActivity.KEY_WEB, webEntity1);
+                    jumpTo(WebActivity.class, bundle1);
+                    break;
+                case "login":
+                    finish();
+                    break;
             }
         }
     }

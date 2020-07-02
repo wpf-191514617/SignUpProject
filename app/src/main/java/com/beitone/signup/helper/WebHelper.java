@@ -57,4 +57,21 @@ public class WebHelper {
         webEntity.url = BaseProvider.BaseUrl +  "/pro/html/project/project.html";
         return webEntity;
     }
+
+    public static WebEntity getUserProtocol() {
+        WebEntity webEntity = new WebEntity();
+        webEntity.head = new HashMap<>();
+        webEntity.title = "用户协议";
+        webEntity.url = BaseProvider.BaseUrl +  "/pro/html/regist_agreement.html";
+        return webEntity;
+    }
+
+    public static WebEntity getPrivacyPolicy() {
+        WebEntity webEntity = new WebEntity();
+        webEntity.head = new HashMap<>();
+        webEntity.title = "隐私政策";
+        webEntity.url = BaseProvider.BaseUrl +  "/pro/html/privacy_agreement.html";
+        return webEntity;
+    }
+
 }

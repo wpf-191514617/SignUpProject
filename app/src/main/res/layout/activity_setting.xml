@@ -44,6 +44,22 @@
             app:inputHnit="修改"/>
         <include layout="@layout/line"/>
         <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputUserProtocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputSelect="true"
+            app:inputLable="用户协议"
+            />
+        <include layout="@layout/line"/>
+        <com.beitone.signup.widget.InputLayout
+            android:id="@+id/inputPrivacyPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inputSelect="true"
+            app:inputLable="隐私政策"
+            />
+        <include layout="@layout/line"/>
+        <com.beitone.signup.widget.InputLayout
             android:id="@+id/inputAboutUs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

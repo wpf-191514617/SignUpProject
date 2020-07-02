@@ -62,5 +62,5 @@ dependencies {
     implementation 'cn.yc:YCStatusBarLib:1.4.0'
     implementation 'com.github.lihangleo2:ShadowLayout:2.1.7'
     implementation 'com.android.support:multidex:1.0.1'
-
+    implementation 'com.qianwen:update-app:3.5.2'
 }

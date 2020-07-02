@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_124dp"
+            android:layout_height="@dimen/dimen_116dp"
+            android:layout_marginTop="@dimen/dimen_25dp"
+            android:src="@drawable/bg_version" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发现新版本"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp_20" />
+
+
+            <TextView
+                android:id="@+id/tvVersionName"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_20dp"
+                android:layout_marginLeft="@dimen/dimen_5dp"
+                android:background="@drawable/bg_orange"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimen_9dp"
+                android:paddingRight="@dimen/dimen_9dp"
+                android:text="3.0.0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/tvUpdateContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:paddingTop="@dimen/dimen_15dp"
+            android:paddingBottom="@dimen/dimen_10dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:lineSpacingExtra="@dimen/dimen_8dp"
+            android:text="发现新版本"
+            android:textColor="@color/gray33"
+            android:textSize="@dimen/sp_14" />
+
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_30dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginRight="@dimen/dimen_30dp"
+            android:layout_marginBottom="@dimen/dimen_32dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40dp"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:text="立即更新"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_17" />
+
+            <LinearLayout
+                android:id="@+id/layoutProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@style/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_4dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:text="升级中..."
+                    android:textColor="@color/gray33"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginRight="@dimen/dimen_10dp"
+        android:paddingTop="@dimen/dimen_5dp"
+        android:paddingRight="@dimen/dimen_5dp">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_18dp"
+            android:layout_height="@dimen/dimen_18dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_close" />
+    </LinearLayout>
+</RelativeLayout>
