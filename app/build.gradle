@@ -60,7 +60,7 @@ dependencies {
     implementation project(':beitonelibrary')
     implementation 'com.github.gittjy:LoadingDialog:1.0.2'
     implementation 'cn.yc:YCStatusBarLib:1.4.0'
-
+    implementation 'com.github.lihangleo2:ShadowLayout:2.1.7'
     implementation 'com.android.support:multidex:1.0.1'
 
 }

@@ -1,12 +1,17 @@
 package com.beitone.signup.ui.home;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.library.YLCircleImageView;
+import com.beitone.face.utils.DeviceUtil;
+import com.beitone.face.widget.DensityUtils;
 import com.beitone.signup.R;
 import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.AppIndexDataResponse;
@@ -18,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 import com.stx.xhb.xbanner.XBanner;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +42,7 @@ import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
+import me.jessyan.autosize.utils.ScreenUtils;
 
 public class HomeFragment extends BaseHomeFragment {
 
@@ -85,6 +92,7 @@ public class HomeFragment extends BaseHomeFragment {
         homePager.setOffscreenPageLimit(2);
         homePager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
         tabHome.setupWithViewPager(homePager);
+        setIndicator(tabHome , 16 ,16);
     }
 
     @Override
@@ -112,6 +120,18 @@ public class HomeFragment extends BaseHomeFragment {
         }//展示
     }
 
+    @Override
+    protected void onFirstUserVisible() {
+        super.onFirstUserVisible();
+        if (fakeStatusBar != null) {
+            fakeStatusBar.setVisibility(View.VISIBLE);
+        }
+        StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color
+                .white));
+        //状态栏亮色模式，设置状态栏黑色文字、图标
+        //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
+        StatusBarUtils.StatusBarLightMode(activity);
+    }
 
     private void loadAppIndexData() {
         AppProvider.loadAppIndexData(getActivity(), new OnJsonCallBack<AppIndexDataResponse>() {
@@ -159,6 +179,89 @@ public class HomeFragment extends BaseHomeFragment {
             }
         });
     }
+
+    public static void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
+        Class<?> tabLayout = tabs.getClass();
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayout.getDeclaredField("slidingTabIndicator");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        tabStrip.setAccessible(true);
+        LinearLayout llTab = null;
+        try {
+            llTab = (LinearLayout) tabStrip.get(tabs);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
+        int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
+
+        for (int i = 0; i < llTab.getChildCount(); i++) {
+            View child = llTab.getChildAt(i);
+            child.setPadding(0, 0, 0, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            params.leftMargin = left;
+            params.rightMargin = right;
+            child.setLayoutParams(params);
+            child.invalidate();
+        }
+
+
+    }
+
+
+
+    public static void reflex(final TabLayout tabLayout){
+        tabLayout.post(() -> {
+            try {
+                //拿到tabLayout的slidingTabIndicator属性
+                Field tabIndicator = tabLayout.getClass().getDeclaredField("slidingTabIndicator");
+                //API28以下为mTabStrip
+//              Field tabIndicator = tabLayout.getClass().getDeclaredField("mTabStrip");
+                tabIndicator.setAccessible(true);
+                LinearLayout mTabStrip = (LinearLayout) tabIndicator.get(tabLayout);
+
+                int dp10 = DensityUtils.dip2px(tabLayout.getContext(), 15);
+
+                for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+                    View tabView = mTabStrip.getChildAt(i);
+
+                    //拿到tabView的mTextView属性  tab的字数不固定一定用反射取mTextView
+                    Field mTextViewField = tabView.getClass().getDeclaredField("textView");
+                    //API28以下为mTextView
+//                  Field mTextViewField = tabView.getClass().getDeclaredField("mTextView");
+                    mTextViewField.setAccessible(true);
+                    TextView mTextView = (TextView) mTextViewField.get(tabView);
+                    tabView.setPadding(0, 0, 0, 0);
+
+                    //字多宽线就多宽，需要测量mTextView的宽度
+                    int width = 0;
+                    width = mTextView.getWidth();
+                    if (width == 0) {
+                        mTextView.measure(0, 0);
+                        width = mTextView.getMeasuredWidth();
+                    }
+
+                    //设置tab左右间距为10dp 这个间距可根据自己需求更改
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+                    params.width = width ;
+                    params.leftMargin = dp10;
+                    params.rightMargin = dp10;
+                    tabView.setLayoutParams(params);
+                    tabView.invalidate();
+                }
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
 
 
     class HomePagerAdapter extends FragmentPagerAdapter {

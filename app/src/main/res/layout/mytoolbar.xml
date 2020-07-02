@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.lihang.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hl_dx="0dp"
+        app:hl_dy="0dp"
+        app:hl_shadowColor="#F2F2F2"
+        app:hl_bottomShow="true"
+        app:hl_leftShow="false"
+        app:hl_rightShow="false"
+        app:hl_topShow="false"
+        app:hl_shadowLimit="5dp">
+
+        <include layout="@layout/toolbar"/>
+
+    </com.lihang.ShadowLayout>
+
+</FrameLayout>

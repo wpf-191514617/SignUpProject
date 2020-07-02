@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="69.5dp"
     android:orientation="vertical">
-
-    <View
-        android:id="@+id/fake_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/statusbar_view_height"
-        android:background="@color/white"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="44.5dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/gray33"
-            android:textSize="@dimen/sp_17" />
-
-        <View
-            android:id="@+id/lineTitle"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#dddedd" />
-
-    </LinearLayout>
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/containerHome"
@@ -73,6 +44,7 @@
                 android:id="@+id/tabHome"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_40dp"
+                app:tabIndicatorHeight="@dimen/dimen_2dp"
                 app:tabGravity="center" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -86,4 +58,63 @@
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <View
+        android:id="@+id/fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/white"/>
+
+
+    <com.lihang.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hl_dx="0dp"
+        app:hl_dy="0dp"
+        app:hl_shadowColor="#F2F2F2"
+        app:hl_bottomShow="true"
+        app:hl_leftShow="false"
+        app:hl_rightShow="false"
+        app:hl_topShow="false"
+        app:hl_shadowLimit="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44.5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/gray33"
+                android:textSize="@dimen/sp_17" />
+
+            <View
+                android:id="@+id/lineTitle"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#dddedd" />
+
+        </LinearLayout>
+
+    </com.lihang.ShadowLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

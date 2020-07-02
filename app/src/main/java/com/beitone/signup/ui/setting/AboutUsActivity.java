@@ -1,5 +1,6 @@
 package com.beitone.signup.ui.setting;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class AboutUsActivity extends BaseActivity {
     LinearLayout layoutVersion;
     @BindView(R.id.updateHintView)
     View updateHintView;
+    @BindView(R.id.tvCopyright)
+    TextView tvCopyright;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -54,6 +57,7 @@ public class AboutUsActivity extends BaseActivity {
                     inputWeb.inputHnit(data.getWeb());
                     inputService.inputHnit(data.getPhone());
                     inputEmail.inputHnit(data.getEmail());
+                    setText(tvCopyright , data.getCn_copyright() + "\n" + data.getEn_copyright());
                     if (data.getVersion() != null) {
                         if (data.getVersion().getVersionCode() == AppUtil.getVersionCode(AboutUsActivity.this)) {
                             updateHintView.setVisibility(View.INVISIBLE);
@@ -71,6 +75,6 @@ public class AboutUsActivity extends BaseActivity {
     @OnClick(R.id.layoutVersion)
     public void onViewClicked() {
 
-    }    
+    }
 
 }

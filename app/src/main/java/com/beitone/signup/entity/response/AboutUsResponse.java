@@ -6,15 +6,19 @@ public class AboutUsResponse {
     /**
      * phone : 400-080-0800
      * weixin : 406603460
+     * en_copyright : Copyright © 2020, First branch of Sinohydro bureau 4,. Ltd. All Rights Reserved.
      * email : 635104032@qq.com
      * web : www.houchi.com
-     * version : {"updateDesc":"优复已知Bug。","id":26,"createTime":"2020-04-27 11:00:34","updateUrl":"https://www.beitone.com/upload_file_dir/apk/beitone.apk","isUpgrade":"1","versionCode":40,"showtime":"2020-04-27 11:00:21","versionType":"1","versionName":"v3.1.3"}
+     * cn_copyright : © 2020 版权归中国水电四局第一分局所有
+     * version : {"updateDesc":"修正部分显示问题","id":2,"createTime":"2016-03-02 14:58:28","updateUrl":"https://m.beitone.com/upload_file_dir/apk/beitone.apk","isUpgrade":"2","versionCode":1,"showtime":"","versionType":"1","versionName":"V1.0.2"}
      */
 
     private String phone;
     private String weixin;
+    private String en_copyright;
     private String email;
     private String web;
+    private String cn_copyright;
     private VersionBean version;
 
     public String getPhone() {
@@ -33,6 +37,14 @@ public class AboutUsResponse {
         this.weixin = weixin;
     }
 
+    public String getEn_copyright() {
+        return en_copyright;
+    }
+
+    public void setEn_copyright(String en_copyright) {
+        this.en_copyright = en_copyright;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -49,6 +61,14 @@ public class AboutUsResponse {
         this.web = web;
     }
 
+    public String getCn_copyright() {
+        return cn_copyright;
+    }
+
+    public void setCn_copyright(String cn_copyright) {
+        this.cn_copyright = cn_copyright;
+    }
+
     public VersionBean getVersion() {
         return version;
     }
@@ -59,15 +79,15 @@ public class AboutUsResponse {
 
     public static class VersionBean {
         /**
-         * updateDesc : 优复已知Bug。
-         * id : 26
-         * createTime : 2020-04-27 11:00:34
-         * updateUrl : https://www.beitone.com/upload_file_dir/apk/beitone.apk
-         * isUpgrade : 1
-         * versionCode : 40
-         * showtime : 2020-04-27 11:00:21
+         * updateDesc : 修正部分显示问题
+         * id : 2
+         * createTime : 2016-03-02 14:58:28
+         * updateUrl : https://m.beitone.com/upload_file_dir/apk/beitone.apk
+         * isUpgrade : 2
+         * versionCode : 1
+         * showtime :
          * versionType : 1
-         * versionName : v3.1.3
+         * versionName : V1.0.2
          */
 
         private String updateDesc;

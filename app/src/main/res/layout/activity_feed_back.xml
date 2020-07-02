@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="44.5dp"
     android:background="@color/white"
     android:orientation="vertical">
 
 
-    <include layout="@layout/toolbar"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_8dp"
-        android:background="@color/grayf5"/>
 
 
     <androidx.core.widget.NestedScrollView
@@ -95,3 +98,7 @@
         android:layout_marginRight="@dimen/dimen_18dp"/>
 
 </LinearLayout>
+
+
+<include layout="@layout/mytoolbar"/>
+</RelativeLayout>

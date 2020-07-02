@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -75,8 +76,14 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
-        StateAppBar.translucentStatusBar(this,true);
+//        StateAppBar.translucentStatusBar(this,true);
+//        //状态栏亮色模式，设置状态栏黑色文字、图标
+//        StatusBarUtils.StatusBarLightMode(this);
+
+        StateAppBar.setStatusBarColor(this, ContextCompat.getColor(this, R.color
+                .white));
         //状态栏亮色模式，设置状态栏黑色文字、图标
+        //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
         StatusBarUtils.StatusBarLightMode(this);
 
         mHomePageFragments = new ArrayList<>();

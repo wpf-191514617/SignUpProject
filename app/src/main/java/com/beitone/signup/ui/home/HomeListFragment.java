@@ -13,6 +13,7 @@ import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.WebActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,8 @@ import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseRecyclerAdapte
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelper;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.util.DateStyle;
+import cn.betatown.mobile.beitonelibrary.util.DateUtil;
 import cn.betatown.mobile.beitonelibrary.util.Trace;
 
 public class HomeListFragment extends BaseRecyclerFragment {
@@ -84,8 +87,9 @@ public class HomeListFragment extends BaseRecyclerFragment {
             if (array != null && array.length > 0) {
                 publishTime = array[0];
             }
+            Date date = DateUtil.StringToDate(publishTime , DateStyle.YYYY_MM_DD);
             helper.setText(R.id.tvTitle, model.getTitle())
-                    .setText(R.id.tvPublishTime, publishTime);
+                    .setText(R.id.tvPublishTime, DateUtil.DateToString(date , DateStyle.MM_DD_CN));
 
             TextView tvStudy = helper.getTextView(R.id.tvStudy);
 
