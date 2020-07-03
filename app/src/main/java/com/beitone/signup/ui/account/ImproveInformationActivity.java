@@ -2,6 +2,7 @@ package com.beitone.signup.ui.account;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.beitone.face.APIService;
 import com.beitone.face.exception.FaceError;
+import com.beitone.face.model.RegResult;
 import com.beitone.face.utils.ImageSaveUtil;
 import com.beitone.face.utils.OnResultListener;
 import com.beitone.signup.R;
@@ -28,11 +30,14 @@ import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
+import com.beitone.signup.view.AppDialog;
 import com.beitone.signup.view.SingleSelectDialog;
 import com.beitone.signup.widget.AppButton;
 import com.beitone.signup.widget.InputLayout;
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -387,21 +392,25 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
     private void registerUserToBaidu() {
-        APIService.getInstance().reg(new OnResultListener<FaceAuthResponse>() {
+        APIService.getInstance().reg(new OnResultListener<RegResult>() {
             @Override
-            public void onResult(FaceAuthResponse result) {
-                if (result.getError_code() != 0) {
+            public void onResult(RegResult result) {
+                Trace.d("data++");
+
+                /*if (result.getError_code() != 0) {
                     onDismissLoading();
                     showToast(result.getError_msg());
                     return;
                 }
+                */
                 if (isImprove) {
                     UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
                     return;
                 }
                 onDismissLoading();
-                showToast("操作成功");
-                finish();
+                showSuccessDialog();
+                /*showToast("操作成功");
+                finish();*/
             }
 
             @Override
@@ -410,6 +419,23 @@ public class ImproveInformationActivity extends BaseActivity {
                 showToast(error.getErrorMessage());
             }
         }, new File(facePath), mUserId, inputPhone.getText());
+    }
+
+    private void showSuccessDialog() {
+        AppDialog appDialog = new AppDialog(this , "您已注册成功" , "去登录" , AppDialog.DialogType.SUCCESS);
+        appDialog.setCanceledOnTouchOutside(false);
+        appDialog.setCancelable(false);
+        appDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                EventData<String> eventData = new EventData<String>(EventCode.CODE_REGISTER_SUCCESS,
+                        phone);
+                EventBus.getDefault().post(eventData);
+                finish();
+            }
+        });
+        appDialog.show();
     }
 
 

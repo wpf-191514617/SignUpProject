@@ -20,6 +20,7 @@ import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
+import com.beitone.signup.ui.WebActivity1;
 import com.beitone.signup.ui.account.ImproveInformationActivity;
 import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.ui.account.UserInfoActivity;
@@ -153,6 +154,7 @@ public class MineFragment extends BaseHomeFragment {
                 bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getCalendar());
                 bundle.putBoolean("isSign", true);
                 jumpTo(WebActivity.class, bundle);
+                //  jumpTo(WebActivity1.class);
                 break;
             case R.id.layoutChangeWorkPoint:
                 Bundle bundle1 = new Bundle();

@@ -130,8 +130,29 @@ public class AccountProvider extends BaseProvider {
     }
 
 
+    public static void sendUpdateSMSCode(Context context, OnJsonCallBack onJsonCallBack) {
+        post(context, "/worker/doSendPhoneCodeChangePhone.htm", onJsonCallBack);
+    }
+
     public static void doSendPhoneCodeResetPwd(Context context, OnJsonCallBack onJsonCallBack) {
         post(context, "/worker/doSendPhoneCodeResetPwd.htm", onJsonCallBack);
+    }
+
+
+    public static void doSendPhoneCodeChangePhoneNew(Context context,
+                                                     String phone, OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        post(context, "/worker/doSendPhoneCodeChangePhoneNew.htm", map,onJsonCallBack);
+    }
+
+    public static void doChangePhone(Context context,
+                                                     String phone,
+                                                     String code, OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("code" , code);
+        post(context, "/worker/doChangePhone.htm", map,onJsonCallBack);
     }
 
 
@@ -140,6 +161,13 @@ public class AccountProvider extends BaseProvider {
         Map<String, String> map = new HashMap<>();
         map.put("code", code);
         post(context, "/worker/checkResetPwdCode.htm", map, onJsonCallBack);
+    }
+
+    public static void checkUpdatePhoneCode(Context context, String code,
+                                         OnJsonCallBack onJsonCallBack) {
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        post(context, "/worker/checkChangePhoneCode.htm", map, onJsonCallBack);
     }
 
 

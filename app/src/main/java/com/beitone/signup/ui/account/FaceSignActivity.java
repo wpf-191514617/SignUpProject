@@ -88,6 +88,7 @@ public class FaceSignActivity extends FaceDetectActivity {
                 super.onError(msg);
                 onDismissLoading();
                 showToast(msg);
+                finish();
             }
 
             @Override
@@ -95,6 +96,7 @@ public class FaceSignActivity extends FaceDetectActivity {
                 super.onFailed(msg);
                 onDismissLoading();
                 showToast(msg);
+                finish();
             }
         });
     }
@@ -202,12 +204,14 @@ public class FaceSignActivity extends FaceDetectActivity {
             public void onFailed(String msg) {
                 super.onFailed(msg);
                 showToast(msg);
+                finish();
             }
 
             @Override
             public void onError(String msg) {
                 super.onError(msg);
                 showToast(msg);
+                finish();
             }
 
         });

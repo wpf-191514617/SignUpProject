@@ -15,5 +15,5 @@ public class EventCode {
 
     public static final int CODE_GET_IMGSRC = 0xB07;
 
-
+    public static final int CODE_REGISTER_SUCCESS = 0xB08;
 }

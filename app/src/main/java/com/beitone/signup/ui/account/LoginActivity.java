@@ -15,6 +15,8 @@ import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.SessionResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AccountProvider;
 import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
@@ -63,6 +65,20 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        if (eventData.CODE == EventCode.CODE_REGISTER_SUCCESS){
+            String phone = (String) eventData.data;
+            setText(etAccount , phone);
+            etAccount.setSelection(phone.length());
+        }
+    }
 
     @OnClick({R.id.ivClearAccount, R.id.ivShowPassword, R.id.btnLogin, R.id.tvRegister,
             R.id.tvForgetPassword})

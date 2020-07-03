@@ -10,6 +10,8 @@ import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
+import com.beitone.signup.model.EventCode;
+import com.beitone.signup.model.EventData;
 import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.view.HnitDialog;
@@ -58,8 +60,16 @@ public class SettingActivity extends BaseActivity {
                 jumpTo(CheckUserActivity.class);
             }
         });
-        String phone = UserHelper.getInstance().getCurrentInfo().getPhone();
-        inputPhone.inputHnit(StringUtil.mobileEncrypt(phone));
+       refreshUserData();
+
+        inputPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isUpdatePhone" , true);
+                jumpTo(CheckUserActivity.class , bundle);
+            }
+        });
 
         inputUserProtocol.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +91,27 @@ public class SettingActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void onEventComming(EventData eventData) {
+        super.onEventComming(eventData);
+        switch (eventData.CODE) {
+            case EventCode
+                    .CODE_USERINFO_SUCCESS:
+                refreshUserData();
+                break;
+        }
+    }
+
+    private void refreshUserData() {
+        String phone = UserHelper.getInstance().getCurrentInfo().getPhone();
+        inputPhone.inputHnit(StringUtil.mobileEncrypt(phone));
     }
 
     @OnClick(R.id.tvLogout)

@@ -83,7 +83,7 @@ public class WebActivity extends BaseWebActivity {
                 mToolbar.setNavigationIcon(R.drawable.ic_back_white);
                 mToolbar.setBackgroundColor(Color.parseColor("#6161f7"));
                 tvTilte.setTextColor(Color.WHITE);
-                barView.setVisibility(View.GONE);
+                barView.setVisibility(View.VISIBLE);
                 lineTitle.setVisibility(View.GONE);
                 StateAppBar.setStatusBarColor(this, ContextCompat.getColor(this,
                         R.color.colorAccent1));

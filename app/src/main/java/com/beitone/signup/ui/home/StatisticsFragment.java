@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.beitone.signup.R;
-import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.StatisticsResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
@@ -55,6 +54,12 @@ public class StatisticsFragment extends BaseHomeFragment {
     View lineTitle;
     @BindView(R.id.layoutStatisticsContent)
     LinearLayout layoutStatisticsContent;
+    @BindView(R.id.tvErrorPeopleCount)
+    TextView tvErrorPeopleCount;
+    @BindView(R.id.tvErrorPeopleRate)
+    TextView tvErrorPeopleRate;
+    @BindView(R.id.layoutErrorContent)
+    LinearLayout layoutErrorContent;
 
     private StatisticsResponse mStatisticsResponse;
 
@@ -77,10 +82,10 @@ public class StatisticsFragment extends BaseHomeFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            if(activity!=null){
+        if (isVisibleToUser) {
+            if (activity != null) {
                 StateAppBar.setStatusBarColor(activity, ContextCompat.getColor(activity, R.color
-                .white));
+                        .white));
                 //状态栏亮色模式，设置状态栏黑色文字、图标
                 //注意：如果是设置白色状态栏，则需要添加下面这句话。如果是设置其他的颜色，则可以不添加，状态栏大都默认是白色字体和图标
                 StatusBarUtils.StatusBarLightMode(activity);
@@ -101,7 +106,7 @@ public class StatisticsFragment extends BaseHomeFragment {
     }
 
     @Override
-    public  void initStatusBar() {
+    public void initStatusBar() {
         tvTitle.setBackgroundColor(Color.parseColor("#ffffff"));
         fakeStatusBar.setBackgroundColor(Color.parseColor("#ffffff"));
     }
@@ -144,6 +149,16 @@ public class StatisticsFragment extends BaseHomeFragment {
                                 setRate(prvPersonTraining, "0");
                                 setRate(prvPersonSign, "0");
                             }
+
+                            layoutErrorContent.setVisibility(View.VISIBLE);
+                            if (data.getFail_rate() != null){
+                                setText(tvErrorPeopleCount , data.getFail_rate().getNum());
+                                setText(tvErrorPeopleRate , data.getFail_rate().getRate());
+                            } else {
+                                setText(tvErrorPeopleCount , "0");
+                                setText(tvErrorPeopleRate , "0");
+                            }
+
                             setUserData();
                         }
                     }
@@ -200,15 +215,24 @@ public class StatisticsFragment extends BaseHomeFragment {
         loadHomeData();
     }
 
-    @OnClick(R.id.layoutProjectStatistics)
-    public void onViewClicked() {
-        Bundle bundle = new Bundle();
-        if (UserHelper.getInstance().getCurrentInfo().getType().equals("3")) {
-            bundle.putParcelable(WebActivity.KEY_WEB,
-                    WebHelper.getItemAnalysisDetail(mStatisticsResponse.getWorker().getB_project_id()));
-        } else {
-            bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getItemAnalysis());
+    @OnClick({R.id.layoutProjectStatistics, R.id.layoutErrorContent})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layoutProjectStatistics:
+                Bundle bundle = new Bundle();
+                if (UserHelper.getInstance().getCurrentInfo().getType().equals("3")) {
+                    bundle.putParcelable(WebActivity.KEY_WEB,
+                            WebHelper.getItemAnalysisDetail(mStatisticsResponse.getWorker().getB_project_id()));
+                } else {
+                    bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getItemAnalysis());
+                }
+                jumpTo(WebActivity.class, bundle);
+                break;
+            case R.id.layoutErrorContent:
+                Bundle bundle1 = new Bundle();
+                bundle1.putParcelable(WebActivity.KEY_WEB, WebHelper.getItemAnalysis2());
+                jumpTo(WebActivity.class, bundle1);
+                break;
         }
-        jumpTo(WebActivity.class, bundle);
     }
 }

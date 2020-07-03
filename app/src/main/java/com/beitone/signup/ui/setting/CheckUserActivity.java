@@ -21,15 +21,17 @@ import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 
 public class CheckUserActivity extends BaseActivity {
     @BindView(R.id.etPhone)
-    EditText etPhone;
+    protected EditText etPhone;
     @BindView(R.id.ivShowPassword)
-    ImageView ivShowPassword;
+    protected ImageView ivShowPassword;
     @BindView(R.id.etAuthCode)
-    EditText etAuthCode;
+    protected EditText etAuthCode;
     @BindView(R.id.tvSendAuthCode)
-    CountDownButton tvSendAuthCode;
+    protected CountDownButton tvSendAuthCode;
     @BindView(R.id.btnNext)
-    AppButton btnNext;
+    protected AppButton btnNext;
+
+    private boolean isUpdatePhone;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -37,13 +39,23 @@ public class CheckUserActivity extends BaseActivity {
     }
 
     @Override
+    protected void getBundleExtras(Bundle extras) {
+        super.getBundleExtras(extras);
+        isUpdatePhone = extras.getBoolean("isUpdatePhone", false);
+    }
+
+    @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
+        initData();
+    }
+
+    protected void initData() {
         setTitle("身份验证");
         etPhone.setEnabled(false);
         etPhone.setFocusable(false);
         UserInfoResponse infoResponse = UserHelper.getInstance().getCurrentInfo();
-        setText(etPhone , StringUtil.mobileEncrypt(infoResponse.getPhone()));
+        setText(etPhone, StringUtil.mobileEncrypt(infoResponse.getPhone()));
         etPhone.setHint(StringUtil.mobileEncrypt(infoResponse.getPhone()));
     }
 
@@ -51,20 +63,71 @@ public class CheckUserActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tvSendAuthCode:
-                sendSMSCode();
+                if (isUpdatePhone) {
+                    sendUpdateSMSCode();
+                } else {
+                    sendSMSCode();
+                }
                 break;
             case R.id.btnNext:
                 String authCode = etAuthCode.getText().toString();
-                if (StringUtil.isEmpty(authCode)){
+                if (StringUtil.isEmpty(authCode)) {
                     showToast("请输入验证码");
                     return;
                 }
-                checkAuthCode(authCode);
+                if (!isUpdatePhone) {
+                    checkAuthCode(authCode);
+                } else {
+                    checkUpdateAuthCode(authCode);
+                }
                 break;
         }
     }
 
-    private void checkAuthCode(String authCode) {
+    private void checkUpdateAuthCode(String authCode) {
+        AccountProvider.checkUpdatePhoneCode(this, authCode, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                jumpToThenKill(ChangePhoneActivity.class);
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+
+        });
+    }
+
+    private void sendUpdateSMSCode() {
+        AccountProvider.sendUpdateSMSCode(this, new OnJsonCallBack() {
+            @Override
+            public void onResult(Object data) {
+                tvSendAuthCode.start();
+            }
+
+            @Override
+            public void onError(String msg) {
+                super.onError(msg);
+                showToast(msg);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                super.onFailed(msg);
+                showToast(msg);
+            }
+        });
+    }
+
+    protected void checkAuthCode(String authCode) {
         AccountProvider.checkResetPwdCode(this, authCode, new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {
@@ -92,7 +155,7 @@ public class CheckUserActivity extends BaseActivity {
         tvSendAuthCode.stopConut();
     }
 
-    private void sendSMSCode() {
+    protected void sendSMSCode() {
         AccountProvider.doSendPhoneCodeResetPwd(this, new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {

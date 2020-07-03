@@ -20,7 +20,7 @@ public class WebHelper {
     public static WebEntity getCalendar() {
         WebEntity webEntity = new WebEntity();
         webEntity.head = new HashMap<>();
-        webEntity.title = "我的考勤";
+        webEntity.title = "";
         webEntity.url = BaseProvider.BaseUrl +  "/pro/html/calendar/calendar.html";
         return webEntity;
     }
@@ -41,6 +41,15 @@ public class WebHelper {
         webEntity.url = BaseProvider.BaseUrl +  "/pro/html/item/itemAnalysis.html";
         return webEntity;
     }
+
+    public static WebEntity getItemAnalysis2() {
+        WebEntity webEntity = new WebEntity();
+        webEntity.head = new HashMap<>();
+        webEntity.title = "项目综合分析";
+        webEntity.url = BaseProvider.BaseUrl +  "/pro/html/item/itemAnalysis2.html";
+        return webEntity;
+    }
+
 
     public static WebEntity getItemAnalysisDetail(String id) {
         WebEntity webEntity = new WebEntity();

@@ -43,6 +43,8 @@ import java.lang.ref.WeakReference;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 import static com.beitone.face.utils.Base64RequestBody.readFile;
 
@@ -122,7 +124,8 @@ public class FaceDetectActivity extends BaseActivity {
         tvTitle.setTextColor(Color.WHITE);
         setText(tvTitle , "人脸识别");
         toolbar.setNavigationIcon(R.drawable.ic_back_white);
-
+        StateAppBar.setStatusBarColor(this, ContextCompat.getColor(this,
+                R.color.colorface));
         rectView = (FaceRoundView) findViewById(R.id.rect_view);
         final CameraImageSource cameraImageSource = new CameraImageSource(this);
         cameraImageSource.setPreviewView(previewView);

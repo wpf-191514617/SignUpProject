@@ -157,7 +157,7 @@ public class HomeFragment extends BaseHomeFragment {
             public void onItemClick(XBanner banner, Object model, View view, int position) {
                 AppIndexDataResponse.BannerBean bannerData =
                         (AppIndexDataResponse.BannerBean) model;
-                if (!StringUtil.isEmpty(bannerData.getJumpurl())){
+                if (StringUtil.isUrl(bannerData.getJumpurl())){
                     WebEntity webEntity = new WebEntity();
                     webEntity.head = new HashMap<>();
                     webEntity.url = bannerData.getJumpurl();
