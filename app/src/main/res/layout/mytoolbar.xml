@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         app:hl_dx="0dp"
         app:hl_dy="0dp"
-        app:hl_shadowColor="#F2F2F2"
+        app:hl_shadowColor="#0d000000"
         app:hl_bottomShow="true"
         app:hl_leftShow="false"
         app:hl_rightShow="false"

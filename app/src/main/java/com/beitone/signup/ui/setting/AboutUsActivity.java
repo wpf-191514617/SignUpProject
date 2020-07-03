@@ -1,6 +1,5 @@
 package com.beitone.signup.ui.setting;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,6 +8,7 @@ import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.response.AboutUsResponse;
 import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.view.UpdateVersionDialog;
 import com.beitone.signup.widget.InputLayout;
 
 import butterknife.BindView;
@@ -35,6 +35,8 @@ public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.tvCopyright)
     TextView tvCopyright;
 
+    private AboutUsResponse.VersionBean mVersionBean;
+
     @Override
     protected int getContentViewLayoutId() {
         return R.layout.activity_about_us;
@@ -59,6 +61,7 @@ public class AboutUsActivity extends BaseActivity {
                     inputEmail.inputHnit(data.getEmail());
                     setText(tvCopyright , data.getCn_copyright() + "\n" + data.getEn_copyright());
                     if (data.getVersion() != null) {
+                        mVersionBean = data.getVersion();
                         if (data.getVersion().getVersionCode() == AppUtil.getVersionCode(AboutUsActivity.this)) {
                             updateHintView.setVisibility(View.INVISIBLE);
                         } else {
@@ -74,7 +77,20 @@ public class AboutUsActivity extends BaseActivity {
 
     @OnClick(R.id.layoutVersion)
     public void onViewClicked() {
+        if (mVersionBean == null){
+            return;
+        }
+        if (mVersionBean.getVersionCode() == AppUtil.getVersionCode(this)) {
+            showToast("已经是最新版本了！");
+        } else {
+            showUpdateDialog(mVersionBean);
+        }
+    }
 
+    private void showUpdateDialog(AboutUsResponse.VersionBean version) {
+        UpdateVersionDialog mUpdateVersionDialog = new UpdateVersionDialog(this);
+        mUpdateVersionDialog.setAppUpdateResponse(version);
+        mUpdateVersionDialog.show();
     }
 
 }

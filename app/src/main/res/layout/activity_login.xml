@@ -19,7 +19,7 @@
         android:layout_width="@dimen/dimen_75dp"
         android:layout_height="@dimen/dimen_75dp"
         android:layout_marginTop="@dimen/dimen_66dp"
-        android:background="@drawable/app_default" />
+        android:background="@drawable/appicon" />
 
 
     <LinearLayout
