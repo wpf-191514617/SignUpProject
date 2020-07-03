@@ -279,7 +279,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen_2dp"
-                                android:text="异常打卡人数"
+                                android:text="异常人数"
                                 android:textColor="#ff999999"
                                 android:textSize="12sp" />
 
@@ -335,7 +335,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dimen_2dp"
-                                android:text="异常打卡占比"
+                                android:text="异常占比"
                                 android:textColor="#ff999999"
                                 android:textSize="12sp" />
 

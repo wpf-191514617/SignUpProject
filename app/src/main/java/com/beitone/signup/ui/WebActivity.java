@@ -90,6 +90,7 @@ public class WebActivity extends BaseWebActivity {
             } else {
                 StateAppBar.setStatusBarLightMode(this, Color.WHITE);
                 mToolbar.setNavigationIcon(R.drawable.ic_back);
+                lineTitle.setVisibility(View.GONE);
             }
 
         }
