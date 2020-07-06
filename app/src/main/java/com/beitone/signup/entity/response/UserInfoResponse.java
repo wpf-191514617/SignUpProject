@@ -6,22 +6,23 @@ public class UserInfoResponse {
     /**
      * phone : 15529000515
      * today_sign_num : 0
-     * head_photo : null
+     * head_photo : /images/app/head-def.png
      * b_project_name : 引江济淮9-2标
      * face_photo : /upload/2020-06-23/fbacf084-ac2e-4551-99d7-0cf2b49c7f2f.jpeg
      * regist_step : 2
      * job : null
      * card_num : 610323199112255514
      * type : 4
+     * id : 15
      * b_project_team_name : 一区一队
      * card_photo : /upload/2020-06-23/df3623c1-386d-4889-905b-53c8c3d497d4.jpeg
+     * sign_rate : 75%
      * job_name : null
-     * sign_rate : -100%
-     * type_of_work : 队伍负责人
+     * type_of_work : 1
      * name : 王鹏飞
      * type_name : 普通工人
-     * type_of_work_name : null
-     * study_rate : -100%
+     * type_of_work_name : 队伍负责人
+     * study_rate : 0%
      */
 
     private String phone;
@@ -32,25 +33,18 @@ public class UserInfoResponse {
     private String regist_step;
     private String job;
     private String card_num;
-    private String id;
     private String type;
+    private String id;
     private String b_project_team_name;
     private String card_photo;
-    private String job_name;
     private String sign_rate;
+    private String job_name;
     private String type_of_work;
     private String name;
     private String type_name;
     private String type_of_work_name;
     private String study_rate;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getPhone() {
         return phone;
@@ -124,6 +118,14 @@ public class UserInfoResponse {
         this.type = type;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getB_project_team_name() {
         return b_project_team_name;
     }
@@ -140,20 +142,20 @@ public class UserInfoResponse {
         this.card_photo = card_photo;
     }
 
-    public String getJob_name() {
-        return job_name;
-    }
-
-    public void setJob_name(String job_name) {
-        this.job_name = job_name;
-    }
-
     public String getSign_rate() {
         return sign_rate;
     }
 
     public void setSign_rate(String sign_rate) {
         this.sign_rate = sign_rate;
+    }
+
+    public String getJob_name() {
+        return job_name;
+    }
+
+    public void setJob_name(String job_name) {
+        this.job_name = job_name;
     }
 
     public String getType_of_work() {

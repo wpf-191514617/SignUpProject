@@ -1,13 +1,10 @@
 package com.beitone.signup.ui.account;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 import com.beitone.signup.R;
 import com.beitone.signup.SignUpApplication;
@@ -55,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
-        if (UserHelper.getInstance().isLogin()){
+        if (UserHelper.getInstance().isLogin()) {
             jumpToThenKill(MainActivity.class);
             return;
         }
@@ -73,9 +70,9 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onEventComming(EventData eventData) {
         super.onEventComming(eventData);
-        if (eventData.CODE == EventCode.CODE_REGISTER_SUCCESS){
+        if (eventData.CODE == EventCode.CODE_REGISTER_SUCCESS) {
             String phone = (String) eventData.data;
-            setText(etAccount , phone);
+            setText(etAccount, phone);
             etAccount.setSelection(phone.length());
         }
     }
@@ -117,8 +114,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResult(SessionResponse data) {
                 if (data != null) {
-                    SignUpApplication.setSession(data.getSessionId());
-                    loadUserInfo();
+                    if (data.getStatus().equals("2")) {
+                        SignUpApplication.setSession(data.getSessionId());
+                        loadUserInfo();
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("status" , data.getStatus());
+                        jumpTo(AuditActivity.class , bundle);
+                    }
                 }
             }
 
@@ -141,12 +144,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResult(UserInfoResponse data) {
                 if (data != null) {
-                    if (!data.getRegist_step().equals("2")){
+                    if (!data.getRegist_step().equals("2")) {
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean("isImprove" , true);
+                        bundle.putBoolean("isImprove", true);
                         bundle.putString("phone", data.getPhone());
                         bundle.putString("userId", data.getId());
-                        jumpToThenKill(ImproveInformationActivity.class ,bundle);
+                        jumpToThenKill(ImproveInformationActivity.class, bundle);
                         return;
                     }
                     UserHelper.getInstance().saveCurrentUserInfo(data);

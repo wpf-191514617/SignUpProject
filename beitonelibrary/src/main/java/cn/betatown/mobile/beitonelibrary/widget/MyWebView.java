@@ -117,7 +117,7 @@ public class MyWebView extends WebView {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
 //        cookieManager.removeSessionCookie();//移除
-        cookieManager.setCookie(url, "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=home.tx06.com;Path=/");
+        cookieManager.setCookie(url, "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=a.tx06.com;Path=/");
         CookieSyncManager.getInstance().sync();
     }
 
@@ -126,7 +126,7 @@ public class MyWebView extends WebView {
         Map<String, String> head = new HashMap<>();
         head.put("Referer", "http://www.beitone.com/");
         String jsessionid = BaseApplication.getSession();
-        head.put("Cookie", "JSESSIONID=" + jsessionid + ";Domain=home.tx06.com;Path=/");
+        head.put("Cookie", "JSESSIONID=" + jsessionid + ";Domain=a.tx06.com;Path=/");
         return head;
     }
 

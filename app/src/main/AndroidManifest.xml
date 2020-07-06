@@ -112,6 +112,10 @@
 
         <activity android:name=".ui.WebActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.account.AuditActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.WebActivity1"
             android:screenOrientation="portrait"/>
 

@@ -13,6 +13,7 @@ public class SessionResponse {
     private String id;
     private String sessionId;
     private String token;
+    private String status;
     private String token_invalid_timer;
 
     public String getId() {
@@ -45,5 +46,13 @@ public class SessionResponse {
 
     public void setToken_invalid_timer(String token_invalid_timer) {
         this.token_invalid_timer = token_invalid_timer;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
