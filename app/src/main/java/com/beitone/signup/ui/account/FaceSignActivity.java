@@ -1,6 +1,8 @@
 package com.beitone.signup.ui.account;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import com.beitone.face.APIService;
 import com.beitone.face.exception.FaceError;
 import com.beitone.face.model.RegResult;
 import com.beitone.face.utils.ImageSaveUtil;
+import com.beitone.face.utils.ImageUtil;
 import com.beitone.face.utils.OnResultListener;
 import com.beitone.face.utils.PreferencesUtil;
 import com.beitone.signup.SignUpApplication;
@@ -27,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.UUID;
 
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
@@ -40,13 +44,101 @@ public class FaceSignActivity extends FaceDetectActivity {
 
     private String facePath, baiduFacePath;
 
+    private int mDetectCount = 0;
+
     @Override
     protected void onFaceAuthSuccess(FaceFilter.TrackedModel trackedModel) {
         // 人脸识别成功
         this.trackedModel = trackedModel;
-        facePath = ImageSaveUtil.loadCameraBitmapPath(this, "head_tmp.jpg");
+        /*facePath = ImageSaveUtil.loadCameraBitmapPath(this, "head_tmp.jpg");
         baiduFacePath = facePath;
-        compressImage();
+        compressImage();*/
+        if (trackedModel.getEvent() != FaceFilter.Event.OnLeave){
+            mDetectCount++;
+            try {
+                final Bitmap face = trackedModel.cropFace();
+                final File file = File.createTempFile(UUID.randomUUID().toString() + "", ".jpg");
+                ImageUtil.resize(face, file, 200, 200);
+                ImageSaveUtil.saveCameraBitmap(FaceSignActivity.this, face, "head_tmp.jpg");
+
+
+                APIService.getInstance().identify(new OnResultListener<RegResult>() {
+                    @Override
+                    public void onResult(RegResult result) {
+                        if (result == null) {
+                            if (mDetectCount >= 3) {
+                                showToast("人脸校验不通过");
+                                finish();
+                            }
+                            return;
+                        }
+
+                        String res = result.getJsonRes();
+                        double maxScore = 0;
+                        String userId = "";
+                        String userInfo = "";
+                        if (TextUtils.isEmpty(res)) {
+                            showToast("人脸校验不通过");
+                            finish();
+                            return;
+                        }
+
+                        JSONObject obj = null;
+                        try {
+                            obj = new JSONObject(res);
+                            JSONObject resObj = obj.optJSONObject("result");
+                            if (resObj != null) {
+                                JSONArray resArray = resObj.optJSONArray("user_list");
+                                int size = resArray.length();
+                                for (int i = 0; i < size; i++) {
+                                    JSONObject s = (JSONObject) resArray.get(i);
+                                    if (s != null) {
+                                        double score = s.getDouble("score");
+                                        if (score > maxScore) {
+                                            maxScore = score;
+                                            userId = s.getString("user_id");
+                                            userInfo = s.getString("user_info");
+                                        }
+
+                                    }
+                                }
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        if (maxScore > 90) {
+                            Log.d("DetectLoginActivity", "onResult ok");
+                            //TODO 人脸校验通过
+                            facePath = file.getPath();
+                            compressImage();
+                        } else {
+                            Log.d("DetectLoginActivity", "onResult fail");
+                            if (mDetectCount >= 3) {
+                                showToast("人脸校验不通过");
+                                finish();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(FaceError error) {
+                        showToast("人脸校验不通过");
+                        finish();
+                    }
+                }, file);
+
+            } catch (Exception e){
+                showToast("人脸校验不通过");
+                finish();
+            }
+        } else {
+            showToast("人脸校验不通过");
+            finish();
+        }
     }
 
 
@@ -79,7 +171,8 @@ public class FaceSignActivity extends FaceDetectActivity {
             @Override
             public void onResult(UploadFileResponse data) {
                 if (data != null && !StringUtil.isEmpty(data.getId())) {
-                    signUpBaidu(data.getId());
+                    //signUpBaidu(data.getId());
+                    signUp(data.getId());
                 }
             }
 

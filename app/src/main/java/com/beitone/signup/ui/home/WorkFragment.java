@@ -180,9 +180,9 @@ public class WorkFragment extends BaseHomeFragment {
 
     @OnClick(R.id.layoutSignUp)
     public void onViewClicked() {
-        if (mUserInfoResponse.getToday_sign_num() > 0) {
+        /*if (mUserInfoResponse.getToday_sign_num() > 0) {
             return;
-        }
+        }*/
         checkLocation();
     }
 
