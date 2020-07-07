@@ -19,6 +19,8 @@ import com.beitone.face.utils.OnResultListener;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.account.LoginActivity;
 import com.bt.http.OkHttpUtils;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -49,8 +51,15 @@ public class SignUpApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initLib();
-        String sign = "cf:91:e0:79:7e:91:d0:8c:db:8b:31:b7:a4:fe:84:35";
-        sign = sign.toUpperCase();
+
+        /**
+         * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+         * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+         * UMConfigure.init调用中appkey和channel参数请置为null）。
+         */
+        UMConfigure.init(this, "5efea96ddbc2ec0820ff6576", "sd4j", UMConfigure.DEVICE_TYPE_PHONE, "");
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
         registerLifecycleCallbacks();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.hostnameVerifier((s, sslSession) -> true)

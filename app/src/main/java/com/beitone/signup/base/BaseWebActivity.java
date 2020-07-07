@@ -30,6 +30,7 @@ import com.just.agentweb.MiddlewareWebClientBase;
 import com.just.agentweb.PermissionInterceptor;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +82,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
         }
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -241,7 +243,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
             mAgentWeb.getWebLifeCycle().onPause();
         }
         super.onPause();
-
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -250,6 +252,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
             mAgentWeb.getWebLifeCycle().onResume();
         }
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDialog;
 import com.beitone.signup.R;
 import com.beitone.signup.model.EventData;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,6 +60,18 @@ public abstract class BaseFragment extends BToneFragment implements BaseView, Cu
         if (isRegisterEventBus()) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getClass().getName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getClass().getName());
     }
 
     @Subscribe

@@ -97,7 +97,7 @@ public class ImproveInformationActivity extends BaseActivity {
     private String phone;
     private static final int REQUEST_SELECT_IMAGE = 1001;
 
-    private boolean isImprove;
+    private boolean isImprove, fromAudit;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -110,6 +110,7 @@ public class ImproveInformationActivity extends BaseActivity {
         mUserId = extras.getString("userId");
         phone = extras.getString("phone");
         isImprove = extras.getBoolean("isImprove", false);
+        fromAudit = extras.getBoolean("fromAudit" , false);
     }
 
     @Override
@@ -404,8 +405,8 @@ public class ImproveInformationActivity extends BaseActivity {
                 }
                 */
                 if (isImprove) {
-                    UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
-                    return;
+                   // UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
+                    //return;
                 }
                 onDismissLoading();
                 showSuccessDialog();
@@ -422,7 +423,7 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
     private void showSuccessDialog() {
-        AppDialog appDialog = new AppDialog(this , "您已注册成功" , "去登录" , AppDialog.DialogType.SUCCESS);
+        AppDialog appDialog = new AppDialog(this , "您已注册成功" , "确定" , AppDialog.DialogType.SUCCESS);
         appDialog.setCanceledOnTouchOutside(false);
         appDialog.setCancelable(false);
         appDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -432,6 +433,12 @@ public class ImproveInformationActivity extends BaseActivity {
                 EventData<String> eventData = new EventData<String>(EventCode.CODE_REGISTER_SUCCESS,
                         phone);
                 EventBus.getDefault().post(eventData);
+                if (isImprove){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("status" , "1");
+                    jumpToThenKill(AuditActivity.class , bundle);
+                    return;
+                }
                 finish();
             }
         });
@@ -451,9 +458,9 @@ public class ImproveInformationActivity extends BaseActivity {
         switch (eventData.CODE) {
             case EventCode
                     .CODE_USERINFO_SUCCESS:
-                onDismissLoading();
+                /*onDismissLoading();
                 showToast("操作成功");
-                jumpToThenKill(MainActivity.class);
+                jumpToThenKill(MainActivity.class);*/
                 break;
             case EventCode.CODE_USERINFO_FAILED:
                 onDismissLoading();

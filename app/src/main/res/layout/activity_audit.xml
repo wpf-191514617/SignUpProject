@@ -65,6 +65,7 @@
                 android:layout_marginBottom="@dimen/dimen_24dp"/>
 
             <TextView
+                android:id="@+id/tvMemo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="很抱歉，您的信息提供有误，请重新修改并上传"

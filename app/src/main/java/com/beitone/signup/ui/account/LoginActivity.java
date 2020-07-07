@@ -114,14 +114,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResult(SessionResponse data) {
                 if (data != null) {
-                    if (data.getStatus().equals("2")) {
-                        SignUpApplication.setSession(data.getSessionId());
-                        loadUserInfo();
-                    } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("status" , data.getStatus());
-                        jumpTo(AuditActivity.class , bundle);
-                    }
+                    SignUpApplication.setSession(data.getSessionId());
+                    loadUserInfo();
                 }
             }
 
@@ -144,14 +138,29 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResult(UserInfoResponse data) {
                 if (data != null) {
-                    if (!data.getRegist_step().equals("2")) {
+                   // if (!data.getRegist_step().equals("2")) {
+                    if (data.getJoin_status().equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("isImprove", true);
                         bundle.putString("phone", data.getPhone());
                         bundle.putString("userId", data.getId());
-                        jumpToThenKill(ImproveInformationActivity.class, bundle);
+                        jumpTo(ImproveInformationActivity.class, bundle);
                         return;
                     }
+
+
+                    if (!data.getJoin_status().equals("2")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("status", data.getJoin_status());
+                        bundle.putBoolean("isImprove", true);
+                        bundle.putString("phone", data.getPhone());
+                        bundle.putString("userId", data.getId());
+                        bundle.putString("join_audit_memo" , data.getJoin_status_audit_memo());
+                        jumpTo(AuditActivity.class, bundle);
+                        return;
+                    }
+
+
                     UserHelper.getInstance().saveCurrentUserInfo(data);
                     jumpToThenKill(MainActivity.class);
                 }

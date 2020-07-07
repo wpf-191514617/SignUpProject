@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDialog;
 import com.beitone.signup.R;
 import com.beitone.signup.model.EventData;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +69,17 @@ public abstract class BaseActivity extends BaseAppcomtActivity implements BaseVi
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     public static boolean MIUISetStatusBarLightMode(Window window, boolean dark) {
         boolean result = false;

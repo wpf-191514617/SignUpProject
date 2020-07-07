@@ -44,7 +44,24 @@ public class UserInfoResponse {
     private String type_name;
     private String type_of_work_name;
     private String study_rate;
+    private String join_status;
+    private String join_status_audit_memo;
 
+    public String getJoin_status_audit_memo() {
+        return join_status_audit_memo;
+    }
+
+    public void setJoin_status_audit_memo(String join_status_audit_memo) {
+        this.join_status_audit_memo = join_status_audit_memo;
+    }
+
+    public String getJoin_status() {
+        return join_status;
+    }
+
+    public void setJoin_status(String join_status) {
+        this.join_status = join_status;
+    }
 
     public String getPhone() {
         return phone;
