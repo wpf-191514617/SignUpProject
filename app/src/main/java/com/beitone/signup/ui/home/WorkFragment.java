@@ -182,19 +182,19 @@ public class WorkFragment extends BaseHomeFragment {
 
     @OnClick(R.id.layoutSignUp)
     public void onViewClicked() {
-        /*if (mUserInfoResponse.getToday_sign_num() > 0) {
+        if (mUserInfoResponse.getToday_sign_num() > 0) {
             return;
-        }*/
-       // checkLocation();
-        SignUpApplication.getApplication().initLib();
-        jumpToForResult(FaceSignActivity1.class, REQUEST_SIGN);
+        }
+       checkLocation();
     }
 
     private void checkLocation() {
         AppProvider.checkIsInSignRegion(getActivity(), new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {
-                jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
+                SignUpApplication.getApplication().initLib();
+                jumpToForResult(FaceSignActivity1.class, REQUEST_SIGN);
+                //jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
             }
 
             @Override

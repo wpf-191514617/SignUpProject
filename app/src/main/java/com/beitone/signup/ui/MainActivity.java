@@ -10,8 +10,10 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.beitone.signup.R;
 import com.beitone.signup.base.BaseActivity;
@@ -204,4 +206,21 @@ public class MainActivity extends HomeActivity {
             }
         }
     }
+
+    private long mExitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 1500) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

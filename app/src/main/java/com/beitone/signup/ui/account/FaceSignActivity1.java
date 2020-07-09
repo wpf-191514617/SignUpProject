@@ -72,7 +72,6 @@ public class FaceSignActivity1 extends FaceLivenessActivity {
         if (mHeadIndex == headList.size()) {
             showMessageDialog("人脸校验不通过");
         } else {
-
             APIService.getInstance().doFaceVerify(new OnResultListener<RegResult>() {
                 @Override
                 public void onResult(RegResult result) {

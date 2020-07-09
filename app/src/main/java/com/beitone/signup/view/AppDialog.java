@@ -58,6 +58,7 @@ public class AppDialog extends Dialog {
                 ivDialog.setImageResource(R.drawable.sign_success);
                 break;
             case ERROR:
+                ivDialog.setImageResource(R.drawable.ic_failedpng);
                 break;
         }
         appButton.setOnClickListener(new View.OnClickListener() {

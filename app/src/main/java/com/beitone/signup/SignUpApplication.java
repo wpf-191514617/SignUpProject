@@ -71,7 +71,7 @@ public class SignUpApplication extends BaseApplication {
                 "");
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
-        registerLifecycleCallbacks();
+      //  registerLifecycleCallbacks();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.hostnameVerifier((s, sslSession) -> true)
                 //.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)

@@ -422,7 +422,7 @@ public class FaceLivenessActivity extends BaseActivity implements
 
         if (status == FaceStatusEnum.OK) {
             mIsCompletion = true;
-            saveImage(base64ImageMap);
+           // saveImage(base64ImageMap);
         }
         Ast.getInstance().faceHit("liveness");
     }
