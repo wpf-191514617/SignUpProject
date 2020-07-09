@@ -17,10 +17,12 @@ import com.beitone.face.model.RegResult;
 import com.beitone.face.utils.ImageSaveUtil;
 import com.beitone.face.utils.OnResultListener;
 import com.beitone.signup.R;
+import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.request.ImproveInforRequest;
 import com.beitone.signup.entity.response.EngineeringResponse;
 import com.beitone.signup.entity.response.FaceAuthResponse;
+import com.beitone.signup.entity.response.FaceRegisterResponse;
 import com.beitone.signup.entity.response.TeamResponse;
 import com.beitone.signup.entity.response.UploadFileResponse;
 import com.beitone.signup.entity.response.WorkTypeResponse;
@@ -52,6 +54,7 @@ import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.permission.Acp;
 import cn.betatown.mobile.beitonelibrary.permission.AcpListener;
 import cn.betatown.mobile.beitonelibrary.permission.AcpOptions;
+import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
 import cn.betatown.mobile.beitonelibrary.util.Trace;
 import top.zibin.luban.Luban;
@@ -110,12 +113,15 @@ public class ImproveInformationActivity extends BaseActivity {
         mUserId = extras.getString("userId");
         phone = extras.getString("phone");
         isImprove = extras.getBoolean("isImprove", false);
-        fromAudit = extras.getBoolean("fromAudit" , false);
+        fromAudit = extras.getBoolean("fromAudit", false);
+
     }
 
     @Override
     protected void initViewAndData() {
         ButterKnife.bind(this);
+        SignUpApplication.getApplication().initToken();
+        SignUpApplication.getApplication().initRegister();
         setTitle("完善个人资料");
         inputProject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +364,7 @@ public class ImproveInformationActivity extends BaseActivity {
         }
     }
 
-    private void commitUserDec() {
+    private void commitUserDec(String faceToken) {
         ImproveInforRequest request = new ImproveInforRequest();
         request.name = inputName.getText();
         request.phone = inputPhone.getText();
@@ -369,11 +375,13 @@ public class ImproveInformationActivity extends BaseActivity {
         request.type_of_work = mCurrentWorkTypeResponse.getValue();
         request.card_photo_fileid = idCardPath;
         request.face_photo_fileid = facePathId;
+        request.face_token = faceToken;
         AccountProvider.doImproveInfo(this, request, new OnJsonCallBack() {
             @Override
             public void onResult(Object data) {
                 // TODO   提交数据    上传百度
-                registerUserToBaidu();
+                onDismissLoading();
+                showSuccessDialog();
             }
 
             @Override
@@ -397,19 +405,26 @@ public class ImproveInformationActivity extends BaseActivity {
             @Override
             public void onResult(RegResult result) {
                 Trace.d("data++");
-
+                if (result != null && !StringUtil.isEmpty(result.getJsonRes())){
+                    FaceRegisterResponse response = GsonUtil.GsonToBean(result.getJsonRes() ,
+                            FaceRegisterResponse.class);
+                    if (response != null&& response.getError_code()==0){
+                        if (response.getResult() != null){
+                            commitUserDec(response.getResult().getFace_token());
+                        }
+                    }
+                }
                 /*if (result.getError_code() != 0) {
                     onDismissLoading();
                     showToast(result.getError_msg());
                     return;
                 }
                 */
-                if (isImprove) {
-                   // UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
+               // if (isImprove) {
+                    //UserHelper.getInstance().refreshUserInfo(ImproveInformationActivity.this);
                     //return;
-                }
-                onDismissLoading();
-                showSuccessDialog();
+                //}
+
                 /*showToast("操作成功");
                 finish();*/
             }
@@ -423,7 +438,7 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
     private void showSuccessDialog() {
-        AppDialog appDialog = new AppDialog(this , "您已注册成功" , "确定" , AppDialog.DialogType.SUCCESS);
+        AppDialog appDialog = new AppDialog(this, "您已注册成功", "确定", AppDialog.DialogType.SUCCESS);
         appDialog.setCanceledOnTouchOutside(false);
         appDialog.setCancelable(false);
         appDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -433,10 +448,10 @@ public class ImproveInformationActivity extends BaseActivity {
                 EventData<String> eventData = new EventData<String>(EventCode.CODE_REGISTER_SUCCESS,
                         phone);
                 EventBus.getDefault().post(eventData);
-                if (isImprove){
+                if (isImprove) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("status" , "1");
-                    jumpToThenKill(AuditActivity.class , bundle);
+                    bundle.putString("status", "1");
+                    jumpToThenKill(AuditActivity.class, bundle);
                     return;
                 }
                 finish();
@@ -475,7 +490,8 @@ public class ImproveInformationActivity extends BaseActivity {
             public void onResult(UploadFileResponse data) {
                 if (data != null && !StringUtil.isEmpty(data.getId())) {
                     facePathId = data.getId();
-                    commitUserDec();
+                    //commitUserDec();
+                    registerUserToBaidu();
                 }
             }
 
@@ -564,7 +580,7 @@ public class ImproveInformationActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_DETECT_FACE && resultCode == Activity.RESULT_OK) {
-
+            //faceToken = data.getStringExtra("faceId");
             facePath = ImageSaveUtil.loadCameraBitmapPath(this, "head_tmp.jpg");
             if (mHeadBmp != null) {
                 mHeadBmp.recycle();
@@ -580,7 +596,7 @@ public class ImproveInformationActivity extends BaseActivity {
                 if (AdapterUtil.isListNotEmpty(images)) {
                     idCardPath = images.get(0);
                     Picasso.get().load(new File(idCardPath)).into(ivIdCard);
-                   // Glide.with(this).load(idCardPath).centerCrop().into(ivIdCard);
+                    // Glide.with(this).load(idCardPath).centerCrop().into(ivIdCard);
                 }
             }
         }

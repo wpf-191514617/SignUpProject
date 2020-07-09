@@ -73,6 +73,7 @@ public class UserHelper {
             public void onResult(UserInfoResponse data) {
                 if (data != null) {
                     UserHelper.getInstance().saveCurrentUserInfo(data);
+                    SignUpApplication.getApplication().initToken();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

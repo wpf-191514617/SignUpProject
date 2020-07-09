@@ -89,7 +89,7 @@ public class RegParams implements RequestParams {
 
 
     public void setFaceField(String faceField) {
-        putParam("face_field", faceField);
+        putParam("face_type", faceField);
     }
 
     public void setOption(String option) {

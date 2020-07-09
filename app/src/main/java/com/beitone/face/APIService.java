@@ -4,9 +4,11 @@
 package com.beitone.face;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.baidu.aip.face.FaceFilter;
 import com.beitone.face.exception.FaceError;
 import com.beitone.face.model.AccessToken;
 import com.beitone.face.model.RegParams;
@@ -14,6 +16,8 @@ import com.beitone.face.parser.RegResultParser;
 import com.beitone.face.utils.DeviceUuidFactory;
 import com.beitone.face.utils.HttpUtil;
 import com.beitone.face.utils.OnResultListener;
+import com.beitone.signup.helper.UserHelper;
+import com.beitone.signup.util.BitmapUtils;
 import com.bt.http.OkHttpUtils;
 import com.bt.http.callback.StringCallback;
 import com.google.gson.Gson;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
 import okhttp3.Call;
@@ -48,7 +53,7 @@ public class APIService {
     private static final String VERIFY_URL = BASE_URL + "/rest/2.0/face/v3/verify";
 
     private static final String VERIFY_FACE = BASE_URL + "/rest/2.0/face/v3/faceverify";
-
+    private static final String MATCH_FACE = BASE_URL + "/rest/2.0/face/v3/match";
     private String accessToken;
 
     private String groupId;
@@ -103,7 +108,8 @@ public class APIService {
      * @param ak
      * @param sk
      */
-    public void initAccessTokenWithAkSk(final OnResultListener<AccessToken> listener, Context context, String ak,
+    public void initAccessTokenWithAkSk(final OnResultListener<AccessToken> listener,
+                                        Context context, String ak,
                                         String sk) {
 
         StringBuilder sb = new StringBuilder();
@@ -149,51 +155,41 @@ public class APIService {
     }
 
 
-    public void doFaceVerify(OnResultListener listener, File file){
-        RegParams params = new RegParams();
-        String base64Img = "";
-        try {
-            byte[] buf = readFile(file);
-            base64Img = new String(Base64.encode(buf, Base64.NO_WRAP));
+    public void doFaceVerify(OnResultListener listener, String base64Img) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Map<String, String>> maps = new ArrayList<>();
+        RegParams params = new RegParams();
         params.setImgType("BASE64");
         params.setBase64Img(base64Img);
         params.setGroupIdList(groupId);
         // 可以根据实际业务情况灵活调节
         params.setQualityControl("NORMAL");
         params.setLivenessControl("NORMAL");
-        params.setFaceField("age,beauty,spoofing");
-        params.setOption("GATE");
-        List<Map<String, String>> maps = new ArrayList<>();
+        params.setFaceField("LIVE");
         maps.add(params.getStringParams());
+
+        params = new RegParams();
+        params.setImgType("FACE_TOKEN");
+        params.setBase64Img(UserHelper.getInstance().getCurrentInfo().getFace_token());
+        params.setGroupIdList(groupId);
+        // 可以根据实际业务情况灵活调节
+        params.setQualityControl("NORMAL");
+        params.setLivenessControl("NORMAL");
+        params.setFaceField("LIVE");
+        maps.add(params.getStringParams());
+
+
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset-utf-8") , gson.toJson(maps));
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;" +
+                "charset-utf-8"), gson.toJson(maps));
 
-        HttpUtil.getInstance().postString(urlAppendCommonParams(VERIFY_FACE) , requestBody , new RegResultParser() , listener);
-
-//        OkHttpUtils.postString().url(urlAppendCommonParams(VERIFY_FACE))
-//                .mediaType()
-//                .content(array).build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//                        FaceError error = new FaceError(FaceError.ErrorCode.NETWORK_REQUEST_ERROR, "network request error", e);
-//                        listener.onError(error);
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                        listener.onResult(response);
-//                    }
-//                });
+        HttpUtil.getInstance().postString(urlAppendCommonParams(MATCH_FACE), requestBody,
+                new RegResultParser(), listener);
 
     }
 
 
-    public void faceVerify(OnResultListener listener, File file){
+    public void faceVerify(OnResultListener listener, File file) {
         RegParams params = new RegParams();
         String base64Img = "";
         try {
@@ -221,8 +217,27 @@ public class APIService {
     }
 
 
+    public void identify(OnResultListener listener, String base64Img) {
+        RegParams params = new RegParams();
+       /* String base64Img = "";
+        try {
+            byte[] buf = readFile(file);
+            base64Img = new String(Base64.encode(buf, Base64.NO_WRAP));
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        params.setImgType("BASE64");
+        params.setBase64Img(base64Img);
+        params.setGroupIdList(groupId);
+        // 可以根据实际业务情况灵活调节
+        params.setQualityControl("NORMAL");
+        params.setLivenessControl("HIGH");
 
+        RegResultParser parser = new RegResultParser();
+        String url = urlAppendCommonParams(IDENTIFY_URL);
+        HttpUtil.getInstance().post(url, params, parser, listener);
+    }
 
     /**
      * @param listener

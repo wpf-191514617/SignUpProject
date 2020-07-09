@@ -9,4 +9,5 @@ public class ImproveInforRequest {
     public String type_of_work;
     public String card_photo_fileid;
     public String face_photo_fileid;
+    public String face_token;
 }

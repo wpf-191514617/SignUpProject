@@ -115,6 +115,7 @@ public class LoginActivity extends BaseActivity {
             public void onResult(SessionResponse data) {
                 if (data != null) {
                     SignUpApplication.setSession(data.getSessionId());
+                   // SignUpApplication.getApplication().initToken();
                     loadUserInfo();
                 }
             }
@@ -162,6 +163,7 @@ public class LoginActivity extends BaseActivity {
 
 
                     UserHelper.getInstance().saveCurrentUserInfo(data);
+                    SignUpApplication.getApplication().initToken();
                     jumpToThenKill(MainActivity.class);
                 }
             }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.beitone.signup.R;
+import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.UserInfoResponse;
 import com.beitone.signup.helper.UserHelper;
@@ -24,6 +25,7 @@ import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.FaceSignActivity;
+import com.beitone.signup.ui.account.FaceSignActivity1;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -184,7 +186,8 @@ public class WorkFragment extends BaseHomeFragment {
             return;
         }*/
        // checkLocation();
-        jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
+        SignUpApplication.getApplication().initLib();
+        jumpToForResult(FaceSignActivity1.class, REQUEST_SIGN);
     }
 
     private void checkLocation() {

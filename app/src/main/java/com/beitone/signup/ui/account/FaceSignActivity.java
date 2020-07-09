@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
@@ -45,6 +47,17 @@ public class FaceSignActivity extends FaceDetectActivity {
     private String facePath, baiduFacePath;
 
     private int mDetectCount = 0;
+
+    private List<FaceFilter.TrackedModel> modelList;
+
+    @Override
+    protected void onFaceTrack(FaceFilter.TrackedModel trackedModel) {
+        super.onFaceTrack(trackedModel);
+        if (modelList == null){
+            modelList = new ArrayList<>();
+        }
+        modelList.add(trackedModel);
+    }
 
     @Override
     protected void onFaceAuthSuccess(FaceFilter.TrackedModel trackedModel) {
@@ -62,7 +75,7 @@ public class FaceSignActivity extends FaceDetectActivity {
                 ImageSaveUtil.saveCameraBitmap(FaceSignActivity.this, face, "head_tmp.jpg");
 
 
-                APIService.getInstance().doFaceVerify(new OnResultListener<RegResult>() {
+                /*APIService.getInstance().doFaceVerify(new OnResultListener<RegResult>() {
                     @Override
                     public void onResult(RegResult result) {
                         result.getJsonRes();
@@ -72,7 +85,7 @@ public class FaceSignActivity extends FaceDetectActivity {
                     public void onError(FaceError error) {
                         Trace.d("");
                     }
-                }, file);
+                }, modelList);*/
 
 
 

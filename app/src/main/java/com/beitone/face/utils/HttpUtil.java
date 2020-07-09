@@ -119,9 +119,10 @@ public class HttpUtil {
                 .build();
         // liujinhui 经常client为空指针 ？
         if (client == null) {
-            FaceError err = new FaceError(-999, "okhttp inner error");
+            /*FaceError err = new FaceError(-999, "okhttp inner error");
             listener.onError(err);
-            return;
+            return;*/
+            init();
         }
 
         client.newCall(request).enqueue(new Callback() {

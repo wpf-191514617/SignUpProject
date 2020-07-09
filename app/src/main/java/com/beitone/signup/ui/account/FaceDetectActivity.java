@@ -1,6 +1,7 @@
 package com.beitone.signup.ui.account;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ import java.lang.ref.WeakReference;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 import static com.beitone.face.utils.Base64RequestBody.readFile;
@@ -101,7 +103,7 @@ public class FaceDetectActivity extends BaseActivity {
     @Override
     protected void getBundleExtras(Bundle extras) {
         super.getBundleExtras(extras);
-        isSignUp = extras.getBoolean("isSignUp",false);
+        isSignUp = extras.getBoolean("isSignUp", false);
     }
 
     private void initScreen() {
@@ -122,7 +124,7 @@ public class FaceDetectActivity extends BaseActivity {
         toolbar.setBackgroundColor(Color.parseColor("#181529"));
         TextView tvTitle = findViewById(R.id.tvTitle);
         tvTitle.setTextColor(Color.WHITE);
-        setText(tvTitle , "人脸识别");
+        setText(tvTitle, "人脸识别");
         toolbar.setNavigationIcon(R.drawable.ic_back_white);
         StateAppBar.setStatusBarColor(this, ContextCompat.getColor(this,
                 R.color.colorface));
@@ -254,9 +256,10 @@ public class FaceDetectActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if ((System.currentTimeMillis() - mLastTipsTime) > 1000) {
+                        if ((System.currentTimeMillis() - mLastTipsTime) > 1500) {
                             nameTextView.setText(mCurTips);
                             mLastTipsTime = System.currentTimeMillis();
+                            return;
                         }
                         if (mGoodDetect && resultCode == 0) {
                             nameTextView.setText("");
@@ -274,7 +277,7 @@ public class FaceDetectActivity extends BaseActivity {
         faceDetectManager.setOnTrackListener(new FaceFilter.OnTrackListener() {
             @Override
             public void onTrack(FaceFilter.TrackedModel trackedModel) {
-
+                onFaceTrack(trackedModel);
                 if (trackedModel.meetCriteria() && mGoodDetect) {
                     // upload(trackedModel);
                     mGoodDetect = false;
@@ -334,7 +337,8 @@ public class FaceDetectActivity extends BaseActivity {
             public void onGlobalLayout() {
                 if (mSuccessView.getTag() == null) {
                     Rect rect = rectView.getFaceRoundRect();
-                    RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) mSuccessView.getLayoutParams();
+                    RelativeLayout.LayoutParams rlp =
+                            (RelativeLayout.LayoutParams) mSuccessView.getLayoutParams();
                     int w = (int) getResources().getDimension(R.dimen.success_width);
                     rlp.setMargins(
                             rect.centerX() - (w / 2),
@@ -357,13 +361,20 @@ public class FaceDetectActivity extends BaseActivity {
         init();
     }
 
+    protected void onFaceTrack(FaceFilter.TrackedModel trackedModel) {
+
+    }
+
     protected void onFaceAuthSuccess(FaceFilter.TrackedModel trackedModel) {
-        setResult(RESULT_OK);
+        Intent intent = new Intent();
+        intent.putExtra("faceId" , trackedModel.getTrackId());
+        setResult(RESULT_OK , intent);
         finish();
     }
 
     /**
-     *  签到
+     * 签到
+     *
      * @param mConf
      */
     private void signApp(float mConf) {
@@ -476,7 +487,8 @@ public class FaceDetectActivity extends BaseActivity {
             int rTop = dRect.top - h - preGap + w;
             int rBottom = rTop + rWidth - w;
 
-            //  Log.d("liujinhui", " rLeft is:" + rLeft + "rRight is:" + rRight + "rTop is:" + rTop + "rBottom is:" + rBottom);
+            //  Log.d("liujinhui", " rLeft is:" + rLeft + "rRight is:" + rRight + "rTop is:" +
+            //  rTop + "rBottom is:" + rBottom);
             RectF newDetectedRect = new RectF(rLeft, rTop, rRight, rBottom);
             cropProcessor.setDetectedRect(newDetectedRect);
         } else {
