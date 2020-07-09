@@ -30,6 +30,19 @@ public class RegParams implements RequestParams {
         return jsonParams;
     }
 
+
+    public void setParams(Map<String, String> params) {
+        this.params = params;
+    }
+
+    public void setFileMap(Map<String, File> fileMap) {
+        this.fileMap = fileMap;
+    }
+
+    public void setJsonParams(String jsonParams) {
+        this.jsonParams = jsonParams;
+    }
+
     private String userId;
     private String groupId;
 
@@ -72,6 +85,15 @@ public class RegParams implements RequestParams {
 
     public void setToken(String token) {
         putParam("access_token", token);
+    }
+
+
+    public void setFaceField(String faceField) {
+        putParam("face_field", faceField);
+    }
+
+    public void setOption(String option) {
+        putParam("option", option);
     }
 
     public void setImageFile(File imageFile) {

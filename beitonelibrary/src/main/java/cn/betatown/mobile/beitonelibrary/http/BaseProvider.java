@@ -86,8 +86,11 @@ public class BaseProvider {
             if (TextUtils.isEmpty(url)) {
                 throw new IllegalArgumentException("访问 url 不能为空");
             }
+            if (url.contains("http://") || url.contains("https://")){
 
-            requestBuilder.url(BaseUrl + url);
+            } else {
+                requestBuilder.url(BaseUrl + url);
+            }
             requestBuilder.addHeader("User-Agent", "android-okhttp");
             if (!TextUtils.isEmpty(BaseApplication.getSession())){
                 String session =

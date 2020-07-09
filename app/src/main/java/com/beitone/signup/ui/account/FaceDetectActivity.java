@@ -269,13 +269,12 @@ public class FaceDetectActivity extends BaseActivity {
                 if (infos == null) {
                     mGoodDetect = false;
                 }
-
-
             }
         });
         faceDetectManager.setOnTrackListener(new FaceFilter.OnTrackListener() {
             @Override
             public void onTrack(FaceFilter.TrackedModel trackedModel) {
+
                 if (trackedModel.meetCriteria() && mGoodDetect) {
                     // upload(trackedModel);
                     mGoodDetect = false;

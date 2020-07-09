@@ -18,6 +18,7 @@ import com.beitone.face.parser.Parser;
 
 import java.io.IOException;
 
+import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -57,6 +58,50 @@ public class HttpUtil {
     public <T> void post(String path, RequestParams params, final Parser<T> parser, final OnResultListener<T>
             listener) {
         post(path, "images", params, parser, listener);
+    }
+
+    public <T> void postString(String path, RequestBody requestBody,final Parser<T> parser,  final OnResultListener<T> listener){
+
+       // RequestBody body = RequestBody.create(MediaType.parse("application/json"), GsonUtil.GsonString(params.getStringParams()));
+        final Request request = new Request.Builder()
+                .url(path)
+                .post(requestBody)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                FaceError error = new FaceError(FaceError.ErrorCode.NETWORK_REQUEST_ERROR, "network request error", e);
+                listener.onError(error);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseString = response.body().string();
+                Log.d("wtf", "onResponse json->" + responseString);
+                final T result;
+                try {
+                    result = parser.parse(responseString);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onResult(result);
+                        }
+                    });
+                } catch (final FaceError faceError) {
+                    faceError.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onError(faceError);
+                        }
+                    });
+                }
+            }
+        });
+
+
     }
 
     public <T> void post(String path, String key, RequestParams params,

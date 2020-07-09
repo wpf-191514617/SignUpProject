@@ -183,7 +183,8 @@ public class WorkFragment extends BaseHomeFragment {
         /*if (mUserInfoResponse.getToday_sign_num() > 0) {
             return;
         }*/
-        checkLocation();
+       // checkLocation();
+        jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
     }
 
     private void checkLocation() {

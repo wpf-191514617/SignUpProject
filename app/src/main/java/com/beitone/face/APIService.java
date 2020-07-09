@@ -7,14 +7,31 @@ import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
+import com.beitone.face.exception.FaceError;
 import com.beitone.face.model.AccessToken;
 import com.beitone.face.model.RegParams;
 import com.beitone.face.parser.RegResultParser;
 import com.beitone.face.utils.DeviceUuidFactory;
 import com.beitone.face.utils.HttpUtil;
 import com.beitone.face.utils.OnResultListener;
+import com.bt.http.OkHttpUtils;
+import com.bt.http.callback.StringCallback;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
+import cn.betatown.mobile.beitonelibrary.util.GsonUtil;
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static com.beitone.face.utils.Base64RequestBody.readFile;
 
@@ -29,6 +46,8 @@ public class APIService {
 
     private static final String IDENTIFY_URL = BASE_URL + "/rest/2.0/face/v3/search";
     private static final String VERIFY_URL = BASE_URL + "/rest/2.0/face/v3/verify";
+
+    private static final String VERIFY_FACE = BASE_URL + "/rest/2.0/face/v3/faceverify";
 
     private String accessToken;
 
@@ -129,6 +148,82 @@ public class APIService {
         HttpUtil.getInstance().post(url, params, parser, listener);
     }
 
+
+    public void doFaceVerify(OnResultListener listener, File file){
+        RegParams params = new RegParams();
+        String base64Img = "";
+        try {
+            byte[] buf = readFile(file);
+            base64Img = new String(Base64.encode(buf, Base64.NO_WRAP));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        params.setImgType("BASE64");
+        params.setBase64Img(base64Img);
+        params.setGroupIdList(groupId);
+        // 可以根据实际业务情况灵活调节
+        params.setQualityControl("NORMAL");
+        params.setLivenessControl("NORMAL");
+        params.setFaceField("age,beauty,spoofing");
+        params.setOption("GATE");
+        List<Map<String, String>> maps = new ArrayList<>();
+        maps.add(params.getStringParams());
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset-utf-8") , gson.toJson(maps));
+
+        HttpUtil.getInstance().postString(urlAppendCommonParams(VERIFY_FACE) , requestBody , new RegResultParser() , listener);
+
+//        OkHttpUtils.postString().url(urlAppendCommonParams(VERIFY_FACE))
+//                .mediaType()
+//                .content(array).build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        FaceError error = new FaceError(FaceError.ErrorCode.NETWORK_REQUEST_ERROR, "network request error", e);
+//                        listener.onError(error);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        listener.onResult(response);
+//                    }
+//                });
+
+    }
+
+
+    public void faceVerify(OnResultListener listener, File file){
+        RegParams params = new RegParams();
+        String base64Img = "";
+        try {
+            byte[] buf = readFile(file);
+            base64Img = new String(Base64.encode(buf, Base64.NO_WRAP));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        params.setImgType("BASE64");
+        params.setBase64Img(base64Img);
+        params.setGroupIdList(groupId);
+        // 可以根据实际业务情况灵活调节
+        params.setQualityControl("NORMAL");
+        params.setLivenessControl("NORMAL");
+        params.setFaceField("age,beauty,spoofing");
+
+        RegResultParser parser = new RegResultParser();
+        String url = urlAppendCommonParams(VERIFY_FACE);
+        String para = GsonUtil.GsonString(params.getStringParams());
+        params.setJsonParams(para);
+        params.setFileMap(null);
+        params.setParams(null);
+        HttpUtil.getInstance().post(url, params, parser, listener);
+    }
+
+
+
+
+
     /**
      * @param listener
      * @param file
@@ -149,7 +244,7 @@ public class APIService {
         params.setGroupIdList(groupId);
         // 可以根据实际业务情况灵活调节
         params.setQualityControl("NORMAL");
-        params.setLivenessControl("NORMAL");
+        params.setLivenessControl("HIGH");
 
         RegResultParser parser = new RegResultParser();
         String url = urlAppendCommonParams(IDENTIFY_URL);

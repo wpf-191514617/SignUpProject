@@ -137,7 +137,7 @@ public class SignUpApplication extends BaseApplication {
         // 是否进行质量检测
         tracker.set_isCheckQuality(true);
         // 是否进行活体校验
-        tracker.set_isVerifyLive(false);
+        tracker.set_isVerifyLive(true);
     }
 
     private void registerLifecycleCallbacks() {
