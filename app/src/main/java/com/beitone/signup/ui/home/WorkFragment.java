@@ -194,7 +194,6 @@ public class WorkFragment extends BaseHomeFragment {
             public void onResult(Object data) {
                 SignUpApplication.getApplication().initLib();
                 jumpToForResult(FaceSignActivity1.class, REQUEST_SIGN);
-                //jumpToForResult(FaceSignActivity.class, REQUEST_SIGN);
             }
 
             @Override
