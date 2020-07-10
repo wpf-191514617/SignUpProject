@@ -32,8 +32,8 @@ public class ProgressRateView extends LinearLayout {
 
     public ProgressRateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.InputLayout);
-        lable = array.getString(R.styleable.InputLayout_inputLable);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ProgressRateView);
+        lable = array.getString(R.styleable.ProgressRateView_progressLable);
         array.recycle();
         initView(context);
     }
