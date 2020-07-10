@@ -34,9 +34,9 @@ public class BaseProvider {
 
     public static final int LIMIT = 20;
 
-    public static final String BaseUrl = "http://home.tx06.com:91";
+    //public static final String BaseUrl = "http://home.tx06.com:91";
 
-    //public static final String BaseUrl = "http://a.tx06.com:91/";
+    public static final String BaseUrl = "http://a.tx06.com:91/";
 
     protected BaseProvider() {
     }
@@ -94,7 +94,7 @@ public class BaseProvider {
             requestBuilder.addHeader("User-Agent", "android-okhttp");
             if (!TextUtils.isEmpty(BaseApplication.getSession())){
                 String session =
-                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=home.tx06.com;" +
+                        "JSESSIONID=" + BaseApplication.getSession()+ ";Domain=a.tx06.com;" +
                                 "Path=/";
                 requestBuilder.addHeader("Cookie", session);
                 requestBuilder.addHeader("Referer", BaseProvider.BaseUrl);

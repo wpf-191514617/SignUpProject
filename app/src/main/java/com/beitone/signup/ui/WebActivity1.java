@@ -45,7 +45,8 @@ public class WebActivity1 extends BaseActivity {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
 //        cookieManager.removeSessionCookie();//移除
-        cookieManager.setCookie(url, "JSESSIONID=" + SignUpApplication.getSession() + ";Domain=home.tx06.com;Path=/");
+        cookieManager.setCookie(url, "JSESSIONID=" + SignUpApplication.getSession() + ";Domain" +
+                "=a.tx06.com;Path=/");
         CookieSyncManager.getInstance().sync();
     }
 

@@ -40,12 +40,15 @@ public class LocationHelper {
         LocationClientOption option=new LocationClientOption();
         option.setScanSpan(5000);  //每五秒更新当前位置
         //指定百度LBS　SDK的定位模式，一共有三种模式可选
-        //Hight_Accuracy,Battery_Saving,Device_Sensors
-        //分别表示高精度（优先使用GPS，没有GPS的地方采用网络定位）
-        //节电模式，只采用网络定位
-        //传感器模式，只能使用GPS定位
+        //        //Hight_Accuracy,Battery_Saving,Device_Sensors
+        //        //分别表示高精度（优先使用GPS，没有GPS的地方采用网络定位）
+        //        //节电模式，只采用网络定位
+        //        //传感器模式，只能使用GPS定位
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        option.setCoorType("bd09ll");
         option.setIsNeedAddress(true); //传入当前位置的详细地址信息
+        option.setOpenGps(true);
+        option.setNeedDeviceDirect(true);
         mLocationClient.setLocOption(option);
     }
 
@@ -79,9 +82,12 @@ public class LocationHelper {
             if (bdLocation != null){
                 mLatitude = bdLocation.getLatitude();
                 mLongitude = bdLocation.getLongitude();
+
                 address = bdLocation.getAddrStr();
             }
         }
     }
+
+
 
 }
