@@ -64,9 +64,6 @@ public class MainActivity extends HomeActivity {
     protected void initViewAndData() {
         super.initViewAndData();
 
-        double dis  = getDistance(34.256235 , 108.86715 , 34.256235 , 108.86715);
-
-
         boolean isShow = PreferencesUtils.getBoolean(this, "isFirstShowHnitAgree", false);
         if (!isShow) {
             showHnitDialog();

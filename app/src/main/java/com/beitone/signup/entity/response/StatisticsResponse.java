@@ -463,6 +463,15 @@ public class StatisticsResponse {
 
         private String sign_rate;
         private String study_rate;
+        private String worker_num;
+
+        public String getWorker_num() {
+            return worker_num;
+        }
+
+        public void setWorker_num(String worker_num) {
+            this.worker_num = worker_num;
+        }
 
         public String getSign_rate() {
             return sign_rate;
@@ -489,6 +498,15 @@ public class StatisticsResponse {
 
         private String num;
         private String rate;
+        private String worker_num;
+
+        public String getWorker_num() {
+            return worker_num;
+        }
+
+        public void setWorker_num(String worker_num) {
+            this.worker_num = worker_num;
+        }
 
         public String getNum() {
             return num;

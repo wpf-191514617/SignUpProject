@@ -3,13 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:paddingTop="@dimen/dimen_25dp"
+    android:paddingTop="@dimen/dimen_23dp"
     android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/dimen_48dp"
+        android:layout_height="wrap_content">
+
+
 
     <ImageView
         android:id="@+id/ivWork"
         android:layout_width="@dimen/dimen_42dp"
-        android:layout_height="@dimen/dimen_42dp"/>
+        android:layout_height="@dimen/dimen_42dp"
+        android:layout_marginRight="@dimen/dimen_6dp"
+        android:layout_marginTop="@dimen/dimen_2dp"/>
+        
+        
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="@dimen/dimen_15dp"
+            android:layout_height="@dimen/dimen_15dp"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="10sp"
+            android:visibility="invisible"
+            android:background="@drawable/bg_circle_red"
+            android:layout_alignParentRight="true"/>
+        
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvWork"

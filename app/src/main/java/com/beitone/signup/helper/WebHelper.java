@@ -33,6 +33,15 @@ public class WebHelper {
         return webEntity;
     }
 
+    public static WebEntity getQuite() {
+        WebEntity webEntity = new WebEntity();
+        webEntity.head = new HashMap<>();
+        webEntity.title = "退场审核";
+        webEntity.url = BaseProvider.BaseUrl +  "/pro/html/audit/audit_list.html";
+        return webEntity;
+    }
+
+
 
     public static WebEntity getItemAnalysis() {
         WebEntity webEntity = new WebEntity();

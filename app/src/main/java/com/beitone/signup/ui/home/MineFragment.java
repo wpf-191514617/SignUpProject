@@ -18,6 +18,7 @@ import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
 import com.beitone.signup.provider.AccountProvider;
+import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.WebActivity1;
@@ -26,6 +27,7 @@ import com.beitone.signup.ui.account.LoginActivity;
 import com.beitone.signup.ui.account.UserInfoActivity;
 import com.beitone.signup.ui.setting.FeedbackActivity;
 import com.beitone.signup.ui.setting.SettingActivity;
+import com.beitone.signup.view.HnitDialog;
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.squareup.picasso.Picasso;
 
@@ -108,6 +110,11 @@ public class MineFragment extends BaseHomeFragment {
     }
 
     @Override
+    public void onRefresh() {
+        UserHelper.getInstance().refreshUserInfo(getActivity());
+    }
+
+    @Override
     protected void initViewAndData() {
         lineSign = getView().findViewById(R.id.lineSign);
         lineChangeWorkPoint = getView().findViewById(R.id.lineChangeWorkPoint);
@@ -133,9 +140,39 @@ public class MineFragment extends BaseHomeFragment {
                 break;
         }
 
+        if (userInfoResponse.getStatus().equals("8")){
+            showChangeProjectDialog();
+        }
+
         setText(tvUserTeam,
                 userInfoResponse.getB_project_name() + line + userInfoResponse.getB_project_team_name());
 
+    }
+
+    private HnitDialog mHnitDialog;
+
+    private void showChangeProjectDialog() {
+        if (mHnitDialog == null){
+            mHnitDialog = new HnitDialog.Builder(getActivity())
+                    .setTitle("当前账户处于挂起状态，您可以切换新工地或退场")
+                    .setNative("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mHnitDialog.dismiss();
+                        }
+                    })
+                    .setPositive("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mHnitDialog.dismiss();
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putParcelable(WebActivity.KEY_WEB, WebHelper.getProject());
+                            jumpTo(WebActivity.class, bundle1);
+                        }
+                    })
+                    .build();
+        }
+        mHnitDialog.show();
     }
 
     @OnClick({R.id.civUserHead, R.id.tvUserInformation, R.id.layoutSign, R.id.layoutChangeWorkPoint,

@@ -22,5 +22,8 @@ public class UserProvider extends BaseProvider {
        post(context , "/sign/doSign.htm" , map , onJsonCallBack);
     }
 
+    public static void getWorkInfo(Context context, OnJsonCallBack onJsonCallBack){
+        post(context, "/worker/getWorkbenchInfo.htm", onJsonCallBack);
+    }
 
 }

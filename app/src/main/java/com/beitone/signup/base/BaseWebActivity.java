@@ -156,7 +156,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
         cookieManager.setAcceptCookie(true);
         cookieManager.removeSessionCookie();// 移除旧的[可以省略]
         cookieManager.setCookie(url, "JSESSIONID=" + SignUpApplication.getSession()+ ";Domain" +
-                "=a.tx06.com;Path=/");
+                "=home.tx06.com;Path=/");
         CookieSyncManager.getInstance().sync();// To get instant sync instead of waiting for the timer to trigger, the host can call this.
     }
 
@@ -192,7 +192,7 @@ public abstract class BaseWebActivity extends AppCompatActivity implements BmSwi
         Map<String, String> head = new HashMap<>();
         head.put("Referer", BaseProvider.BaseUrl);
         String jsessionid = SignUpApplication.getSession();
-        head.put("Cookie", "JSESSIONID=" + jsessionid + ";Domain=a.tx06.com;Path=/");
+        head.put("Cookie", "JSESSIONID=" + jsessionid + ";Domain=home.tx06.com;Path=/");
         return head;
     }
 

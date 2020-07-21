@@ -47,6 +47,15 @@ public class UserInfoResponse {
     private String join_status;
     private String join_status_audit_memo;
     private String face_token;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getFace_token() {
         return face_token;

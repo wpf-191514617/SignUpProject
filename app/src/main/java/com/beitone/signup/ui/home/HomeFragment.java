@@ -87,6 +87,10 @@ public class HomeFragment extends BaseHomeFragment {
     protected void initViewAndData() {
         setText(tvTitle, "首页");
         fakeStatusBar.setVisibility(View.GONE);
+        initData();
+    }
+
+    private void initData() {
         initBanner();
         loadAppIndexData();
         homePager.setOffscreenPageLimit(2);
@@ -99,6 +103,13 @@ public class HomeFragment extends BaseHomeFragment {
     public void initStatusBar() {
         tvTitle.setBackgroundColor(Color.parseColor("#ffffff"));
         fakeStatusBar.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
+
+    @Override
+    public void onRefresh() {
+        //initData();
+        initBanner();
+        loadAppIndexData();
     }
 
 

@@ -115,7 +115,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-
+                mHomePageFragments.get(position).onRefresh();
             }
 
             @Override

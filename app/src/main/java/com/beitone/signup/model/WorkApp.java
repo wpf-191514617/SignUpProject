@@ -8,6 +8,8 @@ public class WorkApp {
 
     public String appName;
 
+    public int mProjectCount;
+
     public WorkApp(String type, int appIcon, String appName) {
         this.type = type;
         this.appIcon = appIcon;

@@ -5,4 +5,7 @@ import com.beitone.signup.base.BaseFragment;
 public abstract class BaseHomeFragment extends BaseFragment {
 
    public abstract void initStatusBar();
+
+   public abstract void onRefresh();
+
 }

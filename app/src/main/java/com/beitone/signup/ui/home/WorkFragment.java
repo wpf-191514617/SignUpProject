@@ -16,12 +16,14 @@ import com.beitone.signup.R;
 import com.beitone.signup.SignUpApplication;
 import com.beitone.signup.base.BaseFragment;
 import com.beitone.signup.entity.response.UserInfoResponse;
+import com.beitone.signup.entity.response.WaitProCountResponse;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
 import com.beitone.signup.model.EventData;
 import com.beitone.signup.model.WorkApp;
 import com.beitone.signup.provider.AppProvider;
+import com.beitone.signup.provider.UserProvider;
 import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.ui.account.FaceSignActivity;
@@ -42,6 +44,7 @@ import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelp
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.DateStyle;
 import cn.betatown.mobile.beitonelibrary.util.DateUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
 public class WorkFragment extends BaseHomeFragment {
@@ -90,6 +93,11 @@ public class WorkFragment extends BaseHomeFragment {
         fakeStatusBar.setBackgroundColor(Color.parseColor("#00000000"));
     }
 
+    @Override
+    public void onRefresh() {
+        refreshData();
+    }
+
 
     //判断是否展示—与ViewPager连用，进行左右切换
     @Override
@@ -132,6 +140,9 @@ public class WorkFragment extends BaseHomeFragment {
                     case "3":
                         bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getSalaryList());
                         break;
+                    case "5":
+                        bundle.putParcelable(WebActivity.KEY_WEB, WebHelper.getQuite());
+                        break;
                 }
                 jumpTo(WebActivity.class, bundle);
             }
@@ -141,9 +152,9 @@ public class WorkFragment extends BaseHomeFragment {
 
 
     private void refreshData() {
+
         mUserInfoResponse = UserHelper.getInstance().getCurrentInfo();
         setText(tvProjectName, mUserInfoResponse.getB_project_name());
-
         if (mUserInfoResponse.getToday_sign_num() > 0) {
             ivSignUp.setImageResource(R.drawable.ic_sign1);
             tvSignUp.setTextColor(Color.parseColor("#999999"));
@@ -153,13 +164,34 @@ public class WorkFragment extends BaseHomeFragment {
             tvSignUp.setTextColor(Color.parseColor("#ff575cd1"));
             setText(tvSignUp, "打卡");
         }
-
         List<WorkApp> appList = new ArrayList<>();
         appList.add(new WorkApp("4", R.drawable.ic_work_1, "我的考勤"));
-        if (mUserInfoResponse.getType().equals("3")) {
-            appList.add(new WorkApp("3", R.drawable.ic_work_2, "工资上传"));
+        if (mUserInfoResponse.getType().equals("3")){
+            UserProvider.getWorkInfo(getActivity(), new OnJsonCallBack<WaitProCountResponse>() {
+                @Override
+                public void onResult(WaitProCountResponse data) {
+                    if (data != null){
+                    appList.add(new WorkApp("3", R.drawable.ic_work_2, "工资上传"));
+                    WorkApp workApp = new WorkApp("5" , R.drawable.ic_quite , "退场审核");
+                    workApp.mProjectCount = data.getWait_audit_num();
+                    appList.add(workApp);
+                }
+                    mWorkListAdapter.setData(appList);
+                }
+
+                @Override
+                public void onFailed(String msg) {
+                    showToast(msg);
+                }
+
+                @Override
+                public void onError(String msg) {
+                    showToast(msg);
+                }
+            });
+        } else {
+            mWorkListAdapter.setData(appList);
         }
-        mWorkListAdapter.setData(appList);
     }
 
 
@@ -239,6 +271,13 @@ public class WorkFragment extends BaseHomeFragment {
         protected void fillData(BaseViewHolderHelper helper, int position, WorkApp model) {
             helper.setText(R.id.tvWork, model.appName)
                     .setImageResource(R.id.ivWork, model.appIcon);
+            TextView tvCount = helper.getTextView(R.id.tvCount);
+            if (model.mProjectCount < 1){
+                tvCount.setVisibility(View.INVISIBLE);
+            } else {
+                tvCount.setVisibility(View.VISIBLE);
+                setText(tvCount, String.valueOf(model.mProjectCount));
+            }
         }
     }
 

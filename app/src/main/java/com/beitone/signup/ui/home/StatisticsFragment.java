@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.beitone.signup.R;
 import com.beitone.signup.entity.response.StatisticsResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
@@ -18,11 +20,11 @@ import com.beitone.signup.ui.MainActivity;
 import com.beitone.signup.ui.WebActivity;
 import com.beitone.signup.widget.ProgressRateView;
 
-import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.betatown.mobile.beitonelibrary.http.callback.OnJsonCallBack;
 import cn.betatown.mobile.beitonelibrary.util.StringUtil;
+import cn.betatown.mobile.beitonelibrary.util.Trace;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.StateAppBar;
 
@@ -60,6 +62,10 @@ public class StatisticsFragment extends BaseHomeFragment {
     TextView tvErrorPeopleRate;
     @BindView(R.id.layoutErrorContent)
     LinearLayout layoutErrorContent;
+    @BindView(R.id.tvProjectInfoTitle)
+    TextView tvProjectInfoTitle;
+    @BindView(R.id.tvErrorContentTitle)
+    TextView tvErrorContentTitle;
 
     private StatisticsResponse mStatisticsResponse;
 
@@ -112,6 +118,11 @@ public class StatisticsFragment extends BaseHomeFragment {
     }
 
     @Override
+    public void onRefresh() {
+        loadHomeData();
+    }
+
+    @Override
     protected int getContentViewLayoutID() {
         return R.layout.fragment_statistics;
     }
@@ -127,36 +138,41 @@ public class StatisticsFragment extends BaseHomeFragment {
                 new OnJsonCallBack<StatisticsResponse>() {
                     @Override
                     public void onResult(StatisticsResponse data) {
+                        Trace.d("data---" + data);
                         if (data != null) {
                             mStatisticsResponse = data;
                             reStoreView();
 
                             layoutProjectStatistics.setVisibility(View.VISIBLE);
-                            if (data.getWorker() != null) {
-                                setRate(prvProjectTraining, data.getWorker().getStudy_rate());
-                                setRate(prvProjectSign, data.getWorker().getSign_rate());
+                            if (data.getSum_rate() != null) {
+                                setRate(prvProjectTraining, data.getSum_rate().getStudy_rate());
+                                setRate(prvProjectSign, data.getSum_rate().getSign_rate());
+                                setText(tvProjectInfoTitle, "项目综合分析（" + data.getSum_rate().getWorker_num() + "人）");
                             } else {
                                 setRate(prvProjectTraining, "0");
                                 setRate(prvProjectSign, "0");
+                                setText(tvProjectInfoTitle, "项目综合分析");
                             }
 
 
-                            layoutPersonStatistics.setVisibility(View.VISIBLE);
-                            if (data.getSum_rate() != null) {
-                                setRate(prvPersonTraining, data.getSum_rate().getStudy_rate());
-                                setRate(prvPersonSign, data.getSum_rate().getSign_rate());
+                            //  layoutPersonStatistics.setVisibility(View.VISIBLE);
+                            if (data.getWorker() != null) {
+                                setRate(prvPersonTraining, data.getWorker().getStudy_rate());
+                                setRate(prvPersonSign, data.getWorker().getSign_rate());
                             } else {
                                 setRate(prvPersonTraining, "0");
                                 setRate(prvPersonSign, "0");
                             }
 
                             layoutErrorContent.setVisibility(View.VISIBLE);
-                            if (data.getFail_rate() != null){
-                                setText(tvErrorPeopleCount , data.getFail_rate().getNum());
-                                setText(tvErrorPeopleRate , data.getFail_rate().getRate());
+                            if (data.getFail_rate() != null) {
+                                setText(tvErrorPeopleCount, data.getFail_rate().getNum());
+                                setText(tvErrorPeopleRate, data.getFail_rate().getRate());
+                                setText(tvErrorContentTitle , "异常打卡统计（" + data.getFail_rate().getWorker_num() + "人）");
                             } else {
-                                setText(tvErrorPeopleCount , "0");
-                                setText(tvErrorPeopleRate , "0");
+                                setText(tvErrorPeopleCount, "0");
+                                setText(tvErrorPeopleRate, "0");
+                                setText(tvErrorContentTitle , "异常打卡统计");
                             }
 
                             setUserData();

@@ -316,7 +316,7 @@ public class WebActivity extends BaseWebActivity {
         }
 
         AgentWebConfig.syncCookie(mWebEntity.url,
-                "JSESSIONID=" + SignUpApplication.getSession() + ";Domain=a.tx06.com;Path=/");
+                "JSESSIONID=" + SignUpApplication.getSession() + ";Domain=home.tx06.com;Path=/");
 
         if (mWebEntity != null) {
             return mWebEntity.url;
