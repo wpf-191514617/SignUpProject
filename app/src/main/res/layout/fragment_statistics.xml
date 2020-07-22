@@ -179,13 +179,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_15dp"
-                    app:progressLable="培训率" />
+                    app:progressLable="&#12288;培训率" />
 
                 <com.beitone.signup.widget.ProgressRateView
                     android:id="@+id/prvProjectSign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:progressLable="打卡率" />
+                    app:progressLable="月打卡率" />
+
+                <com.beitone.signup.widget.ProgressRateView
+                    android:id="@+id/prvWeekSign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:progressLable="周打卡率" />
 
             </LinearLayout>
 

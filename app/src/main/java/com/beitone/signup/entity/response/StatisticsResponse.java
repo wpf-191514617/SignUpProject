@@ -464,6 +464,15 @@ public class StatisticsResponse {
         private String sign_rate;
         private String study_rate;
         private String worker_num;
+        private String week_sign_rate;
+
+        public String getWeek_sign_rate() {
+            return week_sign_rate;
+        }
+
+        public void setWeek_sign_rate(String week_sign_rate) {
+            this.week_sign_rate = week_sign_rate;
+        }
 
         public String getWorker_num() {
             return worker_num;
