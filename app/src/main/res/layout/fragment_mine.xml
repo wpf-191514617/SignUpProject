@@ -144,11 +144,11 @@
             <TextView
                 android:layout_width="@dimen/dimen_0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="@dimen/dimen_12dp"
-                android:text="切换工地（退场）"
+                android:layout_weight="1"
+                android:text="退场"
                 android:textColor="#ff212121"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
