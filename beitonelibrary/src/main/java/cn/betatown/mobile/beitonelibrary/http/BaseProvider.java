@@ -35,6 +35,7 @@ public class BaseProvider {
     public static final int LIMIT = 20;
 
     public static final String BaseUrl = "http://home.tx06.com:91";
+    //public static final String BaseUrl = "http://192.168.7.63:84";
 
    // public static final String BaseUrl = "http://a.tx06.com:91/";
 

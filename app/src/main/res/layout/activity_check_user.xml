@@ -50,7 +50,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="center_vertical"
-                    android:hint="请输入新密码"
+                    android:hint="请输入新手机号码"
                     android:inputType="phone"
                     android:textColor="@color/gray33"
                     android:textColorHint="#ffb4b4b4"
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_25dp"
-                android:text="请输入短信验证码"
+                android:text="短信验证码"
                 android:textColor="#ff999999"
                 android:textSize="14sp" />
 
