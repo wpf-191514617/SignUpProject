@@ -286,7 +286,11 @@ public class HomeFragment extends BaseHomeFragment {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return new HomeListFragment(String.valueOf(position + 1));
+            HomeListFragment listFragment = new HomeListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("type",String.valueOf(position + 1));
+            listFragment.setArguments(bundle);
+            return listFragment;
         }
 
         @Override
