@@ -11,11 +11,13 @@ import com.beitone.signup.entity.response.ArticleResponse;
 import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.provider.AppProvider;
 import com.beitone.signup.ui.WebActivity;
+import com.beitone.signup.ui.WebActivity1;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseRecyclerAdapter;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelper;
@@ -29,10 +31,6 @@ public class HomeListFragment extends BaseRecyclerFragment {
 
     private String mType;
 
-    public HomeListFragment(String type) {
-        mType = type;
-    }
-
     @Override
     protected void onRefresh() {
         loadData();
@@ -44,6 +42,7 @@ public class HomeListFragment extends BaseRecyclerFragment {
     }
 
     private void loadData() {
+        mType = getArguments().getString("type");
         AppProvider.loadAppIndexArticle(getActivity(), mType, mCurrentPage,
                 new OnJsonCallBack<List<ArticleResponse>>() {
                     @Override
@@ -102,7 +101,7 @@ public class HomeListFragment extends BaseRecyclerFragment {
                     RequestOptions.bitmapTransform(roundedCorners).override(getResources()
                     .getDimensionPixelSize(R.dimen.dimen_105dp),
                             getResources().getDimensionPixelSize(R.dimen.dimen_76dp));*/
-           // Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+            // Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
 
             Picasso.get().load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
 
