@@ -277,7 +277,7 @@ public class HomeFragment extends BaseHomeFragment {
 
     class HomePagerAdapter extends FragmentPagerAdapter {
 
-        private String[] title = {"安全教育", "学习资料"};
+        private String[] title = {"安全技术资料必学", "安全技术资料阅读"};
 
         public HomePagerAdapter(@NonNull FragmentManager fm) {
             super(fm);

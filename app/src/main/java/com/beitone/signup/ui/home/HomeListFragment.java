@@ -29,9 +29,6 @@ public class HomeListFragment extends BaseRecyclerFragment {
 
     private String mType;
 
-    public HomeListFragment(){
-    }
-
     public HomeListFragment(String type) {
         mType = type;
     }
