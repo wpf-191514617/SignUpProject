@@ -151,7 +151,7 @@ public class MainActivity extends HomeActivity {
             public void onResult(AboutUsResponse data) {
                 if (data != null) {
                     if (data.getVersion() != null) {
-                        if (data.getVersion().getVersionCode() != AppUtil.getVersionCode(MainActivity.this)) {
+                        if (data.getVersion().getVersionCode() > AppUtil.getVersionCode(MainActivity.this)) {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
