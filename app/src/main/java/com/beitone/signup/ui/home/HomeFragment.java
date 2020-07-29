@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
@@ -96,7 +97,7 @@ public class HomeFragment extends BaseHomeFragment {
         homePager.setOffscreenPageLimit(2);
         homePager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
         tabHome.setupWithViewPager(homePager);
-        setIndicator(tabHome , 16 ,16);
+        setIndicator(tabHome, 16, 16);
     }
 
     @Override
@@ -168,14 +169,14 @@ public class HomeFragment extends BaseHomeFragment {
             public void onItemClick(XBanner banner, Object model, View view, int position) {
                 AppIndexDataResponse.BannerBean bannerData =
                         (AppIndexDataResponse.BannerBean) model;
-                if (StringUtil.isUrl(bannerData.getJumpurl())){
+                if (StringUtil.isUrl(bannerData.getJumpurl())) {
                     WebEntity webEntity = new WebEntity();
                     webEntity.head = new HashMap<>();
                     webEntity.url = bannerData.getJumpurl();
                     webEntity.title = bannerData.getTitle();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable(WebActivity.KEY_WEB , webEntity);
-                    jumpTo(WebActivity.class , bundle);
+                    bundle.putParcelable(WebActivity.KEY_WEB, webEntity);
+                    jumpTo(WebActivity.class, bundle);
                 }
             }
         });
@@ -186,7 +187,7 @@ public class HomeFragment extends BaseHomeFragment {
                 AppIndexDataResponse.BannerBean bannerData =
                         (AppIndexDataResponse.BannerBean) model;
                 //设置图片圆角角度
-                Picasso.get().load(BaseProvider.BaseUrl + bannerData.getUrl()).into((YLCircleImageView)view);
+                Picasso.get().load(BaseProvider.BaseUrl + bannerData.getUrl()).into((YLCircleImageView) view);
             }
         });
     }
@@ -223,8 +224,7 @@ public class HomeFragment extends BaseHomeFragment {
     }
 
 
-
-    public static void reflex(final TabLayout tabLayout){
+    public static void reflex(final TabLayout tabLayout) {
         tabLayout.post(() -> {
             try {
                 //拿到tabLayout的slidingTabIndicator属性
@@ -257,7 +257,7 @@ public class HomeFragment extends BaseHomeFragment {
 
                     //设置tab左右间距为10dp 这个间距可根据自己需求更改
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
-                    params.width = width ;
+                    params.width = width;
                     params.leftMargin = dp10;
                     params.rightMargin = dp10;
                     tabView.setLayoutParams(params);
@@ -274,7 +274,6 @@ public class HomeFragment extends BaseHomeFragment {
     }
 
 
-
     class HomePagerAdapter extends FragmentPagerAdapter {
 
         private String[] title = {"安全技术资料必学", "安全技术资料阅读"};
@@ -288,7 +287,7 @@ public class HomeFragment extends BaseHomeFragment {
         public Fragment getItem(int position) {
             HomeListFragment listFragment = new HomeListFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("type",String.valueOf(position + 1));
+            bundle.putString("type", String.valueOf(position + 1));
             listFragment.setArguments(bundle);
             return listFragment;
         }

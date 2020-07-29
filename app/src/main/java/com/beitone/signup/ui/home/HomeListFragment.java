@@ -19,6 +19,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseRecyclerAdapter;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelper;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
@@ -86,9 +87,9 @@ public class HomeListFragment extends BaseRecyclerFragment {
             if (array != null && array.length > 0) {
                 publishTime = array[0];
             }
-            Date date = DateUtil.StringToDate(publishTime , DateStyle.YYYY_MM_DD);
+            Date date = DateUtil.StringToDate(publishTime, DateStyle.YYYY_MM_DD);
             helper.setText(R.id.tvTitle, model.getTitle())
-                    .setText(R.id.tvPublishTime, DateUtil.DateToString(date , DateStyle.MM_DD_CN));
+                    .setText(R.id.tvPublishTime, DateUtil.DateToString(date, DateStyle.MM_DD_CN));
 
             TextView tvStudy = helper.getTextView(R.id.tvStudy);
 

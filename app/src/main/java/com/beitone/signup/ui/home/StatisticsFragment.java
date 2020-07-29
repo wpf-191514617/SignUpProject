@@ -40,6 +40,8 @@ public class StatisticsFragment extends BaseHomeFragment {
     ProgressRateView prvProjectTraining;
     @BindView(R.id.prvProjectSign)
     ProgressRateView prvProjectSign;
+    @BindView(R.id.prvWeekSign)
+    ProgressRateView prvWeekSign;
     @BindView(R.id.layoutPersonStatistics)
     LinearLayout layoutPersonStatistics;
     @BindView(R.id.layoutProjectStatistics)
@@ -147,10 +149,13 @@ public class StatisticsFragment extends BaseHomeFragment {
                             if (data.getSum_rate() != null) {
                                 setRate(prvProjectTraining, data.getSum_rate().getStudy_rate());
                                 setRate(prvProjectSign, data.getSum_rate().getSign_rate());
+                                setRate(prvWeekSign, data.getSum_rate().getWeek_sign_rate());
                                 setText(tvProjectInfoTitle, "项目综合分析（施工人数：" + data.getSum_rate().getWorker_num() + "人）");
                             } else {
                                 setRate(prvProjectTraining, "0");
                                 setRate(prvProjectSign, "0");
+                                setRate(prvWeekSign, "0");
+
                                 setText(tvProjectInfoTitle, "项目综合分析");
                             }
 
