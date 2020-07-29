@@ -47,8 +47,8 @@ public class ProgressRateView extends LinearLayout {
         tvProgressRate = contentView.findViewById(R.id.tvProgressRate);
     }
 
-    public void setRate(int rate){
-        progressRate.setProgress(rate);
+    public void setRate(double rate){
+        progressRate.setProgress((int)rate);
         if (rate < 100){
             tvProgressRate.setTextColor(Color.parseColor("#FE701A"));
         } else {

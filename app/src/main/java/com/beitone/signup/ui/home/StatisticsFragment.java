@@ -222,7 +222,7 @@ public class StatisticsFragment extends BaseHomeFragment {
         if (rate.contains("%")) {
             rate = rate.replace("%", "");
         }
-        progressRateView.setRate((int) Double.parseDouble(rate));
+        progressRateView.setRate(Double.parseDouble(rate));
     }
 
     @Override
