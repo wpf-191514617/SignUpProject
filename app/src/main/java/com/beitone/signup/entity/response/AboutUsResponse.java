@@ -19,6 +19,7 @@ public class AboutUsResponse {
     private String email;
     private String web;
     private String cn_copyright;
+    private int report_locus_minute;
     private VersionBean version;
 
     public String getPhone() {
@@ -51,6 +52,14 @@ public class AboutUsResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getReport_locus_minute() {
+        return report_locus_minute;
+    }
+
+    public void setReport_locus_minute(int report_locus_minute) {
+        this.report_locus_minute = report_locus_minute;
     }
 
     public String getWeb() {

@@ -22,7 +22,7 @@ public class UpdateAppHttpUtil implements HttpManager {
      * @param callBack 回调
      */
     @Override
-    public void asyncGet(@NonNull String url, @NonNull Map<String, String> params, @NonNull final HttpManager.Callback callBack) {
+    public void asyncGet(@NonNull String url, @NonNull Map<String, String> params, @NonNull final Callback callBack) {
         OkHttpUtils.get()
                 .url(url)
                 .params(params)
@@ -53,7 +53,7 @@ public class UpdateAppHttpUtil implements HttpManager {
      * @param callBack 回调
      */
     @Override
-    public void asyncPost(@NonNull String url, @NonNull Map<String, String> params, @NonNull final HttpManager.Callback callBack) {
+    public void asyncPost(@NonNull String url, @NonNull Map<String, String> params, @NonNull final Callback callBack) {
         OkHttpUtils.post()
                 .url(url)
                 .params(params)
@@ -81,7 +81,7 @@ public class UpdateAppHttpUtil implements HttpManager {
      * @param callback 回调
      */
     @Override
-    public void download(@NonNull String url, @NonNull String path, @NonNull String fileName, @NonNull final HttpManager.FileCallback callback) {
+    public void download(@NonNull String url, @NonNull String path, @NonNull String fileName, @NonNull final FileCallback callback) {
         OkHttpUtils.get()
                 .url(url)
                 .build()

@@ -132,10 +132,6 @@ public class ImproveInformationActivity extends BaseActivity {
         inputConstructionTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentEngineering == null) {
-                    showToast("请先选择施工项目");
-                    return;
-                }
                 loadConstructionTeam();
             }
         });
@@ -153,7 +149,7 @@ public class ImproveInformationActivity extends BaseActivity {
         inputPhone.setEditble(false);
     }
 
-    private void loadWorkTypeList() {
+    protected void loadWorkTypeList() {
         AppProvider.getWorkTypeList(this, new OnJsonCallBack<List<WorkTypeResponse>>() {
             @Override
             public void onResult(List<WorkTypeResponse> data) {
@@ -180,7 +176,11 @@ public class ImproveInformationActivity extends BaseActivity {
     }
 
 
-    private void loadConstructionTeam() {
+    protected void loadConstructionTeam() {
+        if (mCurrentEngineering == null) {
+            showToast("请先选择施工项目");
+            return;
+        }
         AppProvider.getProjectTeams(this, mCurrentEngineering.getId(),
                 new OnJsonCallBack<List<TeamResponse>>() {
                     @Override
@@ -207,7 +207,7 @@ public class ImproveInformationActivity extends BaseActivity {
                 });
     }
 
-    private void loadProject() {
+    protected void loadProject() {
         AppProvider.loadProject(this, new OnJsonCallBack<List<EngineeringResponse>>() {
             @Override
             public void onResult(List<EngineeringResponse> data) {
@@ -242,8 +242,10 @@ public class ImproveInformationActivity extends BaseActivity {
                     new SingleSelectDialog.OnSingleSelectListener() {
                         @Override
                         public void onSingleSelect(String text, int position) {
-                            mCurrentTeamResponse = responseList.get(position);
-                            inputConstructionTeam.inputContent(text);
+                            if (responseList != null){
+                                mCurrentTeamResponse = responseList.get(position);
+                                inputConstructionTeam.inputContent(text);
+                            }
                         }
                     });
         }

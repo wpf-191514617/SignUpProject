@@ -144,8 +144,8 @@ public class StatisticsFragment extends BaseHomeFragment {
                         if (data != null) {
                             mStatisticsResponse = data;
                             reStoreView();
-
-                            layoutProjectStatistics.setVisibility(View.VISIBLE);
+                            if (layoutProjectStatistics != null)
+                                layoutProjectStatistics.setVisibility(View.VISIBLE);
                             if (data.getSum_rate() != null) {
                                 setRate(prvProjectTraining, data.getSum_rate().getStudy_rate());
                                 setRate(prvProjectSign, data.getSum_rate().getSign_rate());
@@ -155,7 +155,6 @@ public class StatisticsFragment extends BaseHomeFragment {
                                 setRate(prvProjectTraining, "0");
                                 setRate(prvProjectSign, "0");
                                 setRate(prvWeekSign, "0");
-
                                 setText(tvProjectInfoTitle, "项目综合分析");
                             }
 
@@ -173,11 +172,11 @@ public class StatisticsFragment extends BaseHomeFragment {
                             if (data.getFail_rate() != null) {
                                 setText(tvErrorPeopleCount, data.getFail_rate().getNum());
                                 setText(tvErrorPeopleRate, data.getFail_rate().getRate());
-                                setText(tvErrorContentTitle , "异常打卡统计（施工人数：" + data.getFail_rate().getWorker_num() + "人）");
+                                setText(tvErrorContentTitle, "异常打卡统计（施工人数：" + data.getFail_rate().getWorker_num() + "人）");
                             } else {
                                 setText(tvErrorPeopleCount, "0");
                                 setText(tvErrorPeopleRate, "0");
-                                setText(tvErrorContentTitle , "异常打卡统计");
+                                setText(tvErrorContentTitle, "异常打卡统计");
                             }
 
                             setUserData();
@@ -222,7 +221,8 @@ public class StatisticsFragment extends BaseHomeFragment {
         if (rate.contains("%")) {
             rate = rate.replace("%", "");
         }
-        progressRateView.setRate(Double.parseDouble(rate));
+        progressRateView.setRate((int) Double.parseDouble(rate));
+
     }
 
     @Override

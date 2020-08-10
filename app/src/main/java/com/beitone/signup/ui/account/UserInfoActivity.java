@@ -61,4 +61,19 @@ public class UserInfoActivity extends ImproveInformationActivity {
                 break;
         }
     }
+
+    @Override
+    protected void loadProject() {
+
+    }
+
+    @Override
+    protected void loadConstructionTeam() {
+
+    }
+
+    @Override
+    protected void loadWorkTypeList() {
+
+    }
 }

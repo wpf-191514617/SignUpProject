@@ -158,6 +158,18 @@ public class SendAuthCodeActivity extends BaseActivity {
                     public void onResult(Object data) {
                         tvSendAuthCode.start();
                     }
+
+                    @Override
+                    public void onError(String msg) {
+                        super.onError(msg);
+                        showToast(msg);
+                    }
+
+                    @Override
+                    public void onFailed(String msg) {
+                        super.onFailed(msg);
+                        showToast(msg);
+                    }
                 });
     }
 

@@ -3,6 +3,7 @@ package com.beitone.signup.provider;
 import android.content.Context;
 
 import com.beitone.signup.entity.request.ImproveInforRequest;
+import com.beitone.signup.helper.LocationHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -179,5 +180,11 @@ public class AccountProvider extends BaseProvider {
         post(context, "/worker/doResetPwd.htm", map, onJsonCallBack);
     }
 
+    public static void uploadLocation(Context context,OnJsonCallBack onJsonCallBack){
+        Map<String, String> map = new HashMap<>();
+        map.put("lng", String.valueOf(LocationHelper.getInstance().getLongitude()));
+        map.put("lat", String.valueOf(LocationHelper.getInstance().getLatitude()));
+        post(context, "/workerLocus/doSave.htm", map, onJsonCallBack);
+    }
 
 }

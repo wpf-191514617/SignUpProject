@@ -35,7 +35,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import butterknife.BindView;
 import cn.betatown.mobile.beitonelibrary.adapter.AdapterUtil;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
@@ -97,7 +96,7 @@ public class HomeFragment extends BaseHomeFragment {
         homePager.setOffscreenPageLimit(2);
         homePager.setAdapter(new HomePagerAdapter(getChildFragmentManager()));
         tabHome.setupWithViewPager(homePager);
-        setIndicator(tabHome, 16, 16);
+        setIndicator(tabHome , 16 ,16);
     }
 
     @Override
@@ -187,7 +186,7 @@ public class HomeFragment extends BaseHomeFragment {
                 AppIndexDataResponse.BannerBean bannerData =
                         (AppIndexDataResponse.BannerBean) model;
                 //设置图片圆角角度
-                Picasso.get().load(BaseProvider.BaseUrl + bannerData.getUrl()).into((YLCircleImageView) view);
+                Picasso.get().load(BaseProvider.BaseUrl + bannerData.getUrl()).into((YLCircleImageView)view);
             }
         });
     }
@@ -257,6 +256,7 @@ public class HomeFragment extends BaseHomeFragment {
 
                     //设置tab左右间距为10dp 这个间距可根据自己需求更改
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+
                     params.width = width;
                     params.leftMargin = dp10;
                     params.rightMargin = dp10;

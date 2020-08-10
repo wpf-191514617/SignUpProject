@@ -19,7 +19,6 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseRecyclerAdapter;
 import cn.betatown.mobile.beitonelibrary.adapter.recyclerview.BaseViewHolderHelper;
 import cn.betatown.mobile.beitonelibrary.http.BaseProvider;
@@ -102,7 +101,7 @@ public class HomeListFragment extends BaseRecyclerFragment {
                     RequestOptions.bitmapTransform(roundedCorners).override(getResources()
                     .getDimensionPixelSize(R.dimen.dimen_105dp),
                             getResources().getDimensionPixelSize(R.dimen.dimen_76dp));*/
-            // Glide.with(mContext).load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
+
 
             Picasso.get().load(BaseProvider.BaseUrl + model.getImg()).into(ivHome);
 

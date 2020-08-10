@@ -20,6 +20,7 @@ import com.beitone.signup.base.BaseActivity;
 import com.beitone.signup.entity.WebEntity;
 import com.beitone.signup.entity.response.AboutUsResponse;
 import com.beitone.signup.entity.response.UserInfoResponse;
+import com.beitone.signup.helper.UploadHlepr;
 import com.beitone.signup.helper.UserHelper;
 import com.beitone.signup.helper.WebHelper;
 import com.beitone.signup.model.EventCode;
@@ -150,6 +151,7 @@ public class MainActivity extends HomeActivity {
             @Override
             public void onResult(AboutUsResponse data) {
                 if (data != null) {
+                    UploadHlepr.getInstance(MainActivity.this).startUploadLocation(data.getReport_locus_minute());
                     if (data.getVersion() != null) {
                         if (data.getVersion().getVersionCode() > AppUtil.getVersionCode(MainActivity.this)) {
                             new Handler().postDelayed(new Runnable() {
@@ -248,7 +250,9 @@ public class MainActivity extends HomeActivity {
     }
 
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UploadHlepr.getInstance(this).onStop();
+    }
 }
