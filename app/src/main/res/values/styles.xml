@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowContentOverlay">@android:color/transparent</item>-->
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>
         <item name="popupMenuStyle">@style/popMenu_style</item>
